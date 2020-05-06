@@ -34,12 +34,12 @@ iss_timestamp = iss_data["timestamp"]
 
 # Get Random Number From Timestamp
 rand_num = round(random.random(), 1)
-splice_num = -3
+splice_num = -1
 if(rand_num < 0.4):
     splice_num = -2
-elif(0.4 >= rand_num < 0.7):
-    splice_num = -1
-lookup_num = str(iss_timestamp)[splice_num:]
+elif(0.4 >= rand_num < 0.8):
+    splice_num = -3
+lookup_num = str(iss_timestamp)[-4:splice_num]
 num_url = f"http://numbersapi.com/{lookup_num}/math?json"
 num_data = requests.get(num_url).json()
 #print(json.dumps(num_data, indent=4, sort_keys=True))
