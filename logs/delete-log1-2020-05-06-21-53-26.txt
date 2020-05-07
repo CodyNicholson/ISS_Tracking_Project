@@ -1,0 +1,6 @@
+ISS Tracking Data Collection Project Delete Log
+Deleting: 1 rows
+timestamp: 2020-05-06-21-53-26
+Delete log number: 1
+End Log.
+
