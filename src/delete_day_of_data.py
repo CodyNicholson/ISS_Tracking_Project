@@ -1,4 +1,6 @@
 from config import weather_api_key, host, port, database, user, password
+import glob
+import datetime
 import sqlalchemy as db
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
@@ -20,7 +22,7 @@ class ISS_Data_Point(Base):
     country_flag_url = Column(String(255))
     country_capital = Column(String(50))
 
-# Write To Postgres
+# Delete From Postgres
 engine = create_engine(f"postgresql://{user}:{password}@{host}/{database}")
 connection = engine.connect()
 metadata = db.MetaData()
@@ -38,3 +40,19 @@ for row in rows_to_delete:
     session.execute(delete_q)
     session.commit()
     print(row + " deleted")
+
+# Logging
+files = [f for f in glob.glob("/home/pi/ISS_Tracking_Data_Collection_Project/logs/*.txt", recursive=True)]
+log_count = str(len(files)+1)
+print(f"Log: {log_count}")
+now = datetime.datetime.now()
+timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
+print(f"timestamp is: {timestamp}")
+
+with open(f"/home/pi/ISS_Tracking_Data_Collection_Project/logs/delete-log{log_count}-{timestamp}.txt","w+") as file:
+    file.write("ISS Tracking Data Collection Project Delete Log\n")
+    file.write(f"Deleting: {str(len(rows_to_delete))} rows\n")
+    file.write(f"timestamp: {timestamp}\n")
+    file.write(f"Delete log number: {log_count}\n")
+    file.write("End Log.\n\n")
+    file.close()
