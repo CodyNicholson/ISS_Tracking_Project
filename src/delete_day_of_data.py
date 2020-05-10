@@ -36,8 +36,8 @@ print("Deleting: " + str(len(rows_to_delete)) + " rows")
 for row in rows_to_delete:
     delete_q = ISS_Data_Point.__table__.delete().where(ISS_Data_Point.iss_timestamp == row)
     session.execute(delete_q)
-    session.commit()
     print(row + " deleted")
+session.commit()
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Data_Collection_Project/logs/*.txt", recursive=True)]
