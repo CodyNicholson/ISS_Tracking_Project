@@ -1,10 +1,8 @@
 from config import weather_api_key, host, port, database, user, password
 import glob
 import datetime
-import sqlalchemy as db
-from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
@@ -25,7 +23,7 @@ class ISS_Data_Point(Base):
 # Delete From Postgres
 engine = create_engine(f"postgresql://{user}:{password}@{host}/{database}")
 connection = engine.connect()
-metadata = db.MetaData()
+metadata = MetaData()
 Base.metadata.create_all(connection)
 session = Session(bind=engine)
 

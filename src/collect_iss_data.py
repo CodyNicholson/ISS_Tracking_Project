@@ -4,8 +4,7 @@ import random
 import datetime
 import glob
 from config import weather_api_key, host, port, database, user, password
-import sqlalchemy as db
-from sqlalchemy import create_engine
+from sqlalchemy import *
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Data_Collection_Project/logs/*.txt", recursive=True)]
@@ -74,23 +73,23 @@ else:
 # Write To Postgres
 engine = create_engine(f"postgresql://{user}:{password}@{host}/{database}")
 connection = engine.connect()
-metadata = db.MetaData()
+metadata = MetaData()
 
-iss_data_table = db.Table('iss_data_table', metadata,
-              db.Column('iss_timestamp', db.String(50)),
-              db.Column('iss_lat', db.String(20), nullable=False),
-              db.Column('iss_lon', db.String(20), nullable=False),
-              db.Column('num_description', db.String(255), nullable=True),
-              db.Column('weather_description', db.String(255), nullable=True),
-              db.Column('weather_temp', db.String(10), nullable=True),
-              db.Column('country_alpha_code', db.String(10), nullable=True),
-              db.Column('country_name', db.String(50), nullable=True),
-              db.Column('country_borders', db.String(255), nullable=True),
-              db.Column('country_flag_url', db.String(255), nullable=True),
-              db.Column('country_capital', db.String(50), nullable=True)
-              )
+iss_data_table = Table('iss_data_table', metadata,
+              Column('iss_timestamp', String(50), primary_key=True),
+              Column('iss_lat', String(20), nullable=False),
+              Column('iss_lon', String(20), nullable=False),
+              Column('num_description', String(255), nullable=True),
+              Column('weather_description', String(255), nullable=True),
+              Column('weather_temp', String(10), nullable=True),
+              Column('country_alpha_code', String(10), nullable=True),
+              Column('country_name', String(50), nullable=True),
+              Column('country_borders', String(255), nullable=True),
+              Column('country_flag_url', String(255), nullable=True),
+              Column('country_capital', String(50), nullable=True)
+           )
 
 metadata.create_all(engine)
-query = db.insert(iss_data_table).values(iss_timestamp=iss_timestamp, iss_lat=iss_lat, iss_lon=iss_lon, num_description=num_description, weather_description=weather_description, weather_temp=weather_temp, country_alpha_code=country_alpha_code, country_name=country_name, country_borders=country_borders, country_flag_url=country_flag_url, country_capital=country_capital)
+query = insert(iss_data_table).values(iss_timestamp=iss_timestamp, iss_lat=iss_lat, iss_lon=iss_lon, num_description=num_description, weather_description=weather_description, weather_temp=weather_temp, country_alpha_code=country_alpha_code, country_name=country_name, country_borders=country_borders, country_flag_url=country_flag_url, country_capital=country_capital)
 ResultProxy = connection.execute(query)
 

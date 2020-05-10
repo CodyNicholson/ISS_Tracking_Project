@@ -6,3 +6,12 @@ The python script will make a GET request to NASA's ISS tracking API and grab th
 
 All this data will be saved to a Postgres Database for use by a frontend application that will plot on the map all the points with the data collected every five minutes.
 
+The jobs I scheduled in my crontab file were:
+
+```
+# ISS Data Collection Every Minute
+* * * * * ISS_Tracking_Data_Collection_Project/jobs/get_iss_data.sh
+
+# ISS Daily Data Deletion
+0 0 * * * ISS_Tracking_Data_Collection_Project/jobs/delete_data_daily.sh
+```
