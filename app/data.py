@@ -26,7 +26,7 @@ Base.metadata.create_all(connection)
 session = Session(bind=engine)
 
 def getData():
-    resultProxy = connection.execute('SELECT * FROM public.iss_data_table ORDER BY iss_timestamp ASC FETCH FIRST 100 ROWS ONLY;')
+    resultProxy = connection.execute('SELECT * FROM (SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT 100) AS x ORDER BY iss_timestamp ASC;')
     rowDict, dataList = {}, []
     for rowProxy in resultProxy:
         for column, value in rowProxy.items():
