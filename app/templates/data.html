@@ -21,18 +21,17 @@
                 </thead>
                 {% for record in data %}
               <tr>
-                  <td>{{record[0]}}</td>
-                  <td>{{record[1]}}</td>
-                  <td>{{record[2]}}</td>
-                  <td>{{record[3]}}</td>
-                  <td>{{record[4]}}</td>
-                  <td>{{record[5]}}</td>
-                  <td>{{record[6]}}</td>
-                  <td>{{record[7]}}</td>
-                  <td>{{record[8]}}</td>
-                  <td>{{record[9]}}</td>
-                  <td>{{record[10]}}</td>
-                  <td>{{record[11]}}</td>
+                  <td>{{record['iss_timestamp']}}</td>
+                  <td>{{record['iss_lat']}}</td>
+                  <td>{{record['iss_lon']}}</td>
+                  <td>{{record['num_description']}}</td>
+                  <td>{{record['weather_description']}}</td>
+                  <td>{{record['weather_temp']}}</td>
+                  <td>{{record['country_alpha_code']}}</td>
+                  <td>{{record['country_name']}}</td>
+                  <td>{{record['country_borders']}}</td>
+                  <td>{{record['country_flag_url']}}</td>
+                  <td>{{record['country_capital']}}</td>
               </tr>
             {% endfor %}
           </table>
