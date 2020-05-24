@@ -27,7 +27,7 @@ metadata = MetaData()
 Base.metadata.create_all(connection)
 session = Session(bind=engine)
 
-one_day_of_data = connection.execute('SELECT * FROM public.iss_data_table ORDER BY iss_timestamp ASC FETCH FIRST 1400 ROWS ONLY;')
+one_day_of_data = connection.execute('SELECT * FROM public.iss_data_table ORDER BY iss_timestamp ASC FETCH FIRST 1000 ROWS ONLY;')
 rows_to_delete = []
 for iss_data_point in one_day_of_data:
     rows_to_delete.append(iss_data_point.iss_timestamp)
@@ -40,15 +40,15 @@ for row in rows_to_delete:
 session.commit()
 
 # Logging
-files = [f for f in glob.glob("/home/pi/ISS_Tracking_Data_Collection_Project/data_scheduler/logs/*.txt", recursive=True)]
+files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/data_collector/logs/*.txt", recursive=True)]
 log_count = str(len(files)+1)
 print(f"Log: {log_count}")
 now = datetime.datetime.now()
 timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
 print(f"timestamp is: {timestamp}")
 
-with open(f"/home/pi/ISS_Tracking_Data_Collection_Project/data_scheduler/logs/delete-log{log_count}-{timestamp}.txt","w+") as file:
-    file.write("ISS Tracking Data Collection Project Delete Log\n")
+with open(f"/home/pi/ISS_Tracking_Project/data_collector/logs/delete-log{log_count}-{timestamp}.txt","w+") as file:
+    file.write("ISS Tracking Project Delete Log\n")
     file.write(f"Deleting: {str(len(rows_to_delete))} rows\n")
     file.write(f"timestamp: {timestamp}\n")
     file.write(f"Delete log number: {log_count}\n")

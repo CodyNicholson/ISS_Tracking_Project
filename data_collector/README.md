@@ -10,8 +10,8 @@ The jobs I scheduled in my crontab file were:
 
 ```
 # ISS Data Collection Every Minute
-* * * * * ISS_Tracking_Data_Collection_Project/jobs/get_iss_data.sh
+* * * * * ISS_Tracking_Project/data_collector/jobs/get_iss_data.sh
 
-# ISS Daily Data Deletion
-0 0 * * * ISS_Tracking_Data_Collection_Project/jobs/delete_data_daily.sh
+# ISS Data Deletion Every Day
+0 0 * * * ISS_Tracking_Project/data_collector/jobs/delete_iss_data.sh
 ```
