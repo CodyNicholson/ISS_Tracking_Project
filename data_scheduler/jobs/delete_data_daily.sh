@@ -1,1 +1,1 @@
-python3 ISS_Tracking_Data_Collection_Project/src/delete_day_of_data.py
+python3 ISS_Tracking_Data_Collection_Project/data_scheduler/src/delete_day_of_data.py

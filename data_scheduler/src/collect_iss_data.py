@@ -7,14 +7,14 @@ from config import weather_api_key, host, port, database, user, password
 from sqlalchemy import *
 
 # Logging
-files = [f for f in glob.glob("/home/pi/ISS_Tracking_Data_Collection_Project/logs/*.txt", recursive=True)]
+files = [f for f in glob.glob("/home/pi/ISS_Tracking_Data_Collection_Project/data_scheduler/logs/*.txt", recursive=True)]
 log_count = str(len(files)+1)
 print(f"Log: {log_count}")
 now = datetime.datetime.now()
 timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
 print(f"timestamp is: {timestamp}")
 
-#with open(f"/home/pi/ISS_Tracking_Data_Collection_Project/logs/log{log_count}-{timestamp}.txt","w+") as file:
+#with open(f"/home/pi/ISS_Tracking_Data_Collection_Project/data_scheduler/logs/log{log_count}-{timestamp}.txt","w+") as file:
 #	file.write("ISS Tracking Data Collection Project Log\n")
 #	file.write(f"timestamp: {timestamp}\n")
 #	file.write(f"datetime: {str(now)}\n")
