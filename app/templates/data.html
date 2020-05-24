@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+    <head>
+        <title>Data</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    </head>
+    <body>
+        <div class ="row table-responsive">
+            <table class="table">
+                <thead>
+                    <th>Timestamp</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Random Number Fact</th>
+                    <th>Weather Description</th>
+                    <th>Temperature F</th>
+                    <th>Country Alpha Code</th>
+                    <th>Country Name</th>
+                    <th>Bordering Countries</th>
+                    <th>Country Flag</th>
+                    <th>Country Capital</th>
+                </thead>
+                {% for record in data %}
+              <tr>
+                  <td>{{record[0]}}</td>
+                  <td>{{record[1]}}</td>
+                  <td>{{record[2]}}</td>
+                  <td>{{record[3]}}</td>
+                  <td>{{record[4]}}</td>
+                  <td>{{record[5]}}</td>
+                  <td>{{record[6]}}</td>
+                  <td>{{record[7]}}</td>
+                  <td>{{record[8]}}</td>
+                  <td>{{record[9]}}</td>
+                  <td>{{record[10]}}</td>
+                  <td>{{record[11]}}</td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+    </body>
+</html>
