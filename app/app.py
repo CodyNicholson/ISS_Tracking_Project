@@ -9,12 +9,20 @@ app.config['DEBUG'] = True
 @app.route('/')
 def home():
     dataList = getData()
-    return render_template('index.html', data = dataList)
+    return render_template('index.html', data = json.dumps(dataList))
 
-@app.route('/data')
+@app.route('/data-table')
 def listData():
     dataList = getData()
-    return render_template('data.html', data = dataList)
+    if request.args['type'] == 'json':
+        return jsonify(data = dataList)
+    else:
+        return render_template('data.html', data = dataList)
+
+@app.route('/data')
+def getDataRoute():
+    dataList = getData()
+    return jsonify(dataList)
 
 if __name__ == '__main__':
     app.run(debug=True)
