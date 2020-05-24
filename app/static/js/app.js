@@ -2,7 +2,6 @@ var initialZoom = 5
 var initialLat = 50.0
 var initialLon = 0.0
 var mymap = L.map('mapid').setView([initialLat, initialLon], initialZoom);
-//mymap = mymap.setStyle("mapbox://styles/mapbox/dark-v10")
 
 //Styles: satellite-streets-v11, dark-v10, light-v10
 

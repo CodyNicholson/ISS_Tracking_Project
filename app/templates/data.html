@@ -1,12 +1,12 @@
 <!DOCTYPE html>
     <head>
-        <title>Data</title>
+        <title>Data Table</title>
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     </head>
     <body>
-        <div class ="row table-responsive">
-            <table class="table">
-                <thead>
+        <div id="data-table-div">
+            <table class="data-table">
+                <thead class="data-table-head">
                     <th>Timestamp</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
@@ -20,20 +20,20 @@
                     <th>Country Capital</th>
                 </thead>
                 {% for record in data %}
-              <tr>
-                  <td>{{record['iss_timestamp']}}</td>
-                  <td>{{record['iss_lat']}}</td>
-                  <td>{{record['iss_lon']}}</td>
-                  <td>{{record['num_description']}}</td>
-                  <td>{{record['weather_description']}}</td>
-                  <td>{{record['weather_temp']}}</td>
-                  <td>{{record['country_alpha_code']}}</td>
-                  <td>{{record['country_name']}}</td>
-                  <td>{{record['country_borders']}}</td>
-                  <td>{{record['country_flag_url']}}</td>
-                  <td>{{record['country_capital']}}</td>
-              </tr>
-            {% endfor %}
+                <tr class="data-table-row">
+                    <td>{{record['iss_timestamp']}}</td>
+                    <td>{{record['iss_lat']}}</td>
+                    <td>{{record['iss_lon']}}</td>
+                    <td>{{record['num_description']}}</td>
+                    <td>{{record['weather_description']}}</td>
+                    <td>{{record['weather_temp']}}</td>
+                    <td>{{record['country_alpha_code']}}</td>
+                    <td>{{record['country_name']}}</td>
+                    <td>{{record['country_borders']}}</td>
+                    <td>{{record['country_flag_url']}}</td>
+                    <td>{{record['country_capital']}}</td>
+                </tr>
+                {% endfor %}
           </table>
         </div>
     </body>
