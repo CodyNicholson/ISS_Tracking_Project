@@ -110,7 +110,7 @@ function toggleMarkers() {
 getMarkersAndDrawLines();
 
 // TASKS:
-// Mark starting and ending point for data points
+// Mark starting and ending point as data points
 // style webpage and make it mobile friendly
 // select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
