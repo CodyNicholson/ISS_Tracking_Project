@@ -1,4 +1,4 @@
-from config import host, port, database, user, password
+#from config import host, port, database, user, password
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import *
@@ -19,7 +19,8 @@ class ISS_Data_Point(Base):
     country_flag_url = Column(String(255))
     country_capital = Column(String(50))
 
-engine = create_engine(f"postgresql://{user}:{password}@{host}/{database}")
+#engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
+engine = create_engine(os.environ['DATABASE_URL'])
 connection = engine.connect()
 metadata = MetaData()
 Base.metadata.create_all(connection)

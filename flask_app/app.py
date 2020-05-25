@@ -5,15 +5,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 # ====================
 
-# from config import host, port, database, user, password
-
-# host = os.environ['POSTGRES_HOST'] #"ec2-35-174-127-63.compute-1.amazonaws.com"
-# port = "5432"
-# database = "doov393a8rnhp"
-# user = "qehkwkvgaezrrh"
-# password = "9827b210312986adcc094f745e7fc74903980edc6daace6a997bb1ec939b9030"
-weather_api_key = "18f28cad6f824cfbbaa5da267d936149"
-
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import *
@@ -34,7 +25,6 @@ class ISS_Data_Point(Base):
     country_flag_url = Column(String(255))
     country_capital = Column(String(50))
 
-#engine = create_engine(f"postgresql://{user}:{password}@{host}/{database}")
 engine = create_engine(os.environ['DATABASE_URL'])
 connection = engine.connect()
 metadata = MetaData()

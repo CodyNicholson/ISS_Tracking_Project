@@ -21,7 +21,7 @@ class ISS_Data_Point(Base):
     country_capital = Column(String(50))
 
 # Delete From Postgres
-engine = create_engine(f"postgresql://{user}:{password}@{host}/{database}")
+engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
 connection = engine.connect()
 metadata = MetaData()
 Base.metadata.create_all(connection)

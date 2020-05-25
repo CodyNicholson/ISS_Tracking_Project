@@ -1,8 +1,8 @@
-var initialZoom = 2;
-var initialLat = 0.0;
-var initialLon = 0.0;
-var maxZoom = 9;
-var minZoom = 2;
+const initialZoom = 2;
+const initialLat = 0.0;
+const initialLon = 0.0;
+const maxZoom = 9;
+const minZoom = 2;
 
 var mymap = L.map('mapid', {
     'worldCopyJump': true, 
@@ -26,7 +26,7 @@ var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satelli
     zoomOffset: -1,
 }).addTo(mymap);
 function setStyle() {
-    var styles = ["satellite-streets-v11", "light-v10", "dark-v10"];    
+    const styles = ["satellite-streets-v11", "light-v10", "dark-v10"];    
     var newStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         tileSize: 512,
