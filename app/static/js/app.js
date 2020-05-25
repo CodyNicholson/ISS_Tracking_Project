@@ -19,7 +19,7 @@ var mymap = L.map('mapid', {
 // }
 
 const mapbox_api_key = "pk.eyJ1IjoiY29keW5pY2hvbHNvbiIsImEiOiJjazd2NTF2MmswYm53M2Rtc2s4OXNmamp5In0.xWMG7bI5uAGYvUv2Y2nyAw"
-var style_choice_int = 2;
+var style_choice_int = 0;
 function setStyle() {
     var styles = ["satellite-streets-v11", "dark-v10", "light-v10"];    
     L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
