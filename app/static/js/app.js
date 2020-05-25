@@ -97,6 +97,7 @@ function toggleMarkers() {
 getMarkersAndDrawLines();
 setStyle(2);
 
+// TASKS:
 // Mark starting and ending point for data points
 // style webpage and make it mobile friendly
 // select how many datapoints you would like to view up to 500
@@ -104,5 +105,6 @@ setStyle(2);
 // fix onClick display popup with latLong
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
-// Add user controls for style and viewing markers and selecting datapoints
-// Finish toggleMarkers
+// Format borders {SADF}
+// Hide sensitive data
+// Add data table view
