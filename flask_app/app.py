@@ -25,7 +25,12 @@ class ISS_Data_Point(Base):
     country_flag_url = Column(String(255))
     country_capital = Column(String(50))
 
-engine = create_engine(os.environ['DATABASE_URL'])
+try:
+    engine = create_engine(os.environ['DATABASE_URL']) # When deployed
+except KeyError:
+    from config import host, port, database, user, password
+    engine = create_engine(f"postgres://{user}:{password}@{host}/{database}") # When local
+
 connection = engine.connect()
 metadata = MetaData()
 Base.metadata.create_all(connection)

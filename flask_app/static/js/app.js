@@ -11,15 +11,8 @@ var mymap = L.map('mapid', {
     'minZoom': minZoom,
     'center': [initialLat, initialLon]});
 
-// var popup = L.popup();
-// function onMapClick(e) {
-//     popup.setLatLng(e.latlng)
-//         .setContent("You clicked the map at:<br>" + e.latlng.toString())
-//         .openOn(mymap);
-// }
-
-const mapbox_api_key = "pk.eyJ1IjoiY29keW5pY2hvbHNvbiIsImEiOiJjazd2NTF2MmswYm53M2Rtc2s4OXNmamp5In0.xWMG7bI5uAGYvUv2Y2nyAw"
 var style_choice_int = 0;
+const mapbox_api_key = "pk.eyJ1IjoiY29keW5pY2hvbHNvbiIsImEiOiJjazd2NTF2MmswYm53M2Rtc2s4OXNmamp5In0.xWMG7bI5uAGYvUv2Y2nyAw"
 var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     tileSize: 512,
@@ -122,3 +115,10 @@ getMarkersAndDrawLines();
 // Add data table view
 // Add data python module
 // Add custom markers
+
+var popup = L.popup();
+function onMapClick(e) {
+    popup.setLatLng(e.latlng)
+        .setContent("You clicked the map at:<br>" + e.latlng.toString())
+        .openOn(mymap);
+}
