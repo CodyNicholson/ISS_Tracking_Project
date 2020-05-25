@@ -1,4 +1,4 @@
-#from config import host, port, database, user, password
+import os
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import *
@@ -19,8 +19,14 @@ class ISS_Data_Point(Base):
     country_flag_url = Column(String(255))
     country_capital = Column(String(50))
 
-#engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
-engine = create_engine(os.environ['DATABASE_URL'])
+try:
+    # Works on Heroku
+    engine = create_engine(os.environ['DATABASE_URL'])
+except:
+    # Works locally
+    from config import host, port, database, user, password
+    engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
+
 connection = engine.connect()
 metadata = MetaData()
 Base.metadata.create_all(connection)
@@ -34,3 +40,6 @@ def getData():
             rowDict = {**rowDict, **{column: value}}
         dataList.append(rowDict)
     return dataList
+
+if __name__ == "__main__":
+    fib(int(sys.argv[1]))

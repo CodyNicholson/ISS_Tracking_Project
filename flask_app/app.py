@@ -1,10 +1,16 @@
 import os
 from flask import Flask, jsonify, render_template, redirect, make_response, json, request
 from flask_sqlalchemy import SQLAlchemy
-# from data import getData
+
+try:
+    # Works on Heroku
+    from .data import getData
+except:
+    # Works locally
+    from data import getData
 
 # ====================
-
+'''
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import *
@@ -46,6 +52,7 @@ def getData():
     return dataList
 
 # ====================
+'''
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
