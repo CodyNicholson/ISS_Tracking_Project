@@ -17,7 +17,7 @@ var mymap = L.map('mapid', {
 //         .setContent("You clicked the map at:<br>" + e.latlng.toString())
 //         .openOn(mymap);
 // }
-
+const mapbox_api_key = "pk.eyJ1IjoiY29keW5pY2hvbHNvbiIsImEiOiJjazd2NTF2MmswYm53M2Rtc2s4OXNmamp5In0.xWMG7bI5uAGYvUv2Y2nyAw"
 function setStyle(style_choice_int) {
     var styles = ["satellite-streets-v11", "dark-v10", "light-v10"];    
     L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
