@@ -1,7 +1,7 @@
 import os
 import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import *
+from sqlalchemy import Column, String, MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
@@ -40,6 +40,3 @@ def getData():
             rowDict = {**rowDict, **{column: value}}
         dataList.append(rowDict)
     return dataList
-
-if __name__ == "__main__":
-    fib(int(sys.argv[1]))
