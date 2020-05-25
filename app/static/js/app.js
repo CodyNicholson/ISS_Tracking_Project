@@ -78,6 +78,7 @@ setStyle(2);
 // Mark starting and ending point for data points
 // style webpage and make it mobile friendly
 // deploy to heroku as a dyno
-// select how many datapoints you would like to view up until 500
+// select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
-// set maxZoom
+// fix onClick display popup with latLong
+// create json file with sample data to be used when database connection fails

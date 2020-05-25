@@ -1,5 +1,6 @@
 __pycache__/
 .vscode/
-data_scheduler/logs/
+logs/
+
 config.py
 config.js
