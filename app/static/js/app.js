@@ -1,7 +1,7 @@
-var initialZoom = 3;
+var initialZoom = 2;
 var initialLat = 0.0;
 var initialLon = 0.0;
-var maxZoom = 10;
+var maxZoom = 9;
 var minZoom = 2;
 
 var mymap = L.map('mapid', {
@@ -20,13 +20,24 @@ var mymap = L.map('mapid', {
 
 const mapbox_api_key = "pk.eyJ1IjoiY29keW5pY2hvbHNvbiIsImEiOiJjazd2NTF2MmswYm53M2Rtc2s4OXNmamp5In0.xWMG7bI5uAGYvUv2Y2nyAw"
 var style_choice_int = 0;
+var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    tileSize: 512,
+    zoomOffset: -1,
+}).addTo(mymap);
 function setStyle() {
     var styles = ["satellite-streets-v11", "dark-v10", "light-v10"];    
-    L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
+    var newStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         tileSize: 512,
         zoomOffset: -1,
     }).addTo(mymap);
+
+    // Wait for animation of layer change to complete before removing previoud layer
+    setTimeout(() => {  
+        mymap.removeLayer(previousStyle);
+        previousStyle = newStyle;
+    }, 1000);
 }
 
 function toggleStyle() {
@@ -51,6 +62,7 @@ function getMarkersAndDrawLines() {
             markers.push(marker);
         });
     
+        // Draw line before crossing lon 180 and then new line after crossing lon 180
         var latlngsBefore180 = [];
         var latlngsAfter180 = [];
         var lineSwitch = false;
@@ -95,7 +107,6 @@ function toggleMarkers() {
 }
 
 getMarkersAndDrawLines();
-setStyle(2);
 
 // TASKS:
 // Mark starting and ending point for data points
@@ -105,6 +116,6 @@ setStyle(2);
 // fix onClick display popup with latLong
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
-// Format borders {SADF}
+// Fix format borders {SADF}
 // Hide sensitive data
 // Add data table view
