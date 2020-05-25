@@ -26,7 +26,7 @@ var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satelli
     zoomOffset: -1,
 }).addTo(mymap);
 function setStyle() {
-    var styles = ["satellite-streets-v11", "dark-v10", "light-v10"];    
+    var styles = ["satellite-streets-v11", "light-v10", "dark-v10"];    
     var newStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mapbox_api_key}`, {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         tileSize: 512,
@@ -57,7 +57,8 @@ function getMarkersAndDrawLines() {
             if (row.country_name == "") {
                 marker.bindPopup(`<b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Num Fact:</b> ${row.num_description}`).openPopup();
             } else {
-                marker.bindPopup(`<img src="${row.country_flag_url}" alt="Country Flag" width="200"/><br><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${row.country_borders}<br><b>Number Fact:</b> ${row.num_description}`).openPopup();
+                var borderingCountries = row.country_borders.substring(1, row.country_borders.length-1).split(",").join(", ");
+                marker.bindPopup(`<img src="${row.country_flag_url}" alt="Country Flag" width="200"/><br><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${borderingCountries}<br><b>Random Number Fact:</b> ${row.num_description}`).openPopup();
             }
             markers.push(marker);
         });
@@ -116,6 +117,8 @@ getMarkersAndDrawLines();
 // fix onClick display popup with latLong
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
-// Fix format borders {SADF}
+// Map country alpha code to country name in bordering countries
 // Hide sensitive data
 // Add data table view
+// Add data python module
+// Add custom markers
