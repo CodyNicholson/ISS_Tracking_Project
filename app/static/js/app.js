@@ -1,4 +1,4 @@
-var initialZoom = 4;
+var initialZoom = 3;
 var initialLat = 0.0;
 var initialLon = 0.0;
 var maxZoom = 10;
