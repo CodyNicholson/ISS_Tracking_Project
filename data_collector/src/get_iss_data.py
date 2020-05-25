@@ -3,8 +3,8 @@ import json
 import random
 import datetime
 import glob
-from config import weather_api_key, host, port, database, user, password
-from sqlalchemy import *
+from config import weather_api_key, host, database, user, password
+from sqlalchemy import Column, String, MetaData, create_engine, Table
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/data_collector/logs/*.txt", recursive=True)]

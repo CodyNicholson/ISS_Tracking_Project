@@ -1,8 +1,8 @@
-from config import weather_api_key, host, port, database, user, password
+from config import weather_api_key, host, database, user, password
 import glob
 import datetime
 from sqlalchemy.orm import Session
-from sqlalchemy import *
+from sqlalchemy import Column, String, MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
