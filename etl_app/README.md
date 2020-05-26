@@ -1,4 +1,4 @@
-# International Space Station Tracking Data Collection Project
+# International Space Station Tracking ETL Project
 
 This directory includes a python script that gets called from a shell script that gets called from a crontab file scheduled to execute the shell script every five minutes.
 
@@ -10,8 +10,8 @@ The jobs I scheduled in my crontab file:
 
 ```
 # ISS Data Collection Every Minute
-* * * * * ISS_Tracking_Project/data_collector/jobs/get_iss_data.sh
+* * * * * ISS_Tracking_Project/etl_app/jobs/get_iss_data.sh
 
 # ISS Data Deletion Every Day
-0 0 * * * ISS_Tracking_Project/data_collector/jobs/delete_iss_data.sh
+0 0 * * * ISS_Tracking_Project/etl_app/jobs/delete_iss_data.sh
 ```

@@ -7,14 +7,14 @@ from config import weather_api_key, host, database, user, password
 from sqlalchemy import Column, String, MetaData, create_engine, Table
 
 # Logging
-files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/data_collector/logs/*.txt", recursive=True)]
+files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
 log_count = str(len(files)+1)
 print(f"Log: {log_count}")
 now = datetime.datetime.now()
 timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
 print(f"timestamp is: {timestamp}")
 
-#with open(f"/home/pi/ISS_Tracking_Project/data_collector/logs/log{log_count}-{timestamp}.txt","w+") as file:
+#with open(f"/home/pi/ISS_Tracking_Project/etl_app/logs/log{log_count}-{timestamp}.txt","w+") as file:
 #	file.write("ISS Tracking Data Collection Project Log\n")
 #	file.write(f"timestamp: {timestamp}\n")
 #	file.write(f"datetime: {str(now)}\n")
@@ -92,4 +92,3 @@ iss_data_table = Table('iss_data_table', metadata,
 metadata.create_all(engine)
 query = insert(iss_data_table).values(iss_timestamp=iss_timestamp, iss_lat=iss_lat, iss_lon=iss_lon, num_description=num_description, weather_description=weather_description, weather_temp=weather_temp, country_alpha_code=country_alpha_code, country_name=country_name, country_borders=country_borders, country_flag_url=country_flag_url, country_capital=country_capital)
 ResultProxy = connection.execute(query)
-

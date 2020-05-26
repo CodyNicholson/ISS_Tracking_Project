@@ -12,14 +12,14 @@ var mymap = L.map('mapid', {
     'center': [initialLat, initialLon]});
 
 var style_choice_int = 0;
-var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY29keW5pY2hvbHNvbiIsImEiOiJjazd2NTF2MmswYm53M2Rtc2s4OXNmamp5In0.xWMG7bI5uAGYvUv2Y2nyAw`, {
+var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mbk}`, {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
     tileSize: 512,
     zoomOffset: -1,
 }).addTo(mymap);
 function setStyle() {
     const styles = ["satellite-streets-v11", "light-v10", "dark-v10"];    
-    var newStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY29keW5pY2hvbHNvbiIsImEiOiJjazd2NTF2MmswYm53M2Rtc2s4OXNmamp5In0.xWMG7bI5uAGYvUv2Y2nyAw`, {
+    var newStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mbk}`, {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         tileSize: 512,
         zoomOffset: -1,
@@ -46,7 +46,7 @@ function getMarkersAndDrawLines() {
     $.getJSON("/data", function(data) {
         data.forEach(row => {
             var iconOptions = {
-                iconUrl: '../static/img/bluestar.svg', // '/app/flask_app/static/img/bluestar.svg' '../static/img/bluestar.svg' 'https://svg-clipart.com/svg/blue/0TVLybL-blue-star-vector.svg'
+                iconUrl: '../static/img/bluestar.svg',
                 iconSize: [25, 25]
             }
             var customIcon = L.icon(iconOptions);            
@@ -123,10 +123,10 @@ function onMapClick(e) {
 // style webpage and make it mobile friendly
 // select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
+// calculate most visited, least visited, and not visited countries
 // fix onClick display popup with latLong
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
 // Map country alpha code to country name in bordering countries
 // Style data table view
-// Add custom markers
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");

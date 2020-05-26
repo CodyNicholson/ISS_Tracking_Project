@@ -1,0 +1,1 @@
+python3 ISS_Tracking_Project/etl_app/src/delete_iss_data.py

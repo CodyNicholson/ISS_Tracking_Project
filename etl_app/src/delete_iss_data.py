@@ -40,14 +40,14 @@ for row in rows_to_delete:
 session.commit()
 
 # Logging
-files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/data_collector/logs/*.txt", recursive=True)]
+files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
 log_count = str(len(files)+1)
 print(f"Log: {log_count}")
 now = datetime.datetime.now()
 timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
 print(f"timestamp is: {timestamp}")
 
-with open(f"/home/pi/ISS_Tracking_Project/data_collector/logs/delete-log{log_count}-{timestamp}.txt","w+") as file:
+with open(f"/home/pi/ISS_Tracking_Project/etl_app/logs/delete-log{log_count}-{timestamp}.txt","w+") as file:
     file.write("ISS Tracking Project Delete Log\n")
     file.write(f"Deleting: {str(len(rows_to_delete))} rows\n")
     file.write(f"timestamp: {timestamp}\n")

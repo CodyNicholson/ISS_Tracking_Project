@@ -1,1 +1,0 @@
-python3 ISS_Tracking_Project/data_collector/src/delete_iss_data.py
