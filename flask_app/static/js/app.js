@@ -45,22 +45,17 @@ var viewMarkers = true;
 function getMarkersAndDrawLines() {
     $.getJSON("/data", function(data) {
         data.forEach(row => {
-            // Icon options
             var iconOptions = {
-                iconUrl: '/app/flask_app/static/img/bluestar.svg',
+                iconUrl: 'https://svg-clipart.com/svg/blue/0TVLybL-blue-star-vector.svg', // '/app/flask_app/static/img/bluestar.svg'
                 iconSize: [25, 25]
             }
-            // Creating a custom icon
-            var customIcon = L.icon(iconOptions);
-            
-            // Creating Marker Options
+            var customIcon = L.icon(iconOptions);            
             var markerOptions = {
-                title: "MyLocation",
+                title: "ISS Location",
                 clickable: true,
                 draggable: false,
                 icon: customIcon
             }
-            
             var marker = L.marker([row.iss_lat, row.iss_lon], markerOptions).addTo(mymap);
             if (row.country_name == "") {
                 marker.bindPopup(`<b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Random Number Fact:</b> ${row.num_description}`).openPopup();
