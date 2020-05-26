@@ -46,7 +46,7 @@ function getMarkersAndDrawLines() {
     $.getJSON("/data", function(data) {
         data.forEach(row => {
             var iconOptions = {
-                iconUrl: 'https://svg-clipart.com/svg/blue/0TVLybL-blue-star-vector.svg', // '/app/flask_app/static/img/bluestar.svg'
+                iconUrl: '../static/img/bluestar.svg', // '/app/flask_app/static/img/bluestar.svg' '../static/img/bluestar.svg' 'https://svg-clipart.com/svg/blue/0TVLybL-blue-star-vector.svg'
                 iconSize: [25, 25]
             }
             var customIcon = L.icon(iconOptions);            
