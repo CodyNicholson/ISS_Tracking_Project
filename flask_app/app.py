@@ -5,6 +5,7 @@ try:
     # Works on Heroku
     from .data import getData
     mbk = os.environ['MBK']
+    mbk += "x4"
 except:
     # Works locally
     from data import getData
