@@ -9,6 +9,7 @@ except:
     # Works locally
     from data import getData
     from config import mbk
+    mbk += "x4"
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
