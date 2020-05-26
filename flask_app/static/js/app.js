@@ -47,7 +47,7 @@ function getMarkersAndDrawLines() {
         data.forEach(row => {
             // Icon options
             var iconOptions = {
-                iconUrl: 'https://svg-clipart.com/svg/blue/0TVLybL-blue-star-vector.svg',
+                iconUrl: '/app/flask_app/static/img/bluestar.svg',
                 iconSize: [25, 25]
             }
             // Creating a custom icon
