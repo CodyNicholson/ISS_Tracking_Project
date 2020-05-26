@@ -70,6 +70,14 @@ button {
     border: 2px solid rgb(2, 11, 128);
 }
 
+.popup {
+    padding: 13px 19px;
+}
+
+.leaflet-popup-content {
+    margin: 0 !important;
+}
+
 /* When under 123px do this */
 @media screen and (min-width: 900px) and (max-width: 1350px) {
     .header-button {
