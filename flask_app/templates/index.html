@@ -10,16 +10,17 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
-        <div id="map-header">
-            <button class="header-button-left" onclick="location.href='/data-table'">Data Table</button>
+        <div class="map-header">
+            <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />
             <h1 class="title">ISS Tracker</h1>
-            <button class="header-button-right" onclick="location.href='/data'">Json Data</button>
+            <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />
         </div>
         <div id="mapid"></div>
-        <div id="map-footer">
-            <button class="header-button-left" onclick="toggleMarkers()">Toggle Markers</button>
-            <h1 class="title"></h1>
-            <button class="header-button-right" onclick="toggleStyle()">Toggle Style</button>
+        <div class="map-header">
+            <button class="header-button" onclick="location.href='/data-table'">Data Table</button>
+            <button class="header-button" onclick="location.href='/data'">Json Data</button>
+            <button class="header-button" onclick="toggleMarkers()">Toggle Markers</button>
+            <button class="header-button" onclick="toggleStyle()">Toggle Style</button>
         </div>
     </body>
     <footer>
