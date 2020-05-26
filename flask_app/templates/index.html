@@ -8,13 +8,19 @@
         <link rel="stylesheet" href="../static/css/style.css" />
     </head>
     <body>
-        <h1>ISS Tracker</h1>
+        <div id="map-header">
+            <button class="header-button-left" onclick="location.href='/data-table'">Data Table</button>
+            <h1 class="title">ISS Tracker</h1>
+            <button class="header-button-right" onclick="location.href='/data'">Json Data</button>
+        </div>
         <div id="mapid"></div>
-        <button onclick="toggleMarkers()">Toggle Markers</button>
-        <button onclick="toggleStyle()">Toggle Style</button>
+        <div id="map-footer">
+            <button class="header-button-left" onclick="toggleMarkers()">Toggle Markers</button>
+            <h1 class="title"></h1>
+            <button class="header-button-right" onclick="toggleStyle()">Toggle Style</button>
+        </div>
     </body>
     <footer>
-        <!--script src="../static/js/config.js"></script-->
         <script src="../static/js/util.js"></script>
         <script src="../static/js/app.js"></script>
     </footer>

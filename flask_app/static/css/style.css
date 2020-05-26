@@ -1,13 +1,89 @@
-#mapid { 
-    height: 500px;
-    width: 100%; 
+#map-header {
+    border: 2px solid rgb(2, 11, 128);
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
-h1 {
+.title {
     color: chartreuse;
+    letter-spacing: 2px;
+    width: 65%;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.header-button-left {
+    width: 15%;
+    background-color: rgb(2, 11, 128);
+    color: white;
+}
+
+.header-button-left:hover {
+    background-color: white; 
+    color: black; 
+    border: 2px solid rgb(2, 11, 128);
+}
+
+.header-button-right {
+    width: 15%;
+    background-color: rgb(2, 11, 128);
+    color: white;
+}
+
+.header-button-right:hover {
+    background-color: white; 
+    color: black; 
+    border: 2px solid rgb(2, 11, 128);
+}
+
+#mapid { 
+    height: 500px;
+    width: 100%;
+    border: 3px solid rgb(2, 11, 128);
+}
+
+#map-footer {
+    border: 2px solid rgb(2, 11, 128);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 html {
     background-color: black;
+}
+
+button {
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    padding: 8px 8px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+  
+.map-button {
+    background-color: rgb(2, 11, 128);
+    color: white;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.map-button:hover {
+    background-color: white; 
+    color: black; 
+    border: 2px solid rgb(2, 11, 128);
 }

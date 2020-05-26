@@ -25,7 +25,7 @@ function setStyle() {
         zoomOffset: -1,
     }).addTo(mymap);
 
-    // Wait for animation of layer change to complete before removing previoud layer
+    // Wait for animation of layer change to complete before removing previous layer
     setTimeout(() => {  
         mymap.removeLayer(previousStyle);
         previousStyle = newStyle;
@@ -93,13 +93,19 @@ function addMarkers() {
 function toggleMarkers() {
     if (viewMarkers) {
         removeMarkers();
-        
     } else {
         addMarkers();
     }
 }
 
 getMarkersAndDrawLines();
+
+var popup = L.popup();
+function onMapClick(e) {
+    popup.setLatLng(e.latlng)
+        .setContent("You clicked the map at:<br>" + e.latlng.toString())
+        .openOn(mymap);
+}
 
 // TASKS:
 // Mark starting and ending point as data points
@@ -110,14 +116,6 @@ getMarkersAndDrawLines();
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
 // Map country alpha code to country name in bordering countries
-// Hide sensitive data
-// Add data table view
-// Add data python module
+// Style data table view
 // Add custom markers
-
-var popup = L.popup();
-function onMapClick(e) {
-    popup.setLatLng(e.latlng)
-        .setContent("You clicked the map at:<br>" + e.latlng.toString())
-        .openOn(mymap);
-}
+// response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
