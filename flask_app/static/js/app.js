@@ -6,9 +6,9 @@ const minZoom = 2;
 
 var mymap = L.map('mapid', {
     'worldCopyJump': true, 
-    'zoom': initialZoom,
     'maxZoom': maxZoom,
     'minZoom': minZoom,
+    'zoom': initialZoom,
     'center': [initialLat, initialLon]});
 
 var style_choice_int = 0;
@@ -17,6 +17,7 @@ var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satelli
     tileSize: 512,
     zoomOffset: -1,
 }).addTo(mymap);
+
 function setStyle() {
     const styles = ["satellite-streets-v11", "light-v10", "dark-v10"];    
     var newStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mbk}`, {
@@ -39,6 +40,14 @@ function toggleStyle() {
     }
     setStyle();
 }
+
+var popup = L.popup();
+function onMapClick(e) {
+    popup.setLatLng(e.latlng)
+        .setContent("You clicked the map at:<br>" + e.latlng.toString())
+        .openOn(mymap);
+}
+mymap.on('click', onMapClick);
 
 var markers = [];
 var viewMarkers = true;
@@ -111,20 +120,12 @@ function toggleMarkers() {
 
 getMarkersAndDrawLines();
 
-var popup = L.popup();
-function onMapClick(e) {
-    popup.setLatLng(e.latlng)
-        .setContent("You clicked the map at:<br>" + e.latlng.toString())
-        .openOn(mymap);
-}
-
 // TASKS:
 // Mark starting and ending point as data points
 // style webpage and make it mobile friendly
 // select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
 // calculate most visited, least visited, and not visited countries
-// fix onClick display popup with latLong
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
 // Map country alpha code to country name in bordering countries
