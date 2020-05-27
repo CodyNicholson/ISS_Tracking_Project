@@ -4,8 +4,8 @@ import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, String, MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base()
 
+Base = declarative_base()
 class ISS_Data_Point(Base):
     __tablename__ = 'iss_data_table'
     iss_timestamp = Column(String(50), primary_key=True)

@@ -4,7 +4,7 @@ import random
 import datetime
 import glob
 from config import weather_api_key, host, database, user, password
-from sqlalchemy import Column, String, MetaData, create_engine, Table
+from sqlalchemy import Column, String, MetaData, create_engine, Table, insert
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
@@ -59,7 +59,7 @@ if (country_alpha_code != ""):
     country_url = f"https://restcountries.eu/rest/v2/alpha/{country_alpha_code}"
     country_data = requests.get(country_url).json()
     #print(json.dumps(country_data, indent=4, sort_keys=True))
-    country_name = country_data["name"]
+    country_name = country_data["alpha3Code"]
     country_borders = country_data["borders"]
     country_flag_url = country_data["flag"]
     country_capital = country_data["capital"]
@@ -73,8 +73,8 @@ else:
 # Write To Postgres
 engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
 connection = engine.connect()
-metadata = MetaData()
 
+metadata = MetaData()
 iss_data_table = Table('iss_data_table', metadata,
               Column('iss_timestamp', String(50), primary_key=True),
               Column('iss_lat', String(20), nullable=False),
