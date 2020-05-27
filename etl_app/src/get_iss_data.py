@@ -59,7 +59,7 @@ if (country_alpha_code != ""):
     country_url = f"https://restcountries.eu/rest/v2/alpha/{country_alpha_code}"
     country_data = requests.get(country_url).json()
     #print(json.dumps(country_data, indent=4, sort_keys=True))
-    country_name = country_data["name"]
+    country_name = country_data["alpha3Code"]
     country_borders = country_data["borders"]
     country_flag_url = country_data["flag"]
     country_capital = country_data["capital"]
