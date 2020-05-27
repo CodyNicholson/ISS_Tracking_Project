@@ -71,9 +71,6 @@ function getMarkersAndDrawLines() {
             if (row.country_name == "") {
                 marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
             } else {
-                var countryName = getCountryName(row.country_name);
-                var borderingCountriesList = row.country_borders.substring(1, row.country_borders.length-1).split(",");
-                var borderingCountries = getBorderingCountries(borderingCountriesList);
                 marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Country:</b> ${countryName} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${borderingCountries}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
             }
             markers.push(marker);
@@ -127,7 +124,6 @@ function toggleMarkers() {
 getMarkersAndDrawLines();
 
 // TASKS:
-// Mark starting and ending point as data points
 // style webpage and make it mobile friendly
 // select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
@@ -137,3 +133,4 @@ getMarkersAndDrawLines();
 // Map country alpha code to country name in bordering countries
 // Style data table view
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
+// draw arrow head and starting point

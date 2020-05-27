@@ -3,8 +3,10 @@ import json
 import random
 import datetime
 import glob
-from config import weather_api_key, host, database, user, password
 from sqlalchemy import Column, String, MetaData, create_engine, Table, insert
+
+from config import weather_api_key, host, database, user, password
+from util import processBorderingCountries, processCountryName
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
@@ -13,14 +15,6 @@ print(f"Log: {log_count}")
 now = datetime.datetime.now()
 timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
 print(f"timestamp is: {timestamp}")
-
-#with open(f"/home/pi/ISS_Tracking_Project/etl_app/logs/log{log_count}-{timestamp}.txt","w+") as file:
-#	file.write("ISS Tracking Data Collection Project Log\n")
-#	file.write(f"timestamp: {timestamp}\n")
-#	file.write(f"datetime: {str(now)}\n")
-#	file.write(f"logs: {log_count}\n")
-#	file.write("End Log\n\n")
-#	file.close()
 
 # Get ISS Position Data
 iss_url = "http://api.open-notify.org/iss-now.json"
@@ -59,11 +53,11 @@ if (country_alpha_code != ""):
     country_url = f"https://restcountries.eu/rest/v2/alpha/{country_alpha_code}"
     country_data = requests.get(country_url).json()
     #print(json.dumps(country_data, indent=4, sort_keys=True))
-    country_name = country_data["alpha3Code"]
-    country_borders = country_data["borders"]
+    country_name = processCountryName(country_data["alpha3Code"])
+    country_borders = processBorderingCountries(country_data["borders"])
     country_flag_url = country_data["flag"]
     country_capital = country_data["capital"]
-    print(json.dumps(country_data, indent=4, sort_keys=True))
+    #print(json.dumps(country_data, indent=4, sort_keys=True))
 else:
     country_name = ""
     country_borders = ""
