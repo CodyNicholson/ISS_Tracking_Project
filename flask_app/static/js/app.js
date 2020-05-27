@@ -71,31 +71,34 @@ function getMarkersAndDrawLines() {
             if (row.country_name == "") {
                 marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
             } else {
+                var countryName = getCountryName(row.country_name);
                 var borderingCountriesList = row.country_borders.substring(1, row.country_borders.length-1).split(",");
-                var borderingCountries = getCountryName(borderingCountriesList);
-                marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${borderingCountries}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
+                var borderingCountries = getBorderingCountries(borderingCountriesList);
+                marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Country:</b> ${countryName} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${borderingCountries}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
             }
             markers.push(marker);
         });
     
         // Draw line before crossing lon 180 and then new line after crossing lon 180
-        var latlngsBefore180 = [];
-        var latlngsAfter180 = [];
-        var lineSwitch = false;
+        var currentLine = [];
+        var uniqueLines = [];
         var previous_lon = data[0].iss_lon;
         for (let i = 0; i < data.length; i++) {
             var difference = previous_lon - data[i].iss_lon;
-            if (difference < 300 && !lineSwitch) {
-                latlngsBefore180.push([data[i].iss_lat, data[i].iss_lon])
-                previous_lon = data[i].iss_lon;
+            if (difference < 300) {
+                currentLine.push([data[i].iss_lat, data[i].iss_lon])
             } else {
-                lineSwitch = true;
-                latlngsAfter180.push([data[i].iss_lat, data[i].iss_lon])
+                uniqueLines.push(currentLine);
+                currentLine = [];
+                currentLine.push([data[i].iss_lat, data[i].iss_lon])
             }
+            previous_lon = data[i].iss_lon;
         }
+        uniqueLines.push(currentLine);
     
-        var polylineBefore180 = L.polyline(latlngsBefore180, {color: 'red'}).addTo(mymap);
-        var polylineAfter180 = L.polyline(latlngsAfter180, {color: 'red'}).addTo(mymap);
+        for (let i = 0; i < uniqueLines.length; i++) {
+            L.polyline(uniqueLines[i], {color: 'red'}).addTo(mymap);
+        }
     });
 }
 
