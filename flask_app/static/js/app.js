@@ -1,8 +1,8 @@
-const initialZoom = 2;
 const initialLat = 0.0;
 const initialLon = 0.0;
 const maxZoom = 9;
 const minZoom = 2;
+const initialZoom = 2;
 
 var mymap = L.map('mapid', {
     'worldCopyJump': true, 
@@ -53,6 +53,8 @@ function closeAllPopups() {
 
 var markers = [];
 var viewMarkers = true;
+var lines = [];
+var viewLines = true;
 function getMarkersAndDrawLines() {
     $.getJSON("/data", function(data) {
         data.forEach(row => {
@@ -94,43 +96,49 @@ function getMarkersAndDrawLines() {
         uniqueLines.push(currentLine);
     
         for (let i = 0; i < uniqueLines.length; i++) {
-            L.polyline(uniqueLines[i], {color: 'red'}).addTo(mymap);
+            lines.push(L.polyline(uniqueLines[i], {color: 'red'}).addTo(mymap));
         }
     });
 }
 
-function removeMarkers() {
-    viewMarkers = false;
-    for(var i = 0; i < markers.length; i++){
-        mymap.removeLayer(markers[i]);
-    }
-}
-
-function addMarkers() {
-    viewMarkers = true;
-    for(var i = 0; i < markers.length; i++){
-        markers[i].addTo(mymap);
-    }
-}
-
 function toggleMarkers() {
     if (viewMarkers) {
-        removeMarkers();
+        for(var i = 0; i < markers.length; i++){
+            mymap.removeLayer(markers[i]);
+        }
+        viewMarkers = false;
     } else {
-        addMarkers();
+        for(var i = 0; i < markers.length; i++){
+            markers[i].addTo(mymap);
+        }
+        viewMarkers = true;
+    }
+}
+
+function toggleLines() {
+    if (viewLines) {
+        for(var i = 0; i < lines.length; i++){
+            mymap.removeLayer(lines[i]);
+        }
+        viewLines = false;
+    } else {
+        for(var i = 0; i < lines.length; i++){
+            lines[i].addTo(mymap);
+        }
+        viewLines = true;
     }
 }
 
 getMarkersAndDrawLines();
 
 // TASKS:
-// style webpage and make it mobile friendly
 // select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
 // calculate most visited, least visited, and not visited countries
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
 // Map country alpha code to country name in bordering countries
-// Style data table view
+// Style data table view and add json button and return home button
+// toggle draw lines remove json button
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 // draw arrow head and starting point
