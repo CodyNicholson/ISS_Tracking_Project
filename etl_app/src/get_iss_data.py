@@ -4,7 +4,7 @@ import random
 import datetime
 import glob
 from config import weather_api_key, host, database, user, password
-from sqlalchemy import Column, String, MetaData, create_engine, Table
+from sqlalchemy import Column, String, MetaData, create_engine, Table, insert
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
