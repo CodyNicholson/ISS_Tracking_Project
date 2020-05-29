@@ -5,7 +5,7 @@ import datetime
 import glob
 from sqlalchemy import Column, String, MetaData, create_engine, Table, insert
 
-from config import weather_api_key, host, database, user, password
+from config import uri, weather_api_key
 from util import processBorderingCountries, processCountryName
 
 # Logging
@@ -68,7 +68,7 @@ else:
     country_capital = ""
 
 # Write To Postgres
-engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
+engine = create_engine(uri)
 connection = engine.connect()
 
 metadata = MetaData()

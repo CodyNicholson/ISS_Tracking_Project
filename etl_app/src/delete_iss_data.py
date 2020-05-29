@@ -1,9 +1,9 @@
-from config import weather_api_key, host, database, user, password
 import glob
 import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, String, MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
+from config import uri
 
 Base = declarative_base()
 class ISS_Data_Point(Base):
@@ -21,13 +21,13 @@ class ISS_Data_Point(Base):
     country_capital = Column(String(50))
 
 # Delete From Postgres
-engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
+engine = create_engine(uri)
 connection = engine.connect()
 metadata = MetaData()
 Base.metadata.create_all(connection)
 session = Session(bind=engine)
 
-one_day_of_data = connection.execute('SELECT * FROM public.iss_data_table ORDER BY iss_timestamp ASC FETCH FIRST 1000 ROWS ONLY;')
+one_day_of_data = connection.execute('SELECT * FROM public.iss_data_table ORDER BY iss_timestamp ASC FETCH FIRST 1400 ROWS ONLY;')
 rows_to_delete = []
 for iss_data_point in one_day_of_data:
     rows_to_delete.append(iss_data_point.iss_timestamp)

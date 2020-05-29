@@ -23,8 +23,8 @@ try:
     engine = create_engine(os.environ['DATABASE_URL'])
 except:
     # Works locally
-    from config import host, port, database, user, password
-    engine = create_engine(f"postgres://{user}:{password}@{host}/{database}")
+    from config import uri
+    engine = create_engine(uri)
 
 connection = engine.connect()
 metadata = MetaData()
