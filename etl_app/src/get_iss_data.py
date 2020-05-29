@@ -33,9 +33,12 @@ elif(0.4 >= rand_num < 0.8):
     splice_num = -3
 lookup_num = str(iss_timestamp)[-4:splice_num]
 num_url = f"http://numbersapi.com/{lookup_num}/math?json"
-num_data = requests.get(num_url).json()
-#print(json.dumps(num_data, indent=4, sort_keys=True))
-num_description = num_data["text"]
+try:
+    num_data = requests.get(num_url).json()
+    #print(json.dumps(num_data, indent=4, sort_keys=True))
+    num_description = num_data["text"]
+except:
+    num_description = "N/A"
 
 # Weather Data
 weather_url = f"http://api.openweathermap.org/data/2.5/weather?lat={iss_lat}&lon={iss_lon}&appid={weather_api_key}&units=imperial"
@@ -45,7 +48,7 @@ weather_description = weather_data["weather"][0]["description"]
 weather_temp = weather_data["main"]["temp"]
 try:
     country_alpha_code = weather_data["sys"]["country"]
-except: 
+except:
     country_alpha_code = ""
 
 # Country Data
