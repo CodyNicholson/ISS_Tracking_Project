@@ -84,7 +84,7 @@ function getMarkersAndDrawLines() {
         var previous_lon = data[0].iss_lon;
         for (let i = 0; i < data.length; i++) {
             var difference = previous_lon - data[i].iss_lon;
-            if (difference < 300) {
+            if (difference < 75) {
                 currentLine.push([data[i].iss_lat, data[i].iss_lon])
             } else {
                 uniqueLines.push(currentLine);
