@@ -6,8 +6,11 @@ try:
     from .data import getData
     mbk = os.environ['MBK']
     mbk += "x4"
-except:
+except Exception as e:
     # Works locally
+    print(type(e))
+    print(e.args)
+    print(e)
     from data import getData
     from config import mbk
     mbk += "x4"

@@ -139,6 +139,5 @@ getMarkersAndDrawLines();
 // get initial view to center on latest point
 // Map country alpha code to country name in bordering countries
 // Style data table view and add json button and return home button
-// toggle draw lines remove json button
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 // draw arrow head and starting point
