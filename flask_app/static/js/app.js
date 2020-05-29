@@ -1,8 +1,8 @@
-const initialZoom = 2;
 const initialLat = 0.0;
 const initialLon = 0.0;
 const maxZoom = 9;
 const minZoom = 2;
+const initialZoom = 2;
 
 var mymap = L.map('mapid', {
     'worldCopyJump': true, 
@@ -53,6 +53,8 @@ function closeAllPopups() {
 
 var markers = [];
 var viewMarkers = true;
+var lines = [];
+var viewLines = true;
 function getMarkersAndDrawLines() {
     $.getJSON("/data", function(data) {
         data.forEach(row => {
@@ -71,7 +73,7 @@ function getMarkersAndDrawLines() {
             if (row.country_name == "") {
                 marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
             } else {
-                marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Country:</b> ${countryName} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${borderingCountries}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
+                marker.bindPopup(`<div class="popup" onclick="closeAllPopups()"><img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${row.country_borders}<br><b>Random Number Fact:</b> ${row.num_description}</div>`).openPopup();
             }
             markers.push(marker);
         });
@@ -94,43 +96,48 @@ function getMarkersAndDrawLines() {
         uniqueLines.push(currentLine);
     
         for (let i = 0; i < uniqueLines.length; i++) {
-            L.polyline(uniqueLines[i], {color: 'red'}).addTo(mymap);
+            lines.push(L.polyline(uniqueLines[i], {color: 'red'}).addTo(mymap));
         }
     });
 }
 
-function removeMarkers() {
-    viewMarkers = false;
-    for(var i = 0; i < markers.length; i++){
-        mymap.removeLayer(markers[i]);
-    }
-}
-
-function addMarkers() {
-    viewMarkers = true;
-    for(var i = 0; i < markers.length; i++){
-        markers[i].addTo(mymap);
-    }
-}
-
 function toggleMarkers() {
     if (viewMarkers) {
-        removeMarkers();
+        for(var i = 0; i < markers.length; i++){
+            mymap.removeLayer(markers[i]);
+        }
+        viewMarkers = false;
     } else {
-        addMarkers();
+        for(var i = 0; i < markers.length; i++){
+            markers[i].addTo(mymap);
+        }
+        viewMarkers = true;
+    }
+}
+
+function toggleLines() {
+    if (viewLines) {
+        for(var i = 0; i < lines.length; i++){
+            mymap.removeLayer(lines[i]);
+        }
+        viewLines = false;
+    } else {
+        for(var i = 0; i < lines.length; i++){
+            lines[i].addTo(mymap);
+        }
+        viewLines = true;
     }
 }
 
 getMarkersAndDrawLines();
 
 // TASKS:
-// style webpage and make it mobile friendly
 // select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
 // calculate most visited, least visited, and not visited countries
 // create json file with sample data to be used when database connection fails
 // get initial view to center on latest point
 // Map country alpha code to country name in bordering countries
-// Style data table view
+// Style data table view and add json button and return home button
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 // draw arrow head and starting point
