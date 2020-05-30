@@ -23,8 +23,12 @@ try:
     engine = create_engine(os.environ['DATABASE_URL'])
 except:
     # Works locally
-    from config import uri
-    engine = create_engine(uri)
+    from config import uri, getDbUriFromHeroku
+    try:
+        heroku_uri = getDbUriFromHeroku()
+    except:
+        heroku_uri = uri
+    engine = create_engine(heroku_uri)
 
 connection = engine.connect()
 metadata = MetaData()
