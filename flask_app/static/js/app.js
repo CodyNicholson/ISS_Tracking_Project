@@ -104,9 +104,12 @@ function getMarkersAndDrawLines() {
         var currentLine = [];
         var uniqueLines = [];
         var previous_lon = data[0].iss_lon;
+        const maxDistanceApart = 90
         for (let i = 0; i < data.length; i++) {
-            var difference = previous_lon - data[i].iss_lon;
-            if (difference < 300) {
+            const normalizedCurrentLon = data[i].iss_lon + 180
+            const normalizedPreviousLon = previous_lon + 180
+            const distanceBetweenPoints = Math.abs(normalizedCurrentLon - normalizedPreviousLon);
+            if (distanceBetweenPoints < maxDistanceApart) {
                 currentLine.push([data[i].iss_lat, data[i].iss_lon])
             } else {
                 uniqueLines.push(currentLine);
