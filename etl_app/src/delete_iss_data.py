@@ -3,7 +3,12 @@ import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy import Column, String, MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from config import uri
+from config import uri, getDbUriFromHeroku
+
+try:
+    heroku_uri = getDbUriFromHeroku()
+except Exception as e:
+    heroku_uri = uri
 
 Base = declarative_base()
 class ISS_Data_Point(Base):
@@ -21,7 +26,7 @@ class ISS_Data_Point(Base):
     country_capital = Column(String(50))
 
 # Delete From Postgres
-engine = create_engine(uri)
+engine = create_engine(heroku_uri)
 connection = engine.connect()
 metadata = MetaData()
 Base.metadata.create_all(connection)

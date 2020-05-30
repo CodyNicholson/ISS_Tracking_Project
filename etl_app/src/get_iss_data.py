@@ -5,8 +5,15 @@ import datetime
 import glob
 from sqlalchemy import Column, String, MetaData, create_engine, Table, insert
 
-from config import uri, weather_api_key
+from config import uri, weather_api_key, getDbUriFromHeroku
 from util import processBorderingCountries, processCountryName
+
+try:
+    heroku_uri = getDbUriFromHeroku()
+    print(heroku_uri)
+except Exception as e:
+    print(e)
+    heroku_uri = uri
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
@@ -68,7 +75,7 @@ else:
     country_capital = ""
 
 # Write To Postgres
-engine = create_engine(uri)
+engine = create_engine(heroku_uri)
 connection = engine.connect()
 
 metadata = MetaData()
