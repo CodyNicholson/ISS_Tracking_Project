@@ -19,16 +19,21 @@ class ISS_Data_Point(Base):
     country_capital = Column(String(50))
 
 try:
-    # Works on Heroku
     engine = create_engine(os.environ['DATABASE_URL'])
-except:
-    # Works locally
+    print("***Connected And Running On Heroku***")
+except Exception as e:
+    print(e)
+    print("***Running Locally***")
     from config import uri, getDbUriFromHeroku
     try:
         heroku_uri = getDbUriFromHeroku()
-    except:
-        heroku_uri = uri
-    engine = create_engine(heroku_uri)
+        engine = create_engine(heroku_uri)
+        print("***Connected And Running Locally***")
+    except Exception as e:
+        print(e)
+        engine = create_engine(heroku_uri)
+        print("***Connected And Running Locally After getDbUriFromHeroku() Failed***")
+    
 
 connection = engine.connect()
 metadata = MetaData()

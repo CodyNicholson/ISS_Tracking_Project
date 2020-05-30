@@ -10,10 +10,14 @@ from util import processBorderingCountries, processCountryName
 
 try:
     heroku_uri = getDbUriFromHeroku()
-    print(heroku_uri)
+    engine = create_engine(heroku_uri)
+    connection = engine.connect()
+    print("***Connected To Heroku Using getDbUriFromHeroku***")
 except Exception as e:
     print(e)
-    heroku_uri = uri
+    engine = create_engine(uri)
+    connection = engine.connect()
+    print("***Connected To Heroku Using Stored URI***")
 
 # Logging
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
@@ -75,9 +79,6 @@ else:
     country_capital = ""
 
 # Write To Postgres
-engine = create_engine(heroku_uri)
-connection = engine.connect()
-
 metadata = MetaData()
 iss_data_table = Table('iss_data_table', metadata,
               Column('iss_timestamp', String(50), primary_key=True),
