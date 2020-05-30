@@ -69,15 +69,34 @@ function getMarkersAndDrawLines() {
                 draggable: false,
                 icon: customIcon
             }
+            
             var marker = L.marker([row.iss_lat, row.iss_lon], markerOptions).addTo(mymap);
-            var popUpMsg = `<div class="popup" onclick="closeAllPopups()"><b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})<br>${timeConverter(row.iss_timestamp)}<br><b>Temp:</b> ${row.weather_temp} °F<br><b>Weather:</b> ${row.weather_description}`
+            
+            var popupMsg = `<div class="popup" onclick="closeAllPopups()">`
+            const popupCountryFlag = `<img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br>`
+            const popupLatLon = `<b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})`
+            const popupTimestamp = `<br>${timeConverter(row.iss_timestamp)}`
+            const popupTemp = `<br><b>Temp:</b> ${row.weather_temp} °F`
+            const popupWeatherDes = `<br><b>Weather:</b> ${row.weather_description}`
+            const popupCountryName = `<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})`
+            const popupCountryCapital = `<br><b>Capital:</b> ${row.country_capital}`
+            const popupCountryBorders = `<br><b>Borders:</b> ${row.country_borders}`
+            const popupNumDescription = `<br><b>Random Number Fact:</b> ${row.num_description}`
+            const popupCloseDiv = `</div>`
+
             if (row.country_name != "") {
-                popUpMsg += `<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})<br><b>Capital:</b> ${row.country_capital}<br><b>Borders:</b> ${row.country_borders}`
+                popupMsg += popupCountryFlag + popupLatLon + popupTimestamp + popupTemp + popupWeatherDes + popupCountryName + popupCountryCapital + popupCountryBorders
+            } else {
+                popupMsg += popupLatLon + popupTimestamp + popupTemp + popupWeatherDes
             }
+
             if (row.num_description != "") {
-                popUpMsg += `<br><b>Random Number Fact:</b> ${row.num_description}</div>`  
-            } 
-            marker.bindPopup(popUpMsg).openPopup();
+                popupMsg += popupNumDescription
+            }
+
+            popupMsg += popupCloseDiv
+
+            marker.bindPopup(popupMsg).openPopup();
             markers.push(marker);
         });
     
