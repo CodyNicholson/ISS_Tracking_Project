@@ -38,7 +38,7 @@ try:
     #print(json.dumps(num_data, indent=4, sort_keys=True))
     num_description = num_data["text"]
 except:
-    num_description = "N/A"
+    num_description = ""
 
 # Weather Data
 weather_url = f"http://api.openweathermap.org/data/2.5/weather?lat={iss_lat}&lon={iss_lon}&appid={weather_api_key}&units=imperial"
