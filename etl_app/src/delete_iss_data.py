@@ -7,8 +7,14 @@ from config import uri, getDbUriFromHeroku
 
 try:
     heroku_uri = getDbUriFromHeroku()
+    engine = create_engine(heroku_uri)
+    connection = engine.connect()
+    print("***Connected To Heroku Using getDbUriFromHeroku***")
 except Exception as e:
-    heroku_uri = uri
+    print(e)
+    engine = create_engine(uri)
+    connection = engine.connect()
+    print("***Connected To Heroku Using Stored URI***")
 
 Base = declarative_base()
 class ISS_Data_Point(Base):
@@ -26,8 +32,6 @@ class ISS_Data_Point(Base):
     country_capital = Column(String(50))
 
 # Delete From Postgres
-engine = create_engine(heroku_uri)
-connection = engine.connect()
 metadata = MetaData()
 Base.metadata.create_all(connection)
 session = Session(bind=engine)
