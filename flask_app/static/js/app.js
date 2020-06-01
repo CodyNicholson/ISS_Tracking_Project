@@ -57,6 +57,15 @@ var lines = [];
 var viewLines = true;
 function getMarkersAndDrawLines() {
     $.getJSON("/data", function(data) {
+
+        var startingPointCircle = L.circle([data[0].iss_lat, data[0].iss_lon], {
+            color: "red",
+            fillColor: "#f03",
+            fillOpacity: 1.0,
+            radius: 222222.0
+        }).addTo(mymap);
+        lines.push(startingPointCircle);
+
         data.forEach(row => {
             var iconOptions = {
                 iconUrl: '../static/img/bluestar.svg',
@@ -72,29 +81,29 @@ function getMarkersAndDrawLines() {
             
             var marker = L.marker([row.iss_lat, row.iss_lon], markerOptions).addTo(mymap);
             
-            var popupMsg = `<div class="popup" onclick="closeAllPopups()">`
-            const popupCountryFlag = `<img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br>`
-            const popupLatLon = `<b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})`
-            const popupTimestamp = `<br>${timeConverter(row.iss_timestamp)}`
-            const popupTemp = `<br><b>Temp:</b> ${row.weather_temp} °F`
-            const popupWeatherDes = `<br><b>Weather:</b> ${row.weather_description}`
-            const popupCountryName = `<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})`
-            const popupCountryCapital = `<br><b>Capital:</b> ${row.country_capital}`
-            const popupCountryBorders = `<br><b>Borders:</b> ${row.country_borders}`
-            const popupNumDescription = `<br><b>Random Number Fact:</b> ${row.num_description}`
-            const popupCloseDiv = `</div>`
+            var popupMsg = `<div class="popup" onclick="closeAllPopups()">`;
+            const popupCountryFlag = `<img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br>`;
+            const popupLatLon = `<b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})`;
+            const popupTimestamp = `<br>${timeConverter(row.iss_timestamp)}`;
+            const popupTemp = `<br><b>Temp:</b> ${row.weather_temp} °F`;
+            const popupWeatherDes = `<br><b>Weather:</b> ${row.weather_description}`;
+            const popupCountryName = `<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})`;
+            const popupCountryCapital = `<br><b>Capital:</b> ${row.country_capital}`;
+            const popupCountryBorders = `<br><b>Borders:</b> ${row.country_borders}`;
+            const popupNumDescription = `<br><b>Random Number Fact:</b> ${row.num_description}`;
+            const popupCloseDiv = `</div>`;
 
             if (row.country_name != "") {
-                popupMsg += popupCountryFlag + popupLatLon + popupTimestamp + popupTemp + popupWeatherDes + popupCountryName + popupCountryCapital + popupCountryBorders
+                popupMsg += popupCountryFlag + popupLatLon + popupTimestamp + popupTemp + popupWeatherDes + popupCountryName + popupCountryCapital + popupCountryBorders;
             } else {
-                popupMsg += popupLatLon + popupTimestamp + popupTemp + popupWeatherDes
+                popupMsg += popupLatLon + popupTimestamp + popupTemp + popupWeatherDes;
             }
 
             if (row.num_description != "") {
-                popupMsg += popupNumDescription
+                popupMsg += popupNumDescription;
             }
 
-            popupMsg += popupCloseDiv
+            popupMsg += popupCloseDiv;
 
             marker.bindPopup(popupMsg).openPopup();
             markers.push(marker);
@@ -104,13 +113,13 @@ function getMarkersAndDrawLines() {
         var currentLine = [];
         var uniqueLines = [];
         var previous_lon = data[0].iss_lon;
-        const maxDistanceApart = 90
+        const maxDistanceApart = 90;
         for (let i = 0; i < data.length; i++) {
-            const normalizedCurrentLon = data[i].iss_lon + 180
-            const normalizedPreviousLon = previous_lon + 180
+            const normalizedCurrentLon = data[i].iss_lon + 180;
+            const normalizedPreviousLon = previous_lon + 180;
             const distanceBetweenPoints = Math.abs(normalizedCurrentLon - normalizedPreviousLon);
             if (distanceBetweenPoints < maxDistanceApart) {
-                currentLine.push([data[i].iss_lat, data[i].iss_lon])
+                currentLine.push([data[i].iss_lat, data[i].iss_lon]);
             } else {
                 uniqueLines.push(currentLine);
                 currentLine = [];
@@ -160,9 +169,10 @@ getMarkersAndDrawLines();
 // select how many datapoints you would like to view up to 500
 // calculate and graph speed of ISS
 // calculate most visited, least visited, and not visited countries
+// calculate most common weather of the day, and most common weather since beginning of tracking
+// calculate average temp today, and average temp since beginning of time
 // create json file with sample data to be used when database connection fails
-// get initial view to center on latest point
-// Map country alpha code to country name in bordering countries
 // Style data table view and add json button and return home button
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
-// draw arrow head and starting point
+// draw arrow head on ending point
+// Create listener to add new points every minute
