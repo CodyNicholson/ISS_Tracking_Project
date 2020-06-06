@@ -58,11 +58,10 @@ var viewLines = true;
 function getMarkersAndDrawLines() {
     $.getJSON("/data", function(data) {
 
-        var startingPointCircle = L.circle([data[0].iss_lat, data[0].iss_lon], {
+        var startingPointCircle = L.circleMarker([data[0].iss_lat, data[0].iss_lon], {
             color: "red",
-            fillColor: "#f03",
             fillOpacity: 1.0,
-            radius: 222222.0
+            radius: 7.0
         }).addTo(mymap);
         lines.push(startingPointCircle);
 
@@ -132,6 +131,41 @@ function getMarkersAndDrawLines() {
         for (let i = 0; i < uniqueLines.length; i++) {
             lines.push(L.polyline(uniqueLines[i], {color: 'red'}).addTo(mymap));
         }
+        
+        const lastPoint = [data[data.length-1].iss_lat, data[data.length-1].iss_lon];
+        const slope = Math.ceil((data[data.length-2].iss_lon - lastPoint[1])/(data[data.length-2].iss_lat - lastPoint[0])*2)/2;
+        console.log("M: " + slope);
+        if (slope == 2) {
+            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
+            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+            lines.push(L.polyline([arrowHeadPoint1, lastPoint], {color: 'red'}).addTo(mymap));
+            lines.push(L.polyline([arrowHeadPoint2, lastPoint], {color: 'red'}).addTo(mymap));
+        } else if (slope == 1 || slope == 1.5) {
+            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.4), lastPoint[1]];
+            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+            lines.push(L.polyline([arrowHeadPoint1, lastPoint], {color: 'red'}).addTo(mymap));
+            lines.push(L.polyline([arrowHeadPoint2, lastPoint], {color: 'red'}).addTo(mymap));
+        } else if (slope == -0.5) {
+            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
+            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+            lines.push(L.polyline([arrowHeadPoint1, lastPoint], {color: 'red'}).addTo(mymap));
+            lines.push(L.polyline([arrowHeadPoint2, lastPoint], {color: 'red'}).addTo(mymap));
+        } else if (slope == -1.0 || slope == -1.5) {
+            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
+            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+            lines.push(L.polyline([arrowHeadPoint1, lastPoint], {color: 'red'}).addTo(mymap));
+            lines.push(L.polyline([arrowHeadPoint2, lastPoint], {color: 'red'}).addTo(mymap));
+        } else if (slope == -2) {
+            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
+            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+            lines.push(L.polyline([arrowHeadPoint1, lastPoint], {color: 'red'}).addTo(mymap));
+            lines.push(L.polyline([arrowHeadPoint2, lastPoint], {color: 'red'}).addTo(mymap));
+        } else {
+            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
+            const arrowHeadPoint2 = [String(parseFloat(lastPoint[0]) - 2.5), String(parseFloat(lastPoint[1] - 2.5))];
+            lines.push(L.polyline([arrowHeadPoint1, lastPoint], {color: 'red'}).addTo(mymap));  
+            lines.push(L.polyline([arrowHeadPoint2, lastPoint], {color: 'red'}).addTo(mymap));
+        }
     });
 }
 
@@ -174,5 +208,4 @@ getMarkersAndDrawLines();
 // create json file with sample data to be used when database connection fails
 // Style data table view and add json button and return home button
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
-// draw arrow head on ending point
 // Create listener to add new points every minute
