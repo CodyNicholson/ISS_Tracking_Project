@@ -136,8 +136,8 @@ function getMarkersAndDrawLines() {
         const slope = Math.ceil((data[data.length-2].iss_lon - lastPoint[1])/(data[data.length-2].iss_lat - lastPoint[0])*2)/2;
         console.log("M: " + slope);
         if (slope == 2) {
-            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
-            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) + 2.5)];
+            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.5), lastPoint[1]];
+            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
             lines.push(L.polyline([arrowHeadPoint1, lastPoint], {color: 'red'}).addTo(mymap));
             lines.push(L.polyline([arrowHeadPoint2, lastPoint], {color: 'red'}).addTo(mymap));
         } else if (slope == 1 || slope == 1.5) {
