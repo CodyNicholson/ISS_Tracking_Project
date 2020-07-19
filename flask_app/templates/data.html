@@ -27,11 +27,27 @@
                     <td>{{record['num_description']}}</td>
                     <td>{{record['weather_description']}}</td>
                     <td>{{record['weather_temp']}}</td>
+                    {% if record['country_alpha_code'] %}
                     <td>{{record['country_alpha_code']}}</td>
+                    {% else %}
+                    <td>- None -</td>
+                    {% endif %} {% if record['country_name'] %}
                     <td>{{record['country_name']}}</td>
+                    {% else %}
+                    <td>- None -</td>
+                    {% endif %} {% if record['country_borders'] %}
                     <td>{{record['country_borders']}}</td>
+                    {% else %}
+                    <td>- None -</td>
+                    {% endif %} {% if record['country_flag_url'] %}
                     <td>{{record['country_flag_url']}}</td>
+                    {% else %}
+                    <td>- None -</td>
+                    {% endif %} {% if record['country_capital'] %}
                     <td>{{record['country_capital']}}</td>
+                    {% else %}
+                    <td>- None -</td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
