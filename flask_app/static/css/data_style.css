@@ -66,6 +66,7 @@ tr {
 .data-table {
     table-layout: fixed;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-size: 1em;
     border-collapse: collapse;
     margin: auto;
     color: ghostwhite;
@@ -102,6 +103,7 @@ tr {
     width: 45%;
     padding-right: 10px;
     white-space: nowrap;
+    font-size: 1em;
 }
 
 td:nth-of-type(1):before {
@@ -152,6 +154,9 @@ td:nth-of-type(11):before {
     .data-table {
         font-size: 1em;
     }
+    .data-table td:before {
+        font-size: 1em;
+    }
     .data-table td {
         padding-left: 47%;
     }
@@ -161,6 +166,9 @@ td:nth-of-type(11):before {
     .data-table {
         font-size: 1em;
     }
+    .data-table td:before {
+        font-size: 1em;
+    }
     .data-table td {
         padding-left: 30%;
     }
@@ -168,6 +176,9 @@ td:nth-of-type(11):before {
 
 @media only screen and (min-width: 1200px) {
     .data-table {
+        font-size: 1.3em;
+    }
+    .data-table td:before {
         font-size: 1.3em;
     }
     .data-table tr {
