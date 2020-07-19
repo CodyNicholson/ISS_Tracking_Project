@@ -149,18 +149,27 @@ td:nth-of-type(11):before {
 }
 
 @media only screen and (max-width: 600px) {
+    .data-table {
+        font-size: 1em;
+    }
     .data-table td {
         padding-left: 47%;
     }
 }
 
 @media screen and (min-width: 600px) and (max-width: 1200px) {
+    .data-table {
+        font-size: 1em;
+    }
     .data-table td {
         padding-left: 30%;
     }
 }
 
 @media only screen and (min-width: 1200px) {
+    .data-table {
+        font-size: 1.3em;
+    }
     .data-table tr {
         padding-left: 20%;
         padding-right: 20%;
