@@ -1,3 +1,7 @@
+html {
+    background-color: black;
+}
+
 .map-header {
     border: 2px solid rgb(2, 11, 128);
     padding-top: 7px;
@@ -33,19 +37,15 @@
 }
 
 .header-button:hover {
-    background-color: white; 
-    color: black; 
+    background-color: white;
+    color: black;
     border: 2px solid rgb(2, 11, 128);
 }
 
-#mapid { 
+#mapid {
     height: 500px;
     width: 100%;
     border: 3px solid rgb(2, 11, 128);
-}
-
-html {
-    background-color: black;
 }
 
 button {
@@ -56,7 +56,7 @@ button {
     transition-duration: 0.4s;
     cursor: pointer;
 }
-  
+
 .map-button {
     background-color: rgb(2, 11, 128);
     color: white;
@@ -65,8 +65,8 @@ button {
 }
 
 .map-button:hover {
-    background-color: white; 
-    color: black; 
+    background-color: white;
+    color: black;
     border: 2px solid rgb(2, 11, 128);
 }
 
@@ -78,7 +78,6 @@ button {
     margin: 0 !important;
 }
 
-/* When under 123px do this */
 @media screen and (min-width: 900px) and (max-width: 1350px) {
     .header-button {
         width: 15%;

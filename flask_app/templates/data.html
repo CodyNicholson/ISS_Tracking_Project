@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-    <head>
-        <title>Data Table</title>
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    </head>
-    <body>
-        <div id="data-table-div">
-            <table class="data-table">
-                <thead class="data-table-head">
-                    <th>Timestamp</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
-                    <th>Random Number Fact</th>
-                    <th>Weather Description</th>
-                    <th>Temperature F</th>
-                    <th>Country Alpha Code</th>
-                    <th>Country Name</th>
-                    <th>Bordering Countries</th>
-                    <th>Country Flag</th>
-                    <th>Country Capital</th>
-                </thead>
+
+<head>
+    <title>ISS Tracker Data Table</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/data_style.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<body>
+    <div id="data-table-div">
+        <div id="header">
+            <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />
+            <h2 id="title">ISS Tracker Data Table</h2>
+            <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />
+        </div>
+        <div id="controls">
+            <button class="control-button" onclick="location.href='/'">Home</button>
+            <button class="control-button" onclick="location.href='/data'">Json</button>
+        </div>
+        <table class="data-table">
+            <tbody>
                 {% for record in data %}
                 <tr class="data-table-row">
                     <td>{{record['iss_timestamp']}}</td>
@@ -34,7 +34,9 @@
                     <td>{{record['country_capital']}}</td>
                 </tr>
                 {% endfor %}
-          </table>
-        </div>
-    </body>
+            </tbody>
+        </table>
+    </div>
+</body>
+
 </html>
