@@ -44,6 +44,7 @@ html {
 .control-button {
     font-size: 1em;
     width: 20%;
+    height: 40px;
     background-color: rgb(2, 11, 128);
     color: white;
     margin-right: 7px;
@@ -56,31 +57,49 @@ html {
     border: 2px solid rgb(2, 11, 128);
 }
 
-table,
-tbody,
-td,
-tr {
-    display: block;
+.border-div {
+    border: 2px solid rgb(2, 11, 128);
 }
 
 .data-table {
-    table-layout: fixed;
+    border: 1px solid rgb(2, 11, 128);
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     font-size: 1em;
     border-collapse: collapse;
     margin: auto;
     color: ghostwhite;
+    width: 70%;
 }
 
 .data-table tr {
     border: 1px solid rgb(2, 11, 128);
+    padding-right: 10%;
+    padding-left: 10%;
 }
 
-.data-table tr:nth-child(even) {
+.data-table td {
+    min-height: 25px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 2px;
+    margin-top: 8px;
+}
+
+td:nth-child(1) {
+    padding-left: 30px;
+    width: 25%;
+}
+
+td:nth-child(2) {
+    padding-left: 2px;
+    width: 75%;
+}
+
+.data-table:nth-child(even) {
     background-color: #230820;
 }
 
-.data-table tr:nth-child(odd) {
+.data-table:nth-child(odd) {
     background-color: #002900;
 }
 
@@ -88,104 +107,76 @@ tr {
     background-color: #000442;
 }
 
-.data-table td {
-    position: relative;
-    padding-left: 50%;
-    min-height: 25px;
-    padding: 2px;
-    margin-top: 8px;
-}
-
-.data-table td:before {
-    position: absolute;
-    top: 0;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    font-size: 1em;
-}
-
-td:nth-of-type(1):before {
-    content: "Timestamp";
-}
-
-td:nth-of-type(2):before {
-    content: "Latitude";
-}
-
-td:nth-of-type(3):before {
-    content: "Longitude";
-}
-
-td:nth-of-type(4):before {
-    content: "Number Fact";
-}
-
-td:nth-of-type(5):before {
-    content: "Weather Description";
-}
-
-td:nth-of-type(6):before {
-    content: "Temperature (F)";
-}
-
-td:nth-of-type(7):before {
-    content: "Country Alpha Code";
-}
-
-td:nth-of-type(8):before {
-    content: "Country Name";
-}
-
-td:nth-of-type(9):before {
-    content: "Bordering Countries";
-}
-
-td:nth-of-type(10):before {
-    content: "Country Flag URL";
-}
-
-td:nth-of-type(11):before {
-    content: "Country Capital";
-}
-
 @media only screen and (max-width: 600px) {
     .data-table {
         font-size: 1em;
+        margin: 0;
+        width: 100%;
     }
-    .data-table td:before {
-        font-size: 1em;
+    td:nth-child(1) {
+        padding-left: 30px;
+        width: 25%;
     }
-    .data-table td {
-        padding-left: 47%;
-    }
-}
-
-@media screen and (min-width: 600px) and (max-width: 1200px) {
-    .data-table {
-        font-size: 1em;
-    }
-    .data-table td:before {
-        font-size: 1em;
-    }
-    .data-table td {
-        padding-left: 30%;
+    td:nth-child(2) {
+        padding-left: 2px;
+        width: 30%;
     }
 }
 
-@media only screen and (min-width: 1200px) {
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    .data-table {
+        font-size: 1em;
+        margin: 0;
+        width: 100%;
+    }
+    td:nth-child(1) {
+        padding-left: 30px;
+        width: 25%;
+    }
+    td:nth-child(2) {
+        padding-left: 2px;
+        width: 40%;
+    }
+}
+
+@media screen and (min-width: 900px) and (max-width: 1200px) {
+    .data-table {
+        font-size: 1em;
+    }
+    td:nth-child(1) {
+        padding-left: 30px;
+        width: 25%;
+    }
+    td:nth-child(2) {
+        padding-left: 2px;
+        width: 40%;
+    }
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1500px) {
     .data-table {
         font-size: 1.3em;
     }
-    .data-table td:before {
+    td:nth-child(1) {
+        padding-left: 30px;
+        width: 25%;
+    }
+    td:nth-child(2) {
+        padding-left: 2px;
+        width: 50%;
+    }
+}
+
+@media only screen and (min-width: 1500px) {
+    .data-table {
         font-size: 1.3em;
     }
-    .data-table tr {
-        padding-left: 20%;
-        padding-right: 20%;
+    td:nth-child(1) {
+        padding-left: 30px;
+        width: 25%;
     }
-    .data-table td {
-        padding-left: 30%;
+    td:nth-child(2) {
+        padding-left: 2px;
+        width: 55%;
     }
 }

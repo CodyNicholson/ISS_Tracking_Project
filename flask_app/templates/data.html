@@ -17,41 +17,78 @@
             <button class="control-button" onclick="location.href='/'">Home</button>
             <button class="control-button" onclick="location.href='/data'">Json</button>
         </div>
-        <table class="data-table">
-            <tbody>
-                {% for record in data %}
-                <tr class="data-table-row">
-                    <td>{{record['iss_timestamp']}}</td>
-                    <td>{{record['iss_lat']}}</td>
-                    <td>{{record['iss_lon']}}</td>
-                    <td>{{record['num_description']}}</td>
-                    <td>{{record['weather_description']}}</td>
-                    <td>{{record['weather_temp']}}</td>
-                    {% if record['country_alpha_code'] %}
-                    <td>{{record['country_alpha_code']}}</td>
-                    {% else %}
-                    <td>- None -</td>
-                    {% endif %} {% if record['country_name'] %}
-                    <td>{{record['country_name']}}</td>
-                    {% else %}
-                    <td>- None -</td>
-                    {% endif %} {% if record['country_borders'] %}
-                    <td>{{record['country_borders']}}</td>
-                    {% else %}
-                    <td>- None -</td>
-                    {% endif %} {% if record['country_flag_url'] %}
-                    <td>{{record['country_flag_url']}}</td>
-                    {% else %}
-                    <td>- None -</td>
-                    {% endif %} {% if record['country_capital'] %}
-                    <td>{{record['country_capital']}}</td>
-                    {% else %}
-                    <td>- None -</td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+        <div class="border-div">
+            {% for record in data %}
+            <table class="data-table">
+                <tbody>
+                    <tr>
+                        <td>Timestamp</td>
+                        <td>{{record['iss_timestamp']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Latitude</td>
+                        <td>{{record['iss_lat']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Longitude</td>
+                        <td>{{record['iss_lon']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Number Fact</td>
+                        <td>{{record['num_description']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Weather Description</td>
+                        <td>{{record['weather_description']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Temperature (F)</td>
+                        <td>{{record['weather_temp']}}</td>
+                    </tr>
+                    <tr>
+                        <td>Country Alpha Code</td>
+                        {% if record['country_alpha_code'] %}
+                        <td>{{record['country_alpha_code']}}</td>
+                        {% else %}
+                        <td>- None -</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Country Name</td>
+                        {% if record['country_name'] %}
+                        <td>{{record['country_name']}}</td>
+                        {% else %}
+                        <td>- None -</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Bordering Countries</td>
+                        {% if record['country_borders'] %}
+                        <td>{{record['country_borders']}}</td>
+                        {% else %}
+                        <td>- None -</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Country Flag URL</td>
+                        {% if record['country_flag_url'] %}
+                        <td>{{record['country_flag_url']}}</td>
+                        {% else %}
+                        <td>- None -</td>
+                        {% endif %}
+                    </tr>
+                    <tr>
+                        <td>Country Capital</td>
+                        {% if record['country_capital'] %}
+                        <td>{{record['country_capital']}}</td>
+                        {% else %}
+                        <td>- None -</td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
     </div>
 </body>
 
