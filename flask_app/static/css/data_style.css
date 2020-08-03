@@ -110,33 +110,39 @@ td:nth-child(2) {
 }
 
 @media only screen and (max-width: 600px) {
+    #title {
+        font-size: 2em;
+    }
     .data-table {
         font-size: 1em;
         margin: 0;
         width: 100%;
     }
     td:nth-child(1) {
-        padding-left: 30px;
+        padding-left: 10px;
         width: 25%;
     }
     td:nth-child(2) {
-        padding-left: 2px;
+        padding-left: 10px;
         width: 30%;
     }
 }
 
 @media screen and (min-width: 600px) and (max-width: 900px) {
+    #title {
+        font-size: 2em;
+    }
     .data-table {
         font-size: 1em;
         margin: 0;
         width: 100%;
     }
     td:nth-child(1) {
-        padding-left: 30px;
+        padding-left: 10px;
         width: 25%;
     }
     td:nth-child(2) {
-        padding-left: 2px;
+        padding-left: 10px;
         width: 40%;
     }
 }
