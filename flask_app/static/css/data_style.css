@@ -59,7 +59,8 @@ html {
 
 .border-div {
     border: 2px solid rgb(2, 11, 128);
-    padding-bottom: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .data-table {
