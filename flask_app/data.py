@@ -48,3 +48,12 @@ def getData():
             rowDict = {**rowDict, **{column: value}}
         dataList.append(rowDict)
     return dataList
+
+def getLatest():
+    resultProxy = connection.execute('SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT 1;')
+    rowDict, dataList = {}, []
+    for rowProxy in resultProxy:
+        for column, value in rowProxy.items():
+            rowDict = {**rowDict, **{column: value}}
+        dataList.append(rowDict)
+    return dataList

@@ -11,7 +11,7 @@ except Exception as e:
     print(type(e))
     print(e.args)
     print(e)
-    from data import getData
+    from data import getData, getLatest
     from config import mbk
     mbk += "x4"
 
@@ -20,17 +20,22 @@ app.config['DEBUG'] = True
 dataList = getData()
 
 @app.route('/')
-def home():
+def homeRoute():
     return render_template('index.html', data = json.dumps(dataList), mbkpy = mbk)
 
 @app.route('/data-table')
-def listData():
+def dataTableRoute():
     return render_template('data.html', data = dataList)
 
 @app.route('/data')
 def getDataRoute():
     dataList = getData()
     return jsonify(dataList)
+
+@app.route('/latest')
+def getLatestRoute():
+    latestList = getLatest()
+    return jsonify(latestList)
 
 if __name__ == '__main__':
     app.run(debug=True)
