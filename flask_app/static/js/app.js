@@ -118,41 +118,8 @@ function getMarkersAndDrawLines() {
 
         const lastPoint = [data[data.length - 1].iss_lat, data[data.length - 1].iss_lon];
         const penultimatePoint = [data[data.length - 2].iss_lat, data[data.length - 2].iss_lon];
-        const slope = Math.ceil((penultimatePoint[1] - lastPoint[1]) / (penultimatePoint[0] - lastPoint[0]) * 2) / 2;
 
-        // console.log("M: " + slope);
-
-        if (slope == 2) {
-            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.5), lastPoint[1]];
-            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-            lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-            lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
-        } else if (slope == 1 || slope == 1.5) {
-            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.4), lastPoint[1]];
-            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-            lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-            lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
-        } else if (slope == -0.5) {
-            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
-            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-            lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-            lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
-        } else if (slope == -1.0 || slope == -1.5) {
-            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
-            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-            lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-            lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
-        } else if (slope == -2) {
-            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
-            const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-            lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-            lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
-        } else {
-            const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
-            const arrowHeadPoint2 = [String(parseFloat(lastPoint[0]) - 2.5), String(parseFloat(lastPoint[1] - 2.5))];
-            lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-            lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
-        }
+        drawArrowHead(lastPoint, penultimatePoint);
     });
 }
 
@@ -210,10 +177,16 @@ function toggleLines() {
         for (var i = 0; i < lines.length; i++) {
             mymap.removeLayer(lines[i]);
         }
+        for (var i = 0; i < arrowHeadLines.length; i++) {
+            mymap.removeLayer(arrowHeadLines[i]);
+        }
         viewLines = false;
     } else {
         for (var i = 0; i < lines.length; i++) {
             lines[i].addTo(mymap);
+        }
+        for (var i = 0; i < arrowHeadLines.length; i++) {
+            arrowHeadLines[i].addTo(mymap);
         }
         viewLines = true;
     }
@@ -224,16 +197,19 @@ function getLatestMarker() {
         if (latestMarkerData[0].num_description != lastDataPoint.num_description) {
 
             createMarker(latestMarkerData[0]);
+            const previousLastPoint = [lastDataPoint.iss_lat, lastDataPoint.iss_lon];
+            const latestPoint = [latestMarkerData[0].iss_lat, latestMarkerData[0].iss_lon];
+            drawArrowHead(latestPoint, previousLastPoint);
 
             const maxDistanceApart = 90;
-            const normalizedCurrentLon = latestMarkerData[0].iss_lon + 180;
-            const normalizedPreviousLon = lastDataPoint.iss_lon + 180;
+            const normalizedCurrentLon = latestPoint[1] + 180;
+            const normalizedPreviousLon = previousLastPoint[1] + 180;
             const distanceBetweenPoints = Math.abs(normalizedCurrentLon - normalizedPreviousLon);
 
             if (distanceBetweenPoints < maxDistanceApart) {
                 const realtimeUpdateLinePoints = [
-                    [latestMarkerData[0].iss_lat, latestMarkerData[0].iss_lon],
-                    [lastDataPoint.iss_lat, lastDataPoint.iss_lon]
+                    [latestPoint[0], latestPoint[1]],
+                    [previousLastPoint[0], previousLastPoint[1]]
                 ];
 
                 const realtimeUpdateLine = L.polyline(realtimeUpdateLinePoints, { color: 'red', dashArray: "10 30" });
@@ -252,38 +228,80 @@ function getLatestMarker() {
 function drawArrowHead(lastPoint, penultimatePoint) {
     const slope = Math.ceil((penultimatePoint[1] - lastPoint[1]) / (penultimatePoint[0] - lastPoint[0]) * 2) / 2;
 
-    // console.log("M: " + slope);
+    console.log("M: " + slope);
+
+    for (var i = 0; i < arrowHeadLines.length; i++) {
+        mymap.removeLayer(arrowHeadLines[i]);
+    }
+
+    arrowHeadLines = [];
 
     if (slope == 2) {
         const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.5), lastPoint[1]];
         const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+        const arrowHeadLine1 = L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' });
+        const arrowHeadLine2 = L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' });
+        arrowHeadLines.push(arrowHeadLine1);
+        arrowHeadLines.push(arrowHeadLine2);
+        if (viewLines) {
+            arrowHeadLine1.addTo(mymap);
+            arrowHeadLine2.addTo(mymap);
+        }
     } else if (slope == 1 || slope == 1.5) {
         const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.4), lastPoint[1]];
         const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+        const arrowHeadLine1 = L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' });
+        const arrowHeadLine2 = L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' });
+        arrowHeadLines.push(arrowHeadLine1);
+        arrowHeadLines.push(arrowHeadLine2);
+        if (viewLines) {
+            arrowHeadLine1.addTo(mymap);
+            arrowHeadLine2.addTo(mymap);
+        }
     } else if (slope == -0.5) {
         const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
         const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+        const arrowHeadLine1 = L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' });
+        const arrowHeadLine2 = L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' });
+        arrowHeadLines.push(arrowHeadLine1);
+        arrowHeadLines.push(arrowHeadLine2);
+        if (viewLines) {
+            arrowHeadLine1.addTo(mymap);
+            arrowHeadLine2.addTo(mymap);
+        }
     } else if (slope == -1.0 || slope == -1.5) {
         const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
         const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+        const arrowHeadLine1 = L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' });
+        const arrowHeadLine2 = L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' });
+        arrowHeadLines.push(arrowHeadLine1);
+        arrowHeadLines.push(arrowHeadLine2);
+        if (viewLines) {
+            arrowHeadLine1.addTo(mymap);
+            arrowHeadLine2.addTo(mymap);
+        }
     } else if (slope == -2) {
         const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
         const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
-        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+        const arrowHeadLine1 = L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' });
+        const arrowHeadLine2 = L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' });
+        arrowHeadLines.push(arrowHeadLine1);
+        arrowHeadLines.push(arrowHeadLine2);
+        if (viewLines) {
+            arrowHeadLine1.addTo(mymap);
+            arrowHeadLine2.addTo(mymap);
+        }
     } else {
         const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
         const arrowHeadPoint2 = [String(parseFloat(lastPoint[0]) - 2.5), String(parseFloat(lastPoint[1] - 2.5))];
-        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
-        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+        const arrowHeadLine1 = L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' });
+        const arrowHeadLine2 = L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' });
+        arrowHeadLines.push(arrowHeadLine1);
+        arrowHeadLines.push(arrowHeadLine2);
+        if (viewLines) {
+            arrowHeadLine1.addTo(mymap);
+            arrowHeadLine2.addTo(mymap);
+        }
     }
 }
 
