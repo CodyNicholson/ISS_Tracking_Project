@@ -56,6 +56,7 @@ function closeAllPopups() {
 var markers = [];
 var viewMarkers = true;
 var lines = [];
+var arrowHeadLines = [];
 var viewLines = true;
 
 var iconOptions = {
@@ -116,7 +117,8 @@ function getMarkersAndDrawLines() {
         }
 
         const lastPoint = [data[data.length - 1].iss_lat, data[data.length - 1].iss_lon];
-        const slope = Math.ceil((data[data.length - 2].iss_lon - lastPoint[1]) / (data[data.length - 2].iss_lat - lastPoint[0]) * 2) / 2;
+        const penultimatePoint = [data[data.length - 2].iss_lat, data[data.length - 2].iss_lon];
+        const slope = Math.ceil((penultimatePoint[1] - lastPoint[1]) / (penultimatePoint[0] - lastPoint[0]) * 2) / 2;
 
         // console.log("M: " + slope);
 
@@ -217,12 +219,6 @@ function toggleLines() {
     }
 }
 
-getMarkersAndDrawLines();
-
-setInterval(function() {
-    getLatestMarker();
-}, 1000);
-
 function getLatestMarker() {
     $.getJSON("/latest", function(latestMarkerData) {
         if (latestMarkerData[0].num_description != lastDataPoint.num_description) {
@@ -235,17 +231,67 @@ function getLatestMarker() {
             const distanceBetweenPoints = Math.abs(normalizedCurrentLon - normalizedPreviousLon);
 
             if (distanceBetweenPoints < maxDistanceApart) {
-                var realtimeUpdateLine = [
+                const realtimeUpdateLinePoints = [
                     [latestMarkerData[0].iss_lat, latestMarkerData[0].iss_lon],
                     [lastDataPoint.iss_lat, lastDataPoint.iss_lon]
                 ];
-                lines.push(L.polyline(realtimeUpdateLine, { color: 'chartreuse' }).addTo(mymap));
+
+                const realtimeUpdateLine = L.polyline(realtimeUpdateLinePoints, { color: 'red', dashArray: "10 30" });
+                lines.push(realtimeUpdateLine);
+
+                if (viewLines) {
+                    realtimeUpdateLine.addTo(mymap);
+                }
             }
 
             lastDataPoint = latestMarkerData[0];
         }
     });
 }
+
+function drawArrowHead(lastPoint, penultimatePoint) {
+    const slope = Math.ceil((penultimatePoint[1] - lastPoint[1]) / (penultimatePoint[0] - lastPoint[0]) * 2) / 2;
+
+    // console.log("M: " + slope);
+
+    if (slope == 2) {
+        const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.5), lastPoint[1]];
+        const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
+        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+    } else if (slope == 1 || slope == 1.5) {
+        const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) - 2.4), lastPoint[1]];
+        const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
+        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+    } else if (slope == -0.5) {
+        const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
+        const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
+        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+    } else if (slope == -1.0 || slope == -1.5) {
+        const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), lastPoint[1]];
+        const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
+        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+    } else if (slope == -2) {
+        const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
+        const arrowHeadPoint2 = [lastPoint[0], String(parseFloat(lastPoint[1]) - 2.5)];
+        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
+        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+    } else {
+        const arrowHeadPoint1 = [String(parseFloat(lastPoint[0]) + 2.5), String(parseFloat(lastPoint[1] - 2.5))];
+        const arrowHeadPoint2 = [String(parseFloat(lastPoint[0]) - 2.5), String(parseFloat(lastPoint[1] - 2.5))];
+        lines.push(L.polyline([arrowHeadPoint1, lastPoint], { color: 'red' }).addTo(mymap));
+        lines.push(L.polyline([arrowHeadPoint2, lastPoint], { color: 'red' }).addTo(mymap));
+    }
+}
+
+getMarkersAndDrawLines();
+
+setInterval(function() {
+    getLatestMarker();
+}, 60000);
 
 // TASKS:
 // select how many datapoints you would like to view up to 500
@@ -254,6 +300,4 @@ function getLatestMarker() {
 // calculate most common weather of the day, and most common weather since beginning of tracking
 // calculate average temp today, and average temp since beginning of time
 // create json file with sample data to be used when database connection fails
-// Style data table view and add json button and return home button
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
-// Create listener to add new points every minute
