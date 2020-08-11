@@ -3,7 +3,7 @@ from flask import Flask, jsonify, render_template, json
 
 try:
     # Works on Heroku
-    from .data import getData
+    from .data import getData, getLatest
     mbk = os.environ['MBK']
     mbk += "x4"
 except Exception as e:
