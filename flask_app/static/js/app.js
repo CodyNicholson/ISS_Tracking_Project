@@ -58,6 +58,10 @@ var viewMarkers = true;
 var lines = [];
 var arrowHeadLines = [];
 var viewLines = true;
+var lastDataPoint = null;
+var avgTemperatureToday = getAverageTemperatureToday();
+var issSpeedsBetweenEachPointSum = 0;
+var avgIssSpeed = 0;
 
 var iconOptions = {
     iconUrl: '../static/img/bluestar.svg',
@@ -71,11 +75,8 @@ var markerOptions = {
     icon: customIcon
 }
 
-var lastDataPoint = null;
-
-function getMarkersAndDrawLines() {
+function getMarkersDrawLinesCalculateAvgSpeed() {
     $.getJSON("/data", function(data) {
-
         var startingPointCircle = L.circleMarker([data[0].iss_lat, data[0].iss_lon], {
             color: "red",
             fillOpacity: 1.0,
@@ -84,22 +85,22 @@ function getMarkersAndDrawLines() {
 
         lines.push(startingPointCircle);
 
+        // Create markers, draw line before crossing lon 180, make new line after crossing lon 180, draw arrow head
+        var currentLine = [];
+        var uniqueLines = [];
+        var previous_point = data[0];
+        const maxDistanceApart = 90;
         data.forEach((row, i, data) => {
             createMarker(row);
 
-            if (Object.is(data.length - 1, i)) {
-                lastDataPoint = row;
+            if (i > 0) {
+                const distanceBetweenLastPoint = distance(previous_point.iss_lat, previous_point.iss_lon, data[i].iss_lat, data[i].iss_lon);
+                const speedTraveledFromLastPoint = (distanceBetweenLastPoint * 60);
+                issSpeedsBetweenEachPointSum += speedTraveledFromLastPoint;
             }
-        });
 
-        // Draw line before crossing lon 180 and then new line after crossing lon 180
-        var currentLine = [];
-        var uniqueLines = [];
-        var previous_lon = data[0].iss_lon;
-        const maxDistanceApart = 90;
-        for (let i = 0; i < data.length; i++) {
             const normalizedCurrentLon = data[i].iss_lon + 180;
-            const normalizedPreviousLon = previous_lon + 180;
+            const normalizedPreviousLon = previous_point.iss_lon + 180;
             const distanceBetweenPoints = Math.abs(normalizedCurrentLon - normalizedPreviousLon);
             if (distanceBetweenPoints < maxDistanceApart) {
                 currentLine.push([data[i].iss_lat, data[i].iss_lon]);
@@ -108,8 +109,13 @@ function getMarkersAndDrawLines() {
                 currentLine = []; // start a new line
                 currentLine.push([data[i].iss_lat, data[i].iss_lon])
             }
-            previous_lon = data[i].iss_lon;
-        }
+            previous_point = data[i];
+
+            if (Object.is(data.length - 1, i)) {
+                lastDataPoint = row;
+            }
+        });
+
         uniqueLines.push(currentLine);
 
         for (let i = 0; i < uniqueLines.length; i++) {
@@ -120,6 +126,7 @@ function getMarkersAndDrawLines() {
         const penultimatePoint = [data[data.length - 2].iss_lat, data[data.length - 2].iss_lon];
 
         drawArrowHead(lastPoint, penultimatePoint);
+        calculateIssMph();
     });
 }
 
@@ -192,13 +199,13 @@ function toggleLines() {
     }
 }
 
-function getLatestMarker() {
+function getLatestMarkerAndUpdateAvgSpee() {
     $.getJSON("/latest", function(latestMarkerData) {
-        if (latestMarkerData[0].num_description != lastDataPoint.num_description) {
+        if (latestMarkerData.num_description != lastDataPoint.num_description) {
 
-            createMarker(latestMarkerData[0]);
+            createMarker(latestMarkerData);
             const previousLastPoint = [lastDataPoint.iss_lat, lastDataPoint.iss_lon];
-            const latestPoint = [latestMarkerData[0].iss_lat, latestMarkerData[0].iss_lon];
+            const latestPoint = [latestMarkerData.iss_lat, latestMarkerData.iss_lon];
             drawArrowHead(latestPoint, previousLastPoint);
 
             const maxDistanceApart = 90;
@@ -220,15 +227,19 @@ function getLatestMarker() {
                 }
             }
 
-            lastDataPoint = latestMarkerData[0];
+            // Use latest data point to readjust average ISS Speed
+            const distanceBetweenLastPoint = distance(lastDataPoint.iss_lat, lastDataPoint.iss_lon, latestMarkerData.iss_lat, latestMarkerData.iss_lon);
+            const speedTraveledFromLastPoint = (distanceBetweenLastPoint * 60);
+            issSpeedsBetweenEachPointSum += speedTraveledFromLastPoint;
+            calculateIssMph();
+
+            lastDataPoint = latestMarkerData;
         }
     });
 }
 
 function drawArrowHead(lastPoint, penultimatePoint) {
     const slope = Math.ceil((penultimatePoint[1] - lastPoint[1]) / (penultimatePoint[0] - lastPoint[0]) * 2) / 2;
-
-    console.log("M: " + slope);
 
     for (var i = 0; i < arrowHeadLines.length; i++) {
         mymap.removeLayer(arrowHeadLines[i]);
@@ -305,17 +316,50 @@ function drawArrowHead(lastPoint, penultimatePoint) {
     }
 }
 
-getMarkersAndDrawLines();
+function distance(lat1, lon1, lat2, lon2) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		// if (unit=="K") { dist = dist * 1.609344 }
+		// if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
+	}
+}
+
+function getAverageTemperatureToday() {
+    $.getJSON("/avg-temp", function(avgTemp) {
+        avgTemperatureToday = avgTemp.average_temp;
+        document.getElementById("avgTemp").innerHTML = `Average Temperature of locations the ISS flies over today: ${avgTemperatureToday} °F`
+    });
+}
+
+function calculateIssMph() {
+    avgIssSpeed = (issSpeedsBetweenEachPointSum / markers.length).toFixed(2);
+    document.getElementById("avgSpeed").innerHTML = `Average Speed of the ISS: ${avgIssSpeed} MPH`
+}
+
+getMarkersDrawLinesCalculateAvgSpeed();
 
 setInterval(function() {
-    getLatestMarker();
+    getLatestMarkerAndUpdateAvgSpee();
+    getAverageTemperatureToday();
 }, 60000);
 
 // TASKS:
 // select how many datapoints you would like to view up to 500
-// calculate and graph speed of ISS
-// calculate most visited, least visited, and not visited countries
-// calculate most common weather of the day, and most common weather since beginning of tracking
-// calculate average temp today, and average temp since beginning of time
+// Graph speed of ISS
+// Graph average temperature per country visited by the ISS in bar graph
 // create json file with sample data to be used when database connection fails
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");

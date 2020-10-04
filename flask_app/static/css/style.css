@@ -3,7 +3,7 @@ html {
 }
 
 .map-header {
-    border: 2px solid rgb(2, 11, 128);
+    border: 3px solid rgb(2, 11, 128);
     padding-top: 7px;
     padding-bottom: 7px;
     margin-top: 7px;
@@ -13,6 +13,7 @@ html {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .title {
@@ -46,6 +47,25 @@ html {
     height: 500px;
     width: 100%;
     border: 3px solid rgb(2, 11, 128);
+}
+
+#single-data-points {
+    width: 100%;
+    border: 3px solid rgb(2, 11, 128);
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.single-data-point {
+    color: chartreuse;
+    width: 100%;
 }
 
 button {
