@@ -4,7 +4,7 @@ from flask import Flask, jsonify, render_template, json
 ##### SETUP #####
 try:
     # Works on Heroku
-    from .data import getData, getLatestDataPoint, getCountOfWeatherDescriptions, getAvgTemperature, getCountsOfCountryNames
+    from .data import getData, getLatestDataPoint, getCountsOfWeatherDescriptions, getAvgTemperature, getCountsOfCountryNames
     mbk = os.environ['MBK']
     mbk += "x4"
 except Exception as e:
