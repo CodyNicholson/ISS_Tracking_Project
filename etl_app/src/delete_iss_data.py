@@ -30,6 +30,7 @@ class ISS_Data_Point(Base):
     country_borders = Column(String(255))
     country_flag_url = Column(String(255))
     country_capital = Column(String(50))
+    iss_mph = Column(String(50))
 
 # Delete From Postgres
 metadata = MetaData()
@@ -49,6 +50,7 @@ for row in rows_to_delete:
 session.commit()
 
 # Logging
+'''
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
 log_count = str(len(files)+1)
 print(f"Log: {log_count}")
@@ -63,3 +65,4 @@ with open(f"/home/pi/ISS_Tracking_Project/etl_app/logs/delete-log{log_count}-{ti
     file.write(f"Delete log number: {log_count}\n")
     file.write("End Log.\n\n")
     file.close()
+'''

@@ -4,6 +4,7 @@ import random
 import datetime
 import glob
 from sqlalchemy import Column, String, MetaData, create_engine, Table, insert
+import geopy.distance
 
 from config import uri, weather_api_key, getDbUriFromHeroku
 from util import processBorderingCountries, processCountryName
@@ -27,7 +28,7 @@ now = datetime.datetime.now()
 timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
 print(f"timestamp is: {timestamp}")
 
-# Get ISS Position Data
+# Get ISS Position Data & Timestamp
 iss_url = "http://api.open-notify.org/iss-now.json"
 iss_data = requests.get(iss_url).json()
 #print(json.dumps(iss_data, indent=4, sort_keys=True))
@@ -91,9 +92,23 @@ iss_data_table = Table('iss_data_table', metadata,
               Column('country_name', String(50), nullable=True),
               Column('country_borders', String(255), nullable=True),
               Column('country_flag_url', String(255), nullable=True),
-              Column('country_capital', String(50), nullable=True)
+              Column('country_capital', String(50), nullable=True),
+              Column('iss_mph', String(50), nullable=True)
            )
 
+# Calculate ISS Speed
+get_query_str = "SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT 1;"
+latestDatapoint = connection.execute(get_query_str).first()
+minutesBetween = (iss_timestamp - int(latestDatapoint[0])) / 60
+#print(minutesBetween)
+
+coords_1 = (latestDatapoint[1], latestDatapoint[2])
+coords_2 = (iss_lat, iss_lon)
+distanceBetween = geopy.distance.geodesic(coords_1, coords_2).miles
+#print(distanceBetween)
+iss_mph = (distanceBetween/minutesBetween) * 60
+#print(iss_mph)
+
 metadata.create_all(engine)
-query = insert(iss_data_table).values(iss_timestamp=iss_timestamp, iss_lat=iss_lat, iss_lon=iss_lon, num_description=num_description, weather_description=weather_description, weather_temp=weather_temp, country_alpha_code=country_alpha_code, country_name=country_name, country_borders=country_borders, country_flag_url=country_flag_url, country_capital=country_capital)
-ResultProxy = connection.execute(query)
+insert_query = insert(iss_data_table).values(iss_timestamp=iss_timestamp, iss_lat=iss_lat, iss_lon=iss_lon, num_description=num_description, weather_description=weather_description, weather_temp=weather_temp, country_alpha_code=country_alpha_code, country_name=country_name, country_borders=country_borders, country_flag_url=country_flag_url, country_capital=country_capital, iss_mph=iss_mph)
+ResultProxy = connection.execute(insert_query)

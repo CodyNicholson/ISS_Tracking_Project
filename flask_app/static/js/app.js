@@ -62,6 +62,7 @@ var lastDataPoint = null;
 var avgTemperatureToday = getAverageTemperatureToday();
 var issSpeedsBetweenEachPointSum = 0;
 var avgIssSpeed = 0;
+var numberOfDataPoints = 100;
 
 var iconOptions = {
     iconUrl: '../static/img/bluestar.svg',
@@ -77,7 +78,10 @@ var markerOptions = {
 
 function getMarkersDrawLinesCalculateAvgSpeed() {
     $.getJSON("/data", function(data) {
-        var startingPointCircle = L.circleMarker([data[0].iss_lat, data[0].iss_lon], {
+        console.log(data);
+        const startingIndex = data.length - numberOfDataPoints;
+
+        var startingPointCircle = L.circleMarker([data[startingIndex].iss_lat, data[startingIndex].iss_lon], {
             color: "red",
             fillOpacity: 1.0,
             radius: 7.0
@@ -88,12 +92,12 @@ function getMarkersDrawLinesCalculateAvgSpeed() {
         // Create markers, draw line before crossing lon 180, make new line after crossing lon 180, draw arrow head
         var currentLine = [];
         var uniqueLines = [];
-        var previous_point = data[0];
+        var previous_point = data[data.length - 1];
         const maxDistanceApart = 90;
-        data.forEach((row, i, data) => {
-            createMarker(row);
+        for (let i = startingIndex; i < data.length; i++) {
+            createMarker(data[i]);
 
-            if (i > 0) {
+            if (i > startingIndex) {
                 const distanceBetweenLastPoint = distance(previous_point.iss_lat, previous_point.iss_lon, data[i].iss_lat, data[i].iss_lon);
                 const speedTraveledFromLastPoint = (distanceBetweenLastPoint * 60);
                 issSpeedsBetweenEachPointSum += speedTraveledFromLastPoint;
@@ -111,10 +115,10 @@ function getMarkersDrawLinesCalculateAvgSpeed() {
             }
             previous_point = data[i];
 
-            if (Object.is(data.length - 1, i)) {
-                lastDataPoint = row;
+            if (i <= startingIndex) {
+                lastDataPoint = data[data.length - 1];
             }
-        });
+        };
 
         uniqueLines.push(currentLine);
 
@@ -199,7 +203,7 @@ function toggleLines() {
     }
 }
 
-function getLatestMarkerAndUpdateAvgSpee() {
+function getLatestMarkerAndUpdateAvgSpeed() {
     $.getJSON("/latest", function(latestMarkerData) {
         if (latestMarkerData.num_description != lastDataPoint.num_description) {
 
@@ -353,7 +357,7 @@ function calculateIssMph() {
 getMarkersDrawLinesCalculateAvgSpeed();
 
 setInterval(function() {
-    getLatestMarkerAndUpdateAvgSpee();
+    getLatestMarkerAndUpdateAvgSpeed();
     getAverageTemperatureToday();
 }, 60000);
 
