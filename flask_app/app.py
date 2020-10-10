@@ -1,10 +1,11 @@
 import os
-from flask import Flask, jsonify, render_template, json
+from flask import Flask, jsonify, render_template, json, request
+from flask_api import status
 
 ##### SETUP #####
 try:
     # Works on Heroku
-    from .data import getData, getLatestDataPoint, getCountsOfWeatherDescriptions, getAvgTemperature, getCountsOfCountryNames
+    from .data import getData, getWeatherDescriptionCounts, getNumWeatherDescriptionCounts, getAvgTemperature, getNumAvgTemperature, getCountryNameCounts, getNumCountryNameCounts, getAvgSpeed, getNumAvgSpeed
     mbk = os.environ['MBK']
     mbk += "x4"
 except Exception as e:
@@ -12,13 +13,13 @@ except Exception as e:
     print(type(e))
     print(e.args)
     print(e)
-    from data import getData, getLatestDataPoint, getCountsOfWeatherDescriptions, getAvgTemperature, getCountsOfCountryNames
+    from data import getData, getWeatherDescriptionCounts, getNumWeatherDescriptionCounts, getAvgTemperature, getNumAvgTemperature, getCountryNameCounts, getNumCountryNameCounts, getAvgSpeed, getNumAvgSpeed
     from config import mbk
     mbk += "x4"
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-dataList = getData()
+dataList = getData(100)
 
 ##### PAGES #####
 @app.route('/')
@@ -31,18 +32,26 @@ def dataTablePageRoute():
 
 ##### ENDPOINTS #####
 @app.route('/data')
-def getDataRoute():
-    dataList = getData()
+def getNumDataRoute():
+    try:
+        numRows = int(request.args.get('numRows'))
+    except:
+        return jsonify("getDataRoute Error: numRows query parameter must be a valid integer")
+    dataList = getData(numRows)
     return jsonify(dataList)
 
-@app.route('/latest')
-def getLatestRoute():
-    latestDataPointDict = getLatestDataPoint()
-    return jsonify(latestDataPointDict)
-
 @app.route('/weather-count')
-def getCountOfWeatherDescriptionsRoute():
-    countsOfWeatherDescriptions = getCountsOfWeatherDescriptions()
+def getWeatherDescriptionCountsRoute():
+    countsOfWeatherDescriptions = getWeatherDescriptionCounts()
+    return jsonify(countsOfWeatherDescriptions)
+
+@app.route('/num-weather-count')
+def getNumWeatherDescriptionCountsRoute():
+    try:
+        numRows = int(request.args.get('numRows'))
+    except:
+        return jsonify("getNumWeatherDescriptionCountsRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
+    countsOfWeatherDescriptions = getNumWeatherDescriptionCounts(numRows)
     return jsonify(countsOfWeatherDescriptions)
 
 @app.route('/avg-temp')
@@ -50,10 +59,42 @@ def getAvgTemperatureRoute():
     getAvgTempDictionary = getAvgTemperature()
     return jsonify(getAvgTempDictionary)
 
+@app.route('/num-avg-temp')
+def getNumAvgTemperatureRoute():
+    try:
+        numRows = int(request.args.get('numRows'))
+    except:
+        return jsonify("getAvgTemperatureRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
+    getAvgTempDictionary = getNumAvgTemperature(numRows)
+    return jsonify(getAvgTempDictionary)
+
 @app.route('/country-count')
-def getCountOfCountryNamesRoute():
-    countsOfCountryNames = getCountsOfCountryNames()
+def getCountryNameCountsRoute():
+    countsOfCountryNames = getCountryNameCounts()
     return jsonify(countsOfCountryNames)
+
+@app.route('/num-country-count')
+def getNumCountOfCountryNamesRoute():
+    try:
+        numRows = int(request.args.get('numRows'))
+    except:
+        return jsonify("getNumCountOfCountryNamesRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
+    countsOfCountryNames = getNumCountryNameCounts(numRows)
+    return jsonify(countsOfCountryNames)
+
+@app.route('/avg-speed')
+def getAverageSpeedRoute():
+    avgSpeed = getAvgSpeed()
+    return jsonify(avgSpeed)
+
+@app.route('/num-avg-speed')
+def getNumAverageSpeedRoute():
+    try:
+        numRows = int(request.args.get('numRows'))
+    except:
+        return jsonify("getNumAverageSpeedRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
+    avgSpeed = getNumAvgSpeed(numRows)
+    return jsonify(avgSpeed)
 
 ##### MAIN #####
 if __name__ == '__main__':

@@ -60,8 +60,7 @@ var arrowHeadLines = [];
 var viewLines = true;
 var lastDataPoint = null;
 var avgTemperatureToday = getAverageTemperatureToday();
-var issSpeedsBetweenEachPointSum = 0;
-var avgIssSpeed = 0;
+var avgIssSpeed = calculateIssMph();
 var numberOfDataPoints = 100;
 
 var iconOptions = {
@@ -77,8 +76,7 @@ var markerOptions = {
 }
 
 function getMarkersDrawLines() {
-    $.getJSON("/data", function(data) {
-        console.log(data);
+    $.getJSON(`/data?numRows=${numberOfDataPoints}`, function(data) {
         const startingIndex = data.length - numberOfDataPoints;
 
         var startingPointCircle = L.circleMarker([data[startingIndex].iss_lat, data[startingIndex].iss_lon], {
@@ -197,9 +195,9 @@ function toggleLines() {
 }
 
 function getLatestMarker() {
-    $.getJSON("/latest", function(latestMarkerData) {
+    $.getJSON("/data?numRows=1", function(latestMarkerData) {
+        latestMarkerData = latestMarkerData[0];
         if (latestMarkerData.num_description != lastDataPoint.num_description) {
-
             createMarker(latestMarkerData);
             const previousLastPoint = [lastDataPoint.iss_lat, lastDataPoint.iss_lon];
             const latestPoint = [latestMarkerData.iss_lat, latestMarkerData.iss_lon];
@@ -316,7 +314,7 @@ function getAverageTemperatureToday() {
 
 function calculateIssMph() {
     $.getJSON("/avg-speed", function(avgSpeed) {
-        avgIssSpeed = avgSpeed.avg_speed;
+        avgIssSpeed = avgSpeed.average_speed;
         document.getElementById("avgSpeed").innerHTML = `Average Speed of the ISS: ${avgIssSpeed} MPH`
     });
 }
@@ -326,6 +324,7 @@ getMarkersDrawLines();
 setInterval(function() {
     getLatestMarker();
     getAverageTemperatureToday();
+    calculateIssMph();
 }, 60000);
 
 // TASKS:

@@ -4,11 +4,15 @@ from sqlalchemy import Column, String, MetaData, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 ################# QUERIES ###################
-getAllDataQuery = 'SELECT * FROM (SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT 100) AS x ORDER BY iss_timestamp ASC;'
-getLatestDataPointQuery = 'SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT 1;'
-getCountOfWeatherDescriptionsQuery = 'SELECT weather_description, COUNT(weather_description) AS weather_description_count FROM public.iss_data_table GROUP BY weather_description ORDER BY weather_description_count DESC;'
-getAvgTemperatureQuery = 'SELECT ROUND(AVG(CAST(weather_temp as decimal)), 2) AS average_temp FROM public.iss_data_table;'
-getCountOfCountryNamesQuery = "SELECT country_name, COUNT(country_name) AS country_count FROM public.iss_data_table WHERE country_name <> '' GROUP BY country_name ORDER BY country_count DESC;"
+getNumDataQuery = "SELECT * FROM (SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) AS x ORDER BY iss_timestamp ASC;"
+getWeatherDescriptionCountsQuery = "SELECT weather_description, COUNT(weather_description) AS weather_description_count FROM public.iss_data_table GROUP BY weather_description ORDER BY weather_description_count DESC;"
+getAvgTemperatureQuery = "SELECT ROUND(AVG(CAST(weather_temp as decimal)), 2) AS average_temp FROM public.iss_data_table;"
+getCountryNameCountsQuery = "SELECT country_name, COUNT(country_name) AS country_count FROM public.iss_data_table WHERE country_name <> '' GROUP BY country_name ORDER BY country_count DESC;"
+getAvgSpeedQuery = "SELECT ROUND(AVG(CAST(iss_mph as decimal)), 2) AS average_speed FROM public.iss_data_table;"
+getNumWeatherDescriptionCountsQuery = "WITH temp_tbl AS (SELECT weather_description FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) SELECT weather_description, COUNT(weather_description) AS weather_description_count FROM temp_tbl GROUP BY weather_description ORDER BY weather_description_count DESC;"
+getNumAvgTemperatureQuery = "WITH temp_tbl AS (SELECT CAST(weather_temp as decimal) FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) SELECT AVG(weather_temp) FROM temp_tbl;"
+getNumCountryNameCountsQuery = "WITH temp_tbl AS (SELECT country_name FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) SELECT country_name, COUNT(country_name) AS country_count FROM temp_tbl WHERE country_name <> '' GROUP BY country_name ORDER BY country_count DESC;"
+getNumAvgSpeedQuery = "WITH temp_tbl AS (SELECT CAST(iss_mph as decimal) FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) SELECT AVG(iss_mph) FROM temp_tbl;"
 #############################################
 
 Base = declarative_base()
@@ -25,6 +29,7 @@ class ISS_Data_Point(Base):
     country_borders = Column(String(255))
     country_flag_url = Column(String(255))
     country_capital = Column(String(50))
+    iss_mph = Column(String(50))
 
 try:
     engine = create_engine(os.environ['DATABASE_URL'])
@@ -47,8 +52,8 @@ metadata = MetaData()
 Base.metadata.create_all(connection)
 session = Session(bind=engine)
 
-def getData():
-    resultProxy = connection.execute(getAllDataQuery)
+def getData(numRows):
+    resultProxy = connection.execute(getNumDataQuery.format(numRows=numRows))
     rowDict, dataList = {}, []
     for rowProxy in resultProxy:
         for column, value in rowProxy.items():
@@ -56,16 +61,17 @@ def getData():
         dataList.append(rowDict)
     return dataList
 
-def getLatestDataPoint():
-    resultProxy = connection.execute(getLatestDataPointQuery)
-    rowDict = {}
+def getWeatherDescriptionCounts():
+    resultProxy = connection.execute(getWeatherDescriptionCountsQuery)
+    rowDict, dataList = {}, []
     for rowProxy in resultProxy:
         for column, value in rowProxy.items():
             rowDict = {**rowDict, **{column: value}}
-    return rowDict
+        dataList.append(rowDict)
+    return dataList
 
-def getCountsOfWeatherDescriptions():
-    resultProxy = connection.execute(getCountOfWeatherDescriptionsQuery)
+def getNumWeatherDescriptionCounts(numRows):
+    resultProxy = connection.execute(getNumWeatherDescriptionCountsQuery.format(numRows=numRows))
     rowDict, dataList = {}, []
     for rowProxy in resultProxy:
         for column, value in rowProxy.items():
@@ -81,11 +87,44 @@ def getAvgTemperature():
             rowDict = {**rowDict, **{column: str(value)}}
     return rowDict
 
-def getCountsOfCountryNames():
-    resultProxy = connection.execute(getCountOfCountryNamesQuery)
+def getNumAvgTemperature(numRows):
+    resultProxy = connection.execute(getNumAvgTemperatureQuery.format(numRows=numRows))
+    rowDict = {}
+    for rowProxy in resultProxy:
+        for column, value in rowProxy.items():
+            rowDict = {**rowDict, **{column: str(value)}}
+    return rowDict
+
+def getCountryNameCounts():
+    resultProxy = connection.execute(getCountryNameCountsQuery)
     rowDict, dataList = {}, []
     for rowProxy in resultProxy:
         for column, value in rowProxy.items():
             rowDict = {**rowDict, **{column: value}}
         dataList.append(rowDict)
     return dataList
+
+def getNumCountryNameCounts(numRows):
+    resultProxy = connection.execute(getNumCountryNameCountsQuery.format(numRows=numRows))
+    rowDict, dataList = {}, []
+    for rowProxy in resultProxy:
+        for column, value in rowProxy.items():
+            rowDict = {**rowDict, **{column: value}}
+        dataList.append(rowDict)
+    return dataList
+
+def getAvgSpeed():
+    resultProxy = connection.execute(getAvgSpeedQuery)
+    rowDict = {}
+    for rowProxy in resultProxy:
+        for column, value in rowProxy.items():
+            rowDict = {**rowDict, **{column: str(value)}}
+    return rowDict
+
+def getNumAvgSpeed(numRows):
+    resultProxy = connection.execute(getNumAvgSpeedQuery.format(numRows=numRows))
+    rowDict = {}
+    for rowProxy in resultProxy:
+        for column, value in rowProxy.items():
+            rowDict = {**rowDict, **{column: str(value)}}
+    return rowDict

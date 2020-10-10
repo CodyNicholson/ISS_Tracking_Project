@@ -21,12 +21,14 @@ except Exception as e:
     print("***Connected To Heroku Using Stored URI***")
 
 # Logging
+'''
 files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
 log_count = str(len(files)+1)
 print(f"Log: {log_count}")
 now = datetime.datetime.now()
 timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
 print(f"timestamp is: {timestamp}")
+'''
 
 # Get ISS Position Data & Timestamp
 iss_url = "http://api.open-notify.org/iss-now.json"
