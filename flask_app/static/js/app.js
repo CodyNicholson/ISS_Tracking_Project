@@ -1,17 +1,27 @@
-const initialLat = 0.0;
-const initialLon = 0.0;
-const maxZoom = 9;
-const minZoom = 2;
-const initialZoom = 2;
-
+// **** SETUP MAP & MARKERS ****
 var mymap = L.map('mapid', {
     'worldCopyJump': true,
-    'maxZoom': maxZoom,
-    'minZoom': minZoom,
-    'zoom': initialZoom,
-    'center': [initialLat, initialLon]
+    'maxZoom': 9,
+    'minZoom': 2,
+    'zoom': 2,
+    'center': [0.0, 0.0]
 });
 
+var iconOptions = {
+    iconUrl: '../static/img/bluestar.svg',
+    iconSize: [25, 25]
+}
+
+var customIcon = L.icon(iconOptions);
+var markerOptions = {
+    title: "ISS Location",
+    clickable: true,
+    draggable: false,
+    icon: customIcon
+}
+// **** END SETUP MAP & MARKERS ****
+
+// ************ MAP STYLING *****************
 var style_choice_int = 0;
 var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mbk.substring(0, mbk.length - 2)}`, {
     tileSize: 512,
@@ -39,9 +49,10 @@ function toggleStyle() {
     }
     setStyle();
 }
+// ************ END MAP STYLING ****************
 
+// ************ CREATE POPUP & POPUP UTILS *********
 var popup = L.popup();
-
 function onMapClick(e) {
     popup.setLatLng(e.latlng)
         .setContent(`<div class="popup" onclick="closeAllPopups()">You clicked the map at:<br>${e.latlng.toString()}</div>`)
@@ -52,32 +63,24 @@ mymap.on('click', onMapClick);
 function closeAllPopups() {
     mymap.closePopup();
 }
+// ************ END CREATE POPUP & POPUP UTILS *********
 
-var markers = [];
+// ***** GLOBAL VARIABLES *****
 var viewMarkers = true;
+var viewLines = true;
+var markers = [];
 var lines = [];
 var arrowHeadLines = [];
-var viewLines = true;
+var initialNumberOfDataPoints = 100;
 var lastDataPoint = null;
-var avgTemperatureToday = getAverageTemperatureToday();
-var avgIssSpeed = calculateIssMph();
-var numberOfDataPoints = 100;
+var avgTemperatureToday;
+var avgIssSpeed;
+// *** END GLOBAL VARIABLES ***
 
-var iconOptions = {
-    iconUrl: '../static/img/bluestar.svg',
-    iconSize: [25, 25]
-}
-var customIcon = L.icon(iconOptions);
-var markerOptions = {
-    title: "ISS Location",
-    clickable: true,
-    draggable: false,
-    icon: customIcon
-}
-
+// ***** MAP FUNCTIONS *****
 function getMarkersDrawLines() {
-    $.getJSON(`/data?numRows=${numberOfDataPoints}`, function(data) {
-        const startingIndex = data.length - numberOfDataPoints;
+    $.getJSON(`/data?numRows=${initialNumberOfDataPoints}`, function(data) {
+        const startingIndex = data.length - initialNumberOfDataPoints;
 
         var startingPointCircle = L.circleMarker([data[startingIndex].iss_lat, data[startingIndex].iss_lon], {
             color: "red",
@@ -199,6 +202,7 @@ function getLatestMarker() {
         latestMarkerData = latestMarkerData[0];
         if (latestMarkerData.num_description != lastDataPoint.num_description) {
             createMarker(latestMarkerData);
+
             const previousLastPoint = [lastDataPoint.iss_lat, lastDataPoint.iss_lon];
             const latestPoint = [latestMarkerData.iss_lat, latestMarkerData.iss_lon];
             drawArrowHead(latestPoint, previousLastPoint);
@@ -304,28 +308,76 @@ function drawArrowHead(lastPoint, penultimatePoint) {
         }
     }
 }
+// ***** END MAP FUNCTIONS ******
 
-function getAverageTemperatureToday() {
+// ***** GET DATA FUNCTIONS *****
+function getAverageTemperature() {
     $.getJSON("/avg-temp", function(avgTemp) {
         avgTemperatureToday = avgTemp.average_temp;
         document.getElementById("avgTemp").innerHTML = `Average Temperature of locations the ISS flies over today: ${avgTemperatureToday} °F`
     });
 }
 
-function calculateIssMph() {
+function getAverageIssMph() {
     $.getJSON("/avg-speed", function(avgSpeed) {
         avgIssSpeed = avgSpeed.average_speed;
         document.getElementById("avgSpeed").innerHTML = `Average Speed of the ISS: ${avgIssSpeed} MPH`
     });
 }
 
-getMarkersDrawLines();
+function getUniqueCountryNameCounts() {
+    $.getJSON("/country-count", function(uniqueCountryNameCounts) {
+        console.log(uniqueCountryNameCounts);
+    });
+}
 
+function getUniqueWeatherCounts() {
+    $.getJSON("/weather-count", function(uniqueWeatherCounts) {
+        console.log(uniqueWeatherCounts);
+    });
+}
+
+function getNumAverageTemperature(numRows) {
+    $.getJSON(`/num-avg-temp?numRows=${numRows}`, function(avgTemp) {
+        console.log(avgTemp);
+    });
+}
+
+function getNumAverageIssMph(numRows) {
+    $.getJSON(`/num-avg-speed?numRows=${numRows}`, function(avgSpeed) {
+        console.log(avgSpeed);
+    });
+}
+
+function getNumUniqueCountryNameCounts(numRows) {
+    $.getJSON(`/num-country-count?numRows=${numRows}`, function(uniqueCountryNameCounts) {
+        console.log(uniqueCountryNameCounts);
+    });
+}
+
+function getNumUniqueWeatherCounts(numRows) {
+    $.getJSON(`/num-weather-count?numRows=${numRows}`, function(uniqueWeatherCounts) {
+        console.log(uniqueWeatherCounts);
+    });
+}
+// *** END GET DATA FUNCTIONS ***
+
+// *** SETUP INITIAL STATE & INTERVAL TO UPDATE ***
+getMarkersDrawLines();
+getUniqueWeatherCounts();
+getUniqueCountryNameCounts();
+getNumUniqueWeatherCounts(2);
+getNumUniqueCountryNameCounts(2);
+getNumAverageIssMph(2);
+getNumAverageTemperature(2);
+avgTemperatureToday = getAverageTemperature();
+avgIssSpeed = getAverageIssMph();
 setInterval(function() {
     getLatestMarker();
-    getAverageTemperatureToday();
-    calculateIssMph();
+    getAverageTemperature();
+    getAverageIssMph();
 }, 60000);
+// *** END SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 
 // TASKS:
 // select how many datapoints you would like to view up to 500

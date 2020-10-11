@@ -38,12 +38,12 @@ def getNumDataRoute():
     except:
         return jsonify("getDataRoute Error: numRows query parameter must be a valid integer")
     dataList = getData(numRows)
-    return jsonify(dataList)
+    return jsonify(dataList), status.HTTP_200_OK
 
 @app.route('/weather-count')
 def getWeatherDescriptionCountsRoute():
     countsOfWeatherDescriptions = getWeatherDescriptionCounts()
-    return jsonify(countsOfWeatherDescriptions)
+    return jsonify(countsOfWeatherDescriptions), status.HTTP_200_OK
 
 @app.route('/num-weather-count')
 def getNumWeatherDescriptionCountsRoute():
@@ -52,12 +52,12 @@ def getNumWeatherDescriptionCountsRoute():
     except:
         return jsonify("getNumWeatherDescriptionCountsRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
     countsOfWeatherDescriptions = getNumWeatherDescriptionCounts(numRows)
-    return jsonify(countsOfWeatherDescriptions)
+    return jsonify(countsOfWeatherDescriptions), status.HTTP_200_OK
 
 @app.route('/avg-temp')
 def getAvgTemperatureRoute():
     getAvgTempDictionary = getAvgTemperature()
-    return jsonify(getAvgTempDictionary)
+    return jsonify(getAvgTempDictionary), status.HTTP_200_OK
 
 @app.route('/num-avg-temp')
 def getNumAvgTemperatureRoute():
@@ -66,12 +66,12 @@ def getNumAvgTemperatureRoute():
     except:
         return jsonify("getAvgTemperatureRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
     getAvgTempDictionary = getNumAvgTemperature(numRows)
-    return jsonify(getAvgTempDictionary)
+    return jsonify(getAvgTempDictionary), status.HTTP_200_OK
 
 @app.route('/country-count')
 def getCountryNameCountsRoute():
     countsOfCountryNames = getCountryNameCounts()
-    return jsonify(countsOfCountryNames)
+    return jsonify(countsOfCountryNames), status.HTTP_200_OK
 
 @app.route('/num-country-count')
 def getNumCountOfCountryNamesRoute():
@@ -80,12 +80,12 @@ def getNumCountOfCountryNamesRoute():
     except:
         return jsonify("getNumCountOfCountryNamesRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
     countsOfCountryNames = getNumCountryNameCounts(numRows)
-    return jsonify(countsOfCountryNames)
+    return jsonify(countsOfCountryNames), status.HTTP_200_OK
 
 @app.route('/avg-speed')
 def getAverageSpeedRoute():
     avgSpeed = getAvgSpeed()
-    return jsonify(avgSpeed)
+    return jsonify(avgSpeed), status.HTTP_200_OK
 
 @app.route('/num-avg-speed')
 def getNumAverageSpeedRoute():
@@ -94,7 +94,7 @@ def getNumAverageSpeedRoute():
     except:
         return jsonify("getNumAverageSpeedRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
     avgSpeed = getNumAvgSpeed(numRows)
-    return jsonify(avgSpeed)
+    return jsonify(avgSpeed), status.HTTP_200_OK
 
 ##### MAIN #####
 if __name__ == '__main__':
