@@ -2,6 +2,14 @@ html {
     background-color: black;
 }
 
+.bar {
+    fill: blue;
+  }
+  
+  .bar:hover {
+    fill: red;
+  }
+
 .header {
     border: 3px solid rgb(2, 11, 128);
     padding-top: 7px;
