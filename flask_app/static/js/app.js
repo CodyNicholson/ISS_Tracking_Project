@@ -75,6 +75,7 @@ var initialNumberOfDataPoints = 100;
 var lastDataPoint = null;
 var avgTemperatureToday;
 var avgIssSpeed;
+var uniqueWeatherCountsToday;
 // *** END GLOBAL VARIABLES ***
 
 // ***** MAP FUNCTIONS *****
@@ -328,13 +329,70 @@ function getAverageIssMph() {
 function getUniqueCountryNameCounts() {
     $.getJSON("/country-count", function(uniqueCountryNameCounts) {
         console.log(uniqueCountryNameCounts);
+
         return uniqueCountryNameCounts;
     });
 }
 
 function getUniqueWeatherCounts() {
     $.getJSON("/weather-count", function(uniqueWeatherCounts) {
+        console.log("uniqueWeatherCounts");
         console.log(uniqueWeatherCounts);
+
+        var svg = d3.select("svg#weather-counts"),
+        margin = 200,
+        width = svg.attr("width") - margin,
+        height = svg.attr("height") - margin
+
+        svg.append("text")
+            .attr("transform", "translate(100,0)")
+            .attr("x", 50)
+            .attr("y", 50)
+            .attr("font-size", "24px")
+            .text("Weather Counts");
+
+        var xScale = d3.scaleBand().range([0, width]).padding(0.4);
+        var yScale = d3.scaleLinear().range([height, 0]);
+
+        var g = svg.append("g")
+                .attr("transform", "translate(" + 100 + "," + 100 + ")");
+
+        xScale.domain(uniqueWeatherCounts.map(function(d) { return d.weather_description; }));
+        yScale.domain([0, d3.max(uniqueWeatherCounts, function(d) { return d.weather_description_count; })]);
+
+        g.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(xScale))
+            .append("text")
+            .attr("y", height - 250)
+            .attr("x", width - 100)
+            .attr("text-anchor", "end")
+            .attr("stroke", "black")
+            .text("Weather");
+
+        g.append("g")
+            .call(d3.axisLeft(yScale).tickFormat(function(d){
+                return d;
+            })
+            .ticks(10))
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 6)
+            .attr("dy", "-5.1em")
+            .attr("text-anchor", "end")
+            .attr("stroke", "black")
+            .text("Count");
+
+        g.selectAll(".bar")
+            .data(uniqueWeatherCounts)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", function(d) { return xScale(d.weather_description); })
+            .attr("y", function(d) { return yScale(d.weather_description_count); })
+            .attr("width", xScale.bandwidth())
+            .attr("height", function(d) { return height - yScale(d.weather_description_count); });
+
+        return uniqueWeatherCounts;
     });
 }
 
@@ -365,7 +423,7 @@ function getNumUniqueWeatherCounts(numRows) {
 
 // *** SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 getMarkersDrawLines();
-getUniqueWeatherCounts();
+uniqueWeatherCountsToday = getUniqueWeatherCounts();
 getUniqueCountryNameCounts();
 getNumUniqueWeatherCounts(2);
 getNumUniqueCountryNameCounts(2);
@@ -386,41 +444,3 @@ setInterval(function() {
 // Graph average temperature per country visited by the ISS in bar graph
 // create json file with sample data to be used when database connection fails
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
-
-
-
-// Dataset we will be using to set the height of our rectangles.
-var booksReadThisYear = [17, 23, 20, 34];
-
-// Setting the dimensions for the SVG container
-var svgHeight = 600;
-var svgWidth = 400;
-
-var svg = d3
-  .select("#svg-area")
-  .append("svg")
-  .attr("height", svgHeight)
-  .attr("width", svgWidth);
-
-// svgGroup now refers to the `g` (group) element appended.
-// The SVG group would normally be aligned to the top left edge of the chart.
-// Now it is offset to the right and down using the transform attribute
-var svgGroup = svg.append("g")
-  .attr("transform", "translate(50, 100)");
-
-// Selects all rectangles currently on the page - which is none - and binds our dataset to them. If there are no rectangles, it will append one for each piece of data.
-svgGroup.selectAll("rect")
-  .data(getUniqueCountryNameCounts().map(c => {return c.country_count}))
-  .enter()
-  .append("rect")
-  .attr("width", 10)
-  .attr("height", function(data) {
-    return data;
-  })
-  .attr("x", function(data, index) {
-    return index * 30;
-  })
-  .attr("y", function(data) {
-    return 600 - data * 10;
-  })
-  .attr("class", "bar");
