@@ -1,14 +1,14 @@
 html {
-    /* background-color: black; */
+    background-color: black;
 }
 
 .bar {
-    fill: blue;
-  }
+    fill: rgb(2, 11, 128);
+}
   
-  .bar:hover {
+.bar:hover {
     fill: red;
-  }
+}
 
 .header {
     border: 3px solid rgb(2, 11, 128);
@@ -32,6 +32,14 @@ html {
     margin-bottom: 2px;
 }
 
+.subtitle {
+    color: chartreuse;
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
 .header-img {
     width: 30px;
     height: 30px;
@@ -49,6 +57,10 @@ html {
     background-color: white;
     color: black;
     border: 2px solid rgb(2, 11, 128);
+}
+
+#weather-counts {
+    border: 3px solid rgb(2, 11, 128);
 }
 
 #mapid {

@@ -71,7 +71,6 @@ var viewLines = true;
 var markers = [];
 var lines = [];
 var arrowHeadLines = [];
-var initialNumberOfDataPoints = 100;
 var lastDataPoint = null;
 var avgTemperatureToday;
 var avgIssSpeed;
@@ -79,9 +78,9 @@ var uniqueWeatherCountsToday;
 // *** END GLOBAL VARIABLES ***
 
 // ***** MAP FUNCTIONS *****
-function getMarkersDrawLines() {
-    $.getJSON(`/data?numRows=${initialNumberOfDataPoints}`, function(data) {
-        const startingIndex = data.length - initialNumberOfDataPoints;
+function getMarkersDrawLines(numDataPoints) {
+    $.getJSON(`/data?numRows=${numDataPoints}`, function(data) {
+        const startingIndex = data.length - numDataPoints;
 
         var startingPointCircle = L.circleMarker([data[startingIndex].iss_lat, data[startingIndex].iss_lon], {
             color: "red",
@@ -339,59 +338,78 @@ function getUniqueWeatherCounts() {
         console.log("uniqueWeatherCounts");
         console.log(uniqueWeatherCounts);
 
-        var svg = d3.select("svg#weather-counts"),
-        margin = 200,
-        width = svg.attr("width") - margin,
-        height = svg.attr("height") - margin
+        //set up svg using margin conventions - we'll need plenty of room on the left for labels
+        var margin = {
+            top: 15,
+            right: 50,
+            bottom: 15,
+            left: 160
+        };
 
-        svg.append("text")
-            .attr("transform", "translate(100,0)")
-            .attr("x", 50)
-            .attr("y", 50)
-            .attr("font-size", "24px")
-            .text("Weather Counts");
+        var width = 960 - margin.left - margin.right,
+            height = 500 - margin.top - margin.bottom;
 
-        var xScale = d3.scaleBand().range([0, width]).padding(0.4);
-        var yScale = d3.scaleLinear().range([height, 0]);
+        var svg = d3.select("#weather-counts").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .style('fill', 'chartreuse')
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var g = svg.append("g")
-                .attr("transform", "translate(" + 100 + "," + 100 + ")");
+        var x = d3.scale.linear()
+            .range([0, width])
+            .domain([0, d3.max(uniqueWeatherCounts, function (d) {
+                console.log(d.weather_description_count);
+                return d.weather_description_count;
+            })]);
 
-        xScale.domain(uniqueWeatherCounts.map(function(d) { return d.weather_description; }));
-        yScale.domain([0, d3.max(uniqueWeatherCounts, function(d) { return d.weather_description_count; })]);
+        var y = d3.scale.ordinal()
+            .rangeRoundBands([height, 0], .1)
+            .domain(uniqueWeatherCounts.map(function (d) {
+                return d.weather_description;
+            }));
 
-        g.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale))
-            .append("text")
-            .attr("y", height - 250)
-            .attr("x", width - 100)
-            .attr("text-anchor", "end")
-            .attr("stroke", "black")
-            .text("Weather");
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .tickSize(0) //no tick marks
+            .orient("left");
 
-        g.append("g")
-            .call(d3.axisLeft(yScale).tickFormat(function(d){
-                return d;
-            })
-            .ticks(10))
-            .append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 6)
-            .attr("dy", "-5.1em")
-            .attr("text-anchor", "end")
-            .attr("stroke", "black")
-            .text("Count");
+        // Appends y-axis names
+        var gy = svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
 
-        g.selectAll(".bar")
+        var bars = svg.selectAll(".bar")
             .data(uniqueWeatherCounts)
-            .enter().append("rect")
-            .attr("class", "bar")
-            .attr("x", function(d) { return xScale(d.weather_description); })
-            .attr("y", function(d) { return yScale(d.weather_description_count); })
-            .attr("width", xScale.bandwidth())
-            .attr("height", function(d) { return height - yScale(d.weather_description_count); });
+            .enter()
+            .append("g")
 
+        //append rects
+        bars.append("rect")
+            .attr("class", "bar")
+            .attr("y", function (d) {
+                return y(d.weather_description);
+            })
+            .attr("height", y.rangeBand())
+            .attr("x", 0)
+            .attr("width", function (d) {
+                return x(d.weather_description_count);
+            });
+
+        //add a value label to the right of each bar
+        bars.append("text")
+            .attr("class", "label")
+            //y position of the label is halfway down the bar
+            .attr("y", function (d) {
+                return y(d.weather_description) + y.rangeBand() / 2 + 4;
+            })
+            //x position is 3 pixels to the right of the bar
+            .attr("x", function (d) {
+                return x(d.weather_description_count) + 3;
+            })
+            .text(function (d) {
+                return d.weather_description_count;
+            });
         return uniqueWeatherCounts;
     });
 }
@@ -422,7 +440,7 @@ function getNumUniqueWeatherCounts(numRows) {
 // *** END GET DATA FUNCTIONS ***
 
 // *** SETUP INITIAL STATE & INTERVAL TO UPDATE ***
-getMarkersDrawLines();
+getMarkersDrawLines(100);
 uniqueWeatherCountsToday = getUniqueWeatherCounts();
 getUniqueCountryNameCounts();
 getNumUniqueWeatherCounts(2);
@@ -440,7 +458,7 @@ setInterval(function() {
 
 // TASKS:
 // select how many datapoints you would like to view up to 500
-// Graph speed of ISS
 // Graph average temperature per country visited by the ISS in bar graph
 // create json file with sample data to be used when database connection fails
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
+// upgrade to latest d3 version
