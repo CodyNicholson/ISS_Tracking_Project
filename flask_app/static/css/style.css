@@ -81,13 +81,29 @@ html {
     border: 3px solid rgb(2, 11, 128);
 }
 
-#single-data-points {
-    width: 100%;
+.border-blue {
     border: 3px solid rgb(2, 11, 128);
+}
+
+.single-data-title {
+    color: red;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 1.5em;
+}
+
+.single-data-msg {
+    margin-bottom: 3px;
+}
+
+#single-data-points {
+    width: 60%;
     padding-top: 7px;
     padding-bottom: 7px;
     margin-top: 7px;
     margin-bottom: 7px;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
     display: flex;
     flex-direction: row;
@@ -139,6 +155,14 @@ button {
 @media screen and (min-width: 675px) and (max-width: 900px) {
     .header-button {
         width: 20%;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #single-data-points {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
     }
 }
 

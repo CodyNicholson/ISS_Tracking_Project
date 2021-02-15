@@ -28,16 +28,18 @@
             <h1 class="title">Today's Records</h1>
             <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />
         </div>
-        <div id="single-data-points">
-            <!-- <h2 class="title">Today's Stats</h2> -->
-            <div class="single-data-point">
-                <p id="avgSpeed" />
-            </div>
-            <div class="single-data-point">
-                <p id="avgTemp" />
+        <div class="border-blue">
+            <div id="single-data-points">
+                <div class="single-data-point">
+                    <p class="single-data-msg">Average Speed of ISS</p>
+                    <h3 id="avgSpeed" class="single-data-title" />
+                </div>
+                <div class="single-data-point">
+                    <p class="single-data-msg">Average Temperature of flyover locations</p>
+                    <h3 id="avgTemp" class="single-data-title" />
+                </div>
             </div>
         </div>
-        <!-- <svg id="weather-counts" width="600" height="500"></svg> -->
         <div id="weather-counts">
             <h2 class="subtitle">Most Common Weather</h2>
         </div>

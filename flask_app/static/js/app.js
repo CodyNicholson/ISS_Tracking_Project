@@ -314,14 +314,14 @@ function drawArrowHead(lastPoint, penultimatePoint) {
 function getAverageTemperature() {
     $.getJSON("/avg-temp", function(avgTemp) {
         avgTemperatureToday = avgTemp.average_temp;
-        document.getElementById("avgTemp").innerHTML = `Average Temperature of locations the ISS flies over today: ${avgTemperatureToday} °F`
+        document.getElementById("avgTemp").innerHTML = `${avgTemperatureToday} °F`
     });
 }
 
 function getAverageIssMph() {
     $.getJSON("/avg-speed", function(avgSpeed) {
         avgIssSpeed = avgSpeed.average_speed;
-        document.getElementById("avgSpeed").innerHTML = `Average Speed of the ISS: ${avgIssSpeed} MPH`
+        document.getElementById("avgSpeed").innerHTML = `${avgIssSpeed} MPH`
     });
 }
 
@@ -331,14 +331,14 @@ function getUniqueCountryNameCounts() {
         console.log(uniqueCountryNameCounts);
 
         var margin = {
-            top: 15,
+            top: 0,
             right: 50,
-            bottom: 15,
+            bottom: 0,
             left: 250
         };
 
         var width = 960 - margin.left - margin.right,
-            height = 3000 - margin.top - margin.bottom;
+            height = 2600 - margin.top - margin.bottom;
 
         // var tbl = d3.select("#weather-counts").append("table")
         //     .append("tbody")
