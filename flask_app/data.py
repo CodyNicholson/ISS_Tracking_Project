@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 getNumDataQuery = "SELECT * FROM (SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) AS x ORDER BY iss_timestamp ASC;"
 getWeatherDescriptionCountsQuery = "SELECT weather_description, COUNT(weather_description) AS weather_description_count FROM public.iss_data_table GROUP BY weather_description ORDER BY weather_description_count ASC;"
 getAvgTemperatureQuery = "SELECT ROUND(AVG(CAST(weather_temp as decimal)), 4) AS average_temp FROM public.iss_data_table;"
-getCountryNameCountsQuery = "SELECT country_name, COUNT(country_name) AS country_count FROM public.iss_data_table WHERE country_name <> '' GROUP BY country_name ORDER BY country_count DESC;"
+getCountryNameCountsQuery = "SELECT country_name, COUNT(country_name) AS country_count FROM public.iss_data_table WHERE country_name <> '' GROUP BY country_name ORDER BY country_count ASC;"
 getAvgSpeedQuery = "SELECT ROUND(AVG(CAST(iss_mph as decimal)), 2) AS average_speed FROM public.iss_data_table;"
 getNumWeatherDescriptionCountsQuery = "WITH temp_tbl AS (SELECT weather_description FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) SELECT weather_description, COUNT(weather_description) AS weather_description_count FROM temp_tbl GROUP BY weather_description ORDER BY weather_description_count DESC;"
 getNumAvgTemperatureQuery = "WITH temp_tbl AS (SELECT CAST(weather_temp as decimal) FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT {numRows}) SELECT AVG(weather_temp) FROM temp_tbl;"

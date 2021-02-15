@@ -60,6 +60,18 @@ html {
 }
 
 #weather-counts {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    border: 3px solid rgb(2, 11, 128);
+}
+
+#country-counts {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
     border: 3px solid rgb(2, 11, 128);
 }
 

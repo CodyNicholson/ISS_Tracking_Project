@@ -327,8 +327,87 @@ function getAverageIssMph() {
 
 function getUniqueCountryNameCounts() {
     $.getJSON("/country-count", function(uniqueCountryNameCounts) {
+        console.log("uniqueCountryNameCounts");
         console.log(uniqueCountryNameCounts);
 
+        var margin = {
+            top: 15,
+            right: 50,
+            bottom: 15,
+            left: 250
+        };
+
+        var width = 960 - margin.left - margin.right,
+            height = 3000 - margin.top - margin.bottom;
+
+        // var tbl = d3.select("#weather-counts").append("table")
+        //     .append("tbody")
+        //     .append("");
+
+        var svg = d3.select("#country-counts").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .style('fill', 'chartreuse')
+            .style('margin-right', 'auto')
+            .style('margin-left', 'auto')
+            .style('display', 'block')
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var x = d3.scale.linear()
+            .range([0, width])
+            .domain([0, d3.max(uniqueCountryNameCounts, function (d) {
+                console.log(d.country_count);
+                return d.country_count;
+            })]);
+
+        var y = d3.scale.ordinal()
+            .rangeRoundBands([height, 0], .1)
+            .domain(uniqueCountryNameCounts.map(function (d) {
+                return d.country_name;
+            }));
+
+        var yAxis = d3.svg.axis()
+            .scale(y)
+            .tickSize(0) //no tick marks
+            .orient("left");
+
+        // Appends y-axis names
+        var gy = svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis)
+
+        var bars = svg.selectAll(".bar")
+            .data(uniqueCountryNameCounts)
+            .enter()
+            .append("g")
+
+        bars.append("rect")
+            .attr("class", "bar")
+            .attr("y", function (d) {
+                return y(d.country_name);
+            })
+            .attr("height", y.rangeBand())
+            .attr("x", 0)
+            .attr("width", function (d) {
+                return x(d.country_count);
+            });
+
+        //add a value label to the right of each bar
+        bars.append("text")
+            .attr("class", "label")
+            //y position of the label is halfway down the bar
+            .attr("y", function (d) {
+                return y(d.country_name) + y.rangeBand() / 2 + 4;
+            })
+            //x position is 3 pixels to the right of the bar
+            .attr("x", function (d) {
+                return x(d.country_count) + 3;
+            })
+            .text(function (d) {
+                return d.country_count;
+            });
+        
         return uniqueCountryNameCounts;
     });
 }
@@ -338,21 +417,27 @@ function getUniqueWeatherCounts() {
         console.log("uniqueWeatherCounts");
         console.log(uniqueWeatherCounts);
 
-        //set up svg using margin conventions - we'll need plenty of room on the left for labels
         var margin = {
             top: 15,
             right: 50,
             bottom: 15,
-            left: 160
+            left: 250
         };
 
         var width = 960 - margin.left - margin.right,
-            height = 500 - margin.top - margin.bottom;
+            height = 400 - margin.top - margin.bottom;
+
+        // var tbl = d3.select("#weather-counts").append("table")
+        //     .append("tbody")
+        //     .append("");
 
         var svg = d3.select("#weather-counts").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .style('fill', 'chartreuse')
+            .style('margin-right', 'auto')
+            .style('margin-left', 'auto')
+            .style('display', 'block')
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -384,7 +469,6 @@ function getUniqueWeatherCounts() {
             .enter()
             .append("g")
 
-        //append rects
         bars.append("rect")
             .attr("class", "bar")
             .attr("y", function (d) {
@@ -410,6 +494,7 @@ function getUniqueWeatherCounts() {
             .text(function (d) {
                 return d.weather_description_count;
             });
+        
         return uniqueWeatherCounts;
     });
 }
@@ -443,12 +528,9 @@ function getNumUniqueWeatherCounts(numRows) {
 getMarkersDrawLines(100);
 uniqueWeatherCountsToday = getUniqueWeatherCounts();
 getUniqueCountryNameCounts();
-getNumUniqueWeatherCounts(2);
-getNumUniqueCountryNameCounts(2);
-getNumAverageIssMph(2);
-getNumAverageTemperature(2);
 avgTemperatureToday = getAverageTemperature();
 avgIssSpeed = getAverageIssMph();
+
 setInterval(function() {
     getLatestMarker();
     getAverageTemperature();
