@@ -65,6 +65,7 @@ html {
     margin-top: 7px;
     margin-bottom: 7px;
     border: 3px solid rgb(2, 11, 128);
+    width: 100%;
 }
 
 #country-counts {
@@ -73,6 +74,7 @@ html {
     margin-top: 7px;
     margin-bottom: 7px;
     border: 3px solid rgb(2, 11, 128);
+    width: 100%;
 }
 
 #mapid {
@@ -83,6 +85,7 @@ html {
 
 .border-blue {
     border: 3px solid rgb(2, 11, 128);
+    width: 100%;
 }
 
 .single-data-title {

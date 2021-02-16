@@ -549,8 +549,7 @@ setInterval(function() {
 // *** END SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 
 // TASKS:
-// select how many datapoints you would like to view up to 500
+// select how many datapoints you would like between 1 and 500
 // create json file with sample data to be used when database connection fails
-// response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 // upgrade to latest d3 version
-// recalculate weather and country counts every minute
+// Android polylines bug
