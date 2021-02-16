@@ -321,15 +321,12 @@ function getAverageTemperature() {
 function getAverageIssMph() {
     $.getJSON("/avg-speed", function(avgSpeed) {
         avgIssSpeed = avgSpeed.average_speed;
-        document.getElementById("avgSpeed").innerHTML = `${avgIssSpeed} MPH`
+        document.getElementById("avgSpeed").innerHTML = `${avgIssSpeed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} MPH`
     });
 }
 
 function getUniqueCountryNameCounts() {
     $.getJSON("/country-count", function(uniqueCountryNameCounts) {
-        console.log("uniqueCountryNameCounts");
-        console.log(uniqueCountryNameCounts);
-
         var margin = {
             top: 0,
             right: 50,
@@ -337,28 +334,24 @@ function getUniqueCountryNameCounts() {
             left: 250
         };
 
-        var width = 960 - margin.left - margin.right,
-            height = 2600 - margin.top - margin.bottom;
+        var width = 960 - margin.left - margin.right;
+        var height = 2600 - margin.top - margin.bottom;
 
-        // var tbl = d3.select("#weather-counts").append("table")
-        //     .append("tbody")
-        //     .append("");
+        let table = document.querySelector("table#country-counts-table");
+        let data = ["Country", "Count"];
+        generateTableHead(table, data);
+        generateTable(table, uniqueCountryNameCounts);
 
         var svg = d3.select("#country-counts").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .style('fill', 'chartreuse')
-            .style('margin-right', 'auto')
-            .style('margin-left', 'auto')
-            .style('display', 'block')
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var x = d3.scale.linear()
             .range([0, width])
             .domain([0, d3.max(uniqueCountryNameCounts, function (d) {
-                console.log(d.country_count);
-                return d.country_count;
+                return d.country_name_count;
             })]);
 
         var y = d3.scale.ordinal()
@@ -390,7 +383,7 @@ function getUniqueCountryNameCounts() {
             .attr("height", y.rangeBand())
             .attr("x", 0)
             .attr("width", function (d) {
-                return x(d.country_count);
+                return x(d.country_name_count);
             });
 
         //add a value label to the right of each bar
@@ -402,10 +395,10 @@ function getUniqueCountryNameCounts() {
             })
             //x position is 3 pixels to the right of the bar
             .attr("x", function (d) {
-                return x(d.country_count) + 3;
+                return x(d.country_name_count) + 3;
             })
             .text(function (d) {
-                return d.country_count;
+                return d.country_name_count;
             });
         
         return uniqueCountryNameCounts;
@@ -414,8 +407,10 @@ function getUniqueCountryNameCounts() {
 
 function getUniqueWeatherCounts() {
     $.getJSON("/weather-count", function(uniqueWeatherCounts) {
-        console.log("uniqueWeatherCounts");
-        console.log(uniqueWeatherCounts);
+        let table = document.querySelector("table#weather-counts-table");
+        let data = ["Weather Type", "Count"];
+        generateTableHead(table, data);
+        generateTable(table, uniqueWeatherCounts);
 
         var margin = {
             top: 15,
@@ -424,27 +419,18 @@ function getUniqueWeatherCounts() {
             left: 250
         };
 
-        var width = 960 - margin.left - margin.right,
-            height = 400 - margin.top - margin.bottom;
-
-        // var tbl = d3.select("#weather-counts").append("table")
-        //     .append("tbody")
-        //     .append("");
+        var width = 960 - margin.left - margin.right;
+        var height = 400 - margin.top - margin.bottom;
 
         var svg = d3.select("#weather-counts").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .style('fill', 'chartreuse')
-            .style('margin-right', 'auto')
-            .style('margin-left', 'auto')
-            .style('display', 'block')
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var x = d3.scale.linear()
             .range([0, width])
             .domain([0, d3.max(uniqueWeatherCounts, function (d) {
-                console.log(d.weather_description_count);
                 return d.weather_description_count;
             })]);
 
@@ -540,7 +526,7 @@ setInterval(function() {
 
 // TASKS:
 // select how many datapoints you would like to view up to 500
-// Graph average temperature per country visited by the ISS in bar graph
 // create json file with sample data to be used when database connection fails
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 // upgrade to latest d3 version
+// display tables in place of bar graphs when screen width is too small

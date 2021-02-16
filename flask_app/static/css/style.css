@@ -116,6 +116,25 @@ html {
     width: 100%;
 }
 
+table {
+    display: none;
+    color: chartreuse;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
+}
+
+table, th, td {
+    border: 1px solid rgb(2, 11, 128);
+}
+
+svg {
+    fill: chartreuse;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+
 button {
     text-align: center;
     display: inline-block;
@@ -155,6 +174,15 @@ button {
 @media screen and (min-width: 675px) and (max-width: 900px) {
     .header-button {
         width: 20%;
+    }
+}
+
+@media screen and (max-width: 980px) {
+    table {
+        display: table;
+    }
+    svg {
+        display: none;
     }
 }
 

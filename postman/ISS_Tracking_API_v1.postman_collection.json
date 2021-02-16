@@ -1,0 +1,457 @@
+{
+	"info": {
+		"_postman_id": "5ecc2171-422b-41f1-b4cd-48676a613123",
+		"name": "ISS_Tracking_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "local",
+			"item": [
+				{
+					"name": "getData",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/data?numRows=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"data"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getWeatherCount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/weather-count",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"weather-count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumWeatherCount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/num-weather-count?numRows=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"num-weather-count"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAvgTemp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/avg-temp",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"avg-temp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumAvgTemp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/num-avg-temp?numRows=1100",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"num-avg-temp"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCountOfCountryNames",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/country-count",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"country-count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumCountOfCountryNames",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/num-country-count?numRows=1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"num-country-count"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAverageSpeed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/avg-speed",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"avg-speed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumAverageSpeed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/num-avg-speed?numRows=1000",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"num-avg-speed"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "prod",
+			"item": [
+				{
+					"name": "getData",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/data?numRows=1",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"data"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getWeatherCount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/weather-count",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"weather-count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumWeatherCount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/num-weather-count?numRows=1",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"num-weather-count"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAvgTemp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/avg-temp",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"avg-temp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumAvgTemp",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/num-avg-temp?numRows=1100",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"num-avg-temp"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCountOfCountryNames",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/country-count",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"country-count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumCountOfCountryNames",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/num-country-count?numRows=100",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"num-country-count"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAverageSpeed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/avg-speed",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"avg-speed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getNumAverageSpeed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://iss-tracking-app.herokuapp.com/num-avg-speed?numRows=1000",
+							"protocol": "https",
+							"host": [
+								"iss-tracking-app",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"num-avg-speed"
+							],
+							"query": [
+								{
+									"key": "numRows",
+									"value": "1000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
