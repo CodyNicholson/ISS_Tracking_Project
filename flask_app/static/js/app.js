@@ -1,3 +1,15 @@
+// ***** GLOBAL VARIABLES *****
+var viewMarkers = true;
+var viewLines = true;
+var markers = [];
+var lines = [];
+var arrowHeadLines = [];
+var lastDataPoint = null;
+var avgTemperatureToday;
+var avgIssSpeed;
+var uniqueWeatherCountsToday;
+// *** END GLOBAL VARIABLES ***
+
 // **** SETUP MAP & MARKERS ****
 var mymap = L.map('mapid', {
     'worldCopyJump': true,
@@ -64,18 +76,6 @@ function closeAllPopups() {
     mymap.closePopup();
 }
 // ************ END CREATE POPUP & POPUP UTILS *********
-
-// ***** GLOBAL VARIABLES *****
-var viewMarkers = true;
-var viewLines = true;
-var markers = [];
-var lines = [];
-var arrowHeadLines = [];
-var lastDataPoint = null;
-var avgTemperatureToday;
-var avgIssSpeed;
-var uniqueWeatherCountsToday;
-// *** END GLOBAL VARIABLES ***
 
 // ***** MAP FUNCTIONS *****
 function getMarkersDrawLines(numDataPoints) {
@@ -338,11 +338,22 @@ function getUniqueCountryNameCounts() {
         var height = 2600 - margin.top - margin.bottom;
 
         let table = document.querySelector("table#country-counts-table");
+        let svgDiv = document.querySelector("#country-counts-div");
         let data = ["Country", "Count"];
+
+        // Remove existing data
+        while (table.hasChildNodes()) {
+            table.removeChild(table.firstChild);
+        }
+        while (svgDiv.hasChildNodes()) {
+            svgDiv.removeChild(svgDiv.firstChild);
+        }
+
         generateTableHead(table, data);
         generateTable(table, uniqueCountryNameCounts);
 
-        var svg = d3.select("#country-counts").append("svg")
+        var svg = d3.select("#country-counts-div").append("svg")
+            .attr("class", "country-svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -408,7 +419,17 @@ function getUniqueCountryNameCounts() {
 function getUniqueWeatherCounts() {
     $.getJSON("/weather-count", function(uniqueWeatherCounts) {
         let table = document.querySelector("table#weather-counts-table");
+        let svgDiv = document.querySelector("#weather-counts-div");
         let data = ["Weather Type", "Count"];
+
+        // Remove existing data
+        while (table.hasChildNodes()) {
+            table.removeChild(table.firstChild);
+        }
+        while (svgDiv.hasChildNodes()) {
+            svgDiv.removeChild(svgDiv.firstChild);
+        }
+
         generateTableHead(table, data);
         generateTable(table, uniqueWeatherCounts);
 
@@ -422,7 +443,8 @@ function getUniqueWeatherCounts() {
         var width = 960 - margin.left - margin.right;
         var height = 400 - margin.top - margin.bottom;
 
-        var svg = d3.select("#weather-counts").append("svg")
+        var svg = d3.select("#weather-counts-div").append("svg")
+            .attr("class", "weather-svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
@@ -481,7 +503,7 @@ function getUniqueWeatherCounts() {
                 return d.weather_description_count;
             });
         
-        return uniqueWeatherCounts;
+        uniqueWeatherCountsToday = uniqueWeatherCounts;
     });
 }
 
@@ -512,15 +534,17 @@ function getNumUniqueWeatherCounts(numRows) {
 
 // *** SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 getMarkersDrawLines(100);
-uniqueWeatherCountsToday = getUniqueWeatherCounts();
+getAverageTemperature();
+getAverageIssMph();
+getUniqueWeatherCounts();
 getUniqueCountryNameCounts();
-avgTemperatureToday = getAverageTemperature();
-avgIssSpeed = getAverageIssMph();
 
 setInterval(function() {
     getLatestMarker();
     getAverageTemperature();
     getAverageIssMph();
+    getUniqueWeatherCounts();
+    getUniqueCountryNameCounts();
 }, 60000);
 // *** END SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 
@@ -529,4 +553,4 @@ setInterval(function() {
 // create json file with sample data to be used when database connection fails
 // response.setHeader("Set-Cookie", "HttpOnly;Secure;SameSite=Strict");
 // upgrade to latest d3 version
-// display tables in place of bar graphs when screen width is too small
+// recalculate weather and country counts every minute
