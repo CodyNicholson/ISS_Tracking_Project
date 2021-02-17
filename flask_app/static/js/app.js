@@ -552,6 +552,20 @@ function getNumUniqueWeatherCounts(numRows) {
 }
 // *** END GET DATA FUNCTIONS ***
 
+// *** INPUT UTIL ***
+function minmaxinput(value, min, max) {
+    if(parseInt(value) < min) {
+        return min;
+    }
+    else if(parseInt(value) > max) {
+        return 500;
+    }
+    else {
+        return value;
+    }
+}
+// *** END INPUT UTIL ***
+
 // *** SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 getMarkersDrawLines();
 getAverageTemperature();
@@ -569,7 +583,8 @@ setInterval(function() {
 // *** END SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 
 // TASKS:
-// make popup error msg for selecting out of bounds number of initial data points
 // create json file with sample data to be used when database connection fails
-// upgrade to latest d3 version
+// upgrade to latest d3 and leaflet versions
+// replace jQuery with native JS fetch
+// download all dependencies so I don't have to rely on other sites
 // Android polylines bug

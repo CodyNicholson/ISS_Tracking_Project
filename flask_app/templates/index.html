@@ -20,7 +20,7 @@
         <div class="border-blue">
             <div id="data-point-select">
                 <p id="data-point-select-msg">Initial Data Points:</p>
-                <input type="number" id="data-point-quantity" name="data-point-quantity" min="2" max="500" value="100">
+                <input type="number" id="data-point-quantity" name="data-point-quantity" min="2" max="500" value="100" onkeyup="this.value = minmaxinput(this.value, 2, 500);">
                 <input type="submit" id="data-point-submit" onclick="getMarkersDrawLines()">
             </div>
             <div id="header-buttons">
