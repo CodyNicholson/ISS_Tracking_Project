@@ -123,6 +123,12 @@ html {
     color: white;
 }
 
+#data-point-submit:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid rgb(2, 11, 128);
+}
+
 .single-data-title {
     color: red;
     margin-top: 0;
