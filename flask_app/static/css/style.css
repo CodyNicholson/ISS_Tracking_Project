@@ -94,7 +94,7 @@ html {
     height: 500px;
     width: 100%;
     border: 3px solid rgb(2, 11, 128);
-    margin-bottom: 7px;
+    border-bottom: 0;
 }
 
 .border-blue {
