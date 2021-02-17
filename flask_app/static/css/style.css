@@ -21,7 +21,6 @@ html {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    width: 100%;
 }
 
 #header-buttons {
@@ -78,7 +77,6 @@ html {
     margin-top: 7px;
     margin-bottom: 7px;
     border: 3px solid rgb(2, 11, 128);
-    width: 100%;
 }
 
 #country-counts {
@@ -87,19 +85,16 @@ html {
     margin-top: 7px;
     margin-bottom: 7px;
     border: 3px solid rgb(2, 11, 128);
-    width: 100%;
 }
 
 #mapid {
     height: 500px;
-    width: 100%;
     border: 3px solid rgb(2, 11, 128);
     border-bottom: 0;
 }
 
 .border-blue {
     border: 3px solid rgb(2, 11, 128);
-    width: 100%;
 }
 
 #data-point-select {
