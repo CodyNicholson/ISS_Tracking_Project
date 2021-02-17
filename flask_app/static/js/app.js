@@ -81,6 +81,9 @@ function closeAllPopups() {
 // ***** MAP FUNCTIONS *****
 function getMarkersDrawLines() {
     var numDataPoints = document.getElementById("data-point-quantity").value;
+    if(numDataPoints < 2) {
+        return;
+    }
     //Reset relevant global vars
     removeMarkers();
     removeLines();
