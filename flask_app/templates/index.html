@@ -17,11 +17,18 @@
             <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />
         </div>
         <div id="mapid"></div>
-        <div class="header">
-            <button class="header-button" onclick="toggleStyle()">Toggle Style</button>
-            <button class="header-button" onclick="toggleMarkers()">Toggle Markers</button>
-            <button class="header-button" onclick="toggleLines()">Toggle Lines</button>
-            <button class="header-button" onclick="location.href='/data-table'">Data Table</button>
+        <div class="border-blue">
+            <div id="data-point-select">
+                <p id="data-point-select-msg">Initial Data Points:</p>
+                <input type="number" id="data-point-quantity" name="data-point-quantity" min="2" max="500" value="100">
+                <input type="submit" id="data-point-submit" onclick="getMarkersDrawLines()">
+            </div>
+            <div id="header-buttons">
+                <button class="header-button" onclick="toggleStyle()">Toggle Style</button>
+                <button class="header-button" onclick="toggleMarkers()">Toggle Markers</button>
+                <button class="header-button" onclick="toggleLines()">Toggle Lines</button>
+                <button class="header-button" onclick="location.href='/data-table'">Data Table</button>
+            </div>
         </div>
         <div class="header">
             <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />

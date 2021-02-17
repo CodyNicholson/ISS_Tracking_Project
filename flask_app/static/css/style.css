@@ -24,6 +24,19 @@ html {
     width: 100%;
 }
 
+#header-buttons {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .title {
     color: chartreuse;
     letter-spacing: 2px;
@@ -86,6 +99,28 @@ html {
 .border-blue {
     border: 3px solid rgb(2, 11, 128);
     width: 100%;
+}
+
+#data-point-select {
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#data-point-select-msg {
+    color: chartreuse;
+    margin: 0;
+}
+
+#data-point-quantity {
+    margin-left: 7px;
+}
+
+#data-point-submit {
+    background-color: rgb(2, 11, 128);
+    color: white;
 }
 
 .single-data-title {

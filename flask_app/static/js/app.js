@@ -5,6 +5,7 @@ var markers = [];
 var lines = [];
 var arrowHeadLines = [];
 var lastDataPoint = null;
+
 var avgTemperatureToday;
 var avgIssSpeed;
 var uniqueWeatherCountsToday;
@@ -78,7 +79,18 @@ function closeAllPopups() {
 // ************ END CREATE POPUP & POPUP UTILS *********
 
 // ***** MAP FUNCTIONS *****
-function getMarkersDrawLines(numDataPoints) {
+function getMarkersDrawLines() {
+    var numDataPoints = document.getElementById("data-point-quantity").value;
+    //Reset relevant global vars
+    removeMarkers();
+    removeLines();
+    lines = [];
+    markers = [];
+    arrowHeadLines = [];
+    lastDataPoint = null;
+    viewMarkers = true;
+    viewLines = true;
+
     $.getJSON(`/data?numRows=${numDataPoints}`, function(data) {
         const startingIndex = data.length - numDataPoints;
 
@@ -165,9 +177,7 @@ function createMarker(row) {
 
 function toggleMarkers() {
     if (viewMarkers) {
-        for (var i = 0; i < markers.length; i++) {
-            mymap.removeLayer(markers[i]);
-        }
+        removeMarkers();
         viewMarkers = false;
     } else {
         for (var i = 0; i < markers.length; i++) {
@@ -177,14 +187,15 @@ function toggleMarkers() {
     }
 }
 
+function removeMarkers() {
+    for (var i = 0; i < markers.length; i++) {
+        mymap.removeLayer(markers[i]);
+    }
+}
+
 function toggleLines() {
     if (viewLines) {
-        for (var i = 0; i < lines.length; i++) {
-            mymap.removeLayer(lines[i]);
-        }
-        for (var i = 0; i < arrowHeadLines.length; i++) {
-            mymap.removeLayer(arrowHeadLines[i]);
-        }
+        removeLines();
         viewLines = false;
     } else {
         for (var i = 0; i < lines.length; i++) {
@@ -194,6 +205,15 @@ function toggleLines() {
             arrowHeadLines[i].addTo(mymap);
         }
         viewLines = true;
+    }
+}
+
+function removeLines() {
+    for (var i = 0; i < lines.length; i++) {
+        mymap.removeLayer(lines[i]);
+    }
+    for (var i = 0; i < arrowHeadLines.length; i++) {
+        mymap.removeLayer(arrowHeadLines[i]);
     }
 }
 
@@ -533,7 +553,7 @@ function getNumUniqueWeatherCounts(numRows) {
 // *** END GET DATA FUNCTIONS ***
 
 // *** SETUP INITIAL STATE & INTERVAL TO UPDATE ***
-getMarkersDrawLines(100);
+getMarkersDrawLines();
 getAverageTemperature();
 getAverageIssMph();
 getUniqueWeatherCounts();
@@ -549,7 +569,7 @@ setInterval(function() {
 // *** END SETUP INITIAL STATE & INTERVAL TO UPDATE ***
 
 // TASKS:
-// select how many datapoints you would like between 1 and 500
+// make popup error msg for selecting out of bounds number of initial data points
 // create json file with sample data to be used when database connection fails
 // upgrade to latest d3 version
 // Android polylines bug
