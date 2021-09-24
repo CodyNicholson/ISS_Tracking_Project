@@ -33,7 +33,7 @@ print(f"timestamp is: {timestamp}")
 # Get ISS Position Data & Timestamp
 iss_url = "http://api.open-notify.org/iss-now.json"
 iss_data = requests.get(iss_url).json()
-#print(json.dumps(iss_data, indent=4, sort_keys=True))
+print(json.dumps(iss_data, indent=4, sort_keys=True))
 iss_lat = iss_data["iss_position"]["latitude"]
 iss_lon = iss_data["iss_position"]["longitude"]
 iss_timestamp = iss_data["timestamp"]
@@ -49,7 +49,7 @@ lookup_num = str(iss_timestamp)[-4:splice_num]
 num_url = f"http://numbersapi.com/{lookup_num}/math?json"
 try:
     num_data = requests.get(num_url).json()
-    #print(json.dumps(num_data, indent=4, sort_keys=True))
+    print(json.dumps(num_data, indent=4, sort_keys=True))
     num_description = num_data["text"]
 except:
     num_description = ""
@@ -57,7 +57,7 @@ except:
 # Weather Data
 weather_url = f"http://api.openweathermap.org/data/2.5/weather?lat={iss_lat}&lon={iss_lon}&appid={weather_api_key}&units=imperial"
 weather_data = requests.get(weather_url).json()
-#print(json.dumps(weather_data, indent=4, sort_keys=True))
+print(json.dumps(weather_data, indent=4, sort_keys=True))
 weather_description = weather_data["weather"][0]["description"]
 weather_temp = weather_data["main"]["temp"]
 try:
@@ -67,14 +67,13 @@ except:
 
 # Country Data
 if (country_alpha_code != ""):
-    country_url = f"https://restcountries.eu/rest/v2/alpha/{country_alpha_code}"
+    country_url = f"https://restcountries.com/v2/alpha/{country_alpha_code}"
     country_data = requests.get(country_url).json()
-    #print(json.dumps(country_data, indent=4, sort_keys=True))
-    country_name = processCountryName(country_data["alpha3Code"])
+    country_name = processCountryName(country_data["name"])
     country_borders = processBorderingCountries(country_data["borders"])
-    country_flag_url = country_data["flag"]
+    country_flag_url = country_data["flags"][0]
     country_capital = country_data["capital"]
-    #print(json.dumps(country_data, indent=4, sort_keys=True))
+    print(json.dumps(country_data, indent=4, sort_keys=True))
 else:
     country_name = ""
     country_borders = ""
@@ -107,9 +106,9 @@ minutesBetween = (iss_timestamp - int(latestDatapoint[0])) / 60
 coords_1 = (latestDatapoint[1], latestDatapoint[2])
 coords_2 = (iss_lat, iss_lon)
 distanceBetween = geopy.distance.geodesic(coords_1, coords_2).miles
-#print(distanceBetween)
+print(distanceBetween)
 iss_mph = (distanceBetween/minutesBetween) * 60
-#print(iss_mph)
+print(iss_mph)
 
 metadata.create_all(engine)
 insert_query = insert(iss_data_table).values(iss_timestamp=iss_timestamp, iss_lat=iss_lat, iss_lon=iss_lon, num_description=num_description, weather_description=weather_description, weather_temp=weather_temp, country_alpha_code=country_alpha_code, country_name=country_name, country_borders=country_borders, country_flag_url=country_flag_url, country_capital=country_capital, iss_mph=iss_mph)
