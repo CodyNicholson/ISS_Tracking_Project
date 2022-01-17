@@ -71,9 +71,10 @@ if (country_alpha_code != ""):
     country_data = requests.get(country_url).json()
     country_name = processCountryName(country_data["name"])
     country_borders = processBorderingCountries(country_data["borders"])
-    country_flag_url = country_data["flags"][0]
+    country_flag_url = country_data["flags"]["svg"]
     country_capital = country_data["capital"]
     print(json.dumps(country_data, indent=4, sort_keys=True))
+    print(country_flag_url)
 else:
     country_name = ""
     country_borders = ""
