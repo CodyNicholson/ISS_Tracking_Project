@@ -46,7 +46,7 @@ if(rand_num < 0.4):
 elif(0.4 >= rand_num < 0.8):
     splice_num = -3
 lookup_num = str(iss_timestamp)[-4:splice_num]
-num_url = f"http://numbersapi.com/{lookup_num}/math?json"
+num_url = "http://numbersapi.com/" + lookup_num + "/math?json"
 try:
     num_data = requests.get(num_url).json()
     print(json.dumps(num_data, indent=4, sort_keys=True))
@@ -55,7 +55,7 @@ except:
     num_description = ""
 
 # Weather Data
-weather_url = f"http://api.openweathermap.org/data/2.5/weather?lat={iss_lat}&lon={iss_lon}&appid={weather_api_key}&units=imperial"
+weather_url = "http://api.openweathermap.org/data/2.5/weather?lat=" + iss_lat + "&lon=" + iss_lon + "&appid=" + weather_api_key + "&units=imperial"
 weather_data = requests.get(weather_url).json()
 print(json.dumps(weather_data, indent=4, sort_keys=True))
 weather_description = weather_data["weather"][0]["description"]
@@ -67,7 +67,7 @@ except:
 
 # Country Data
 if (country_alpha_code != ""):
-    country_url = f"https://restcountries.com/v2/alpha/{country_alpha_code}"
+    country_url = "https://restcountries.com/v2/alpha/" + country_alpha_code
     country_data = requests.get(country_url).json()
     country_name = processCountryName(country_data["name"])
     country_borders = processBorderingCountries(country_data["borders"])
