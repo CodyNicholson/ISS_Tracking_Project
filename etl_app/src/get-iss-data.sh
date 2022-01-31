@@ -8,10 +8,8 @@ echo $latitude
 echo $longitude
 
 # Get Random Number Data
-randnum=($RANDOM % 100 + 1)
-curl http://numbersapi.com/${randomNum}/math?json > randnum.json
-randnumfact=$(jshon -e "text" > randnum.json)
-echo $randnum
+curl http://numbersapi.com/random/math?json > randnum.json
+randnumfact=$(jshon -e "text" < randnum.json | tr -d \'\")
 echo $randnumfact
 
 # Get Weather Data
@@ -25,13 +23,13 @@ echo $temp
 echo $countrycode
 
 # Get Country Date
-if [ -z "countrycode" ]
+if [ -z "$countrycode" ]
 then
 	echo "No Country at this location"
 else
 	curl https://restcountries.com/v2/alpha/${countrycode} > countrydata.json
 	countryname=$(jshon -e "name" < countrydata.json | tr -d '"')
-	countryborders=&(jshon -e "borders" < countrydata.json)
+	countryborders=$(jshon -e "borders" < countrydata.json | tr -d '[' | tr -d '\n' | tr -d '"' | tr -d ']' | xargs)
 	countryflag=$(jshon -e "flags" -e "svg" < countrydata.json | tr -d '"')
 	countrycapital=$(jshon -e "capital" < countrydata.json | tr -d '"')
 	echo $countryname
@@ -45,5 +43,5 @@ if [ -z "countrycode" ]
 then
 	PGPASSWORD=08d9dca91c773c5f0c129696378d546bcb501c4686ee6696a3106ed685f74b5d psql -h ec2-3-224-23-0.compute-1.amazonaws.com -d drut1ogg4206h -U dcgyftmeejtile -c "INSERT INTO iss_data_table(iss_timestamp, iss_lat, iss_lon, num_description, weather_description, weather_temp) VALUES ('$timestamp', '$latitude', '$longitude', '$randnumfact', '$weatherdescription', '$temp')"
 else
-	PGPASSWORD=08d9dca91c773c5f0c129696378d546bcb501c4686ee6696a3106ed685f74b5d psql -h ec2-3-224-23-0.compute-1.amazonaws.com -d drut1ogg4206h -U dcgyftmeejtile -c "INSERT INTO iss_data_table(iss_timestamp, iss_lat, iss_lon, num_description, weather_description, weather_temp, country_alpha_code, country_name, country_flag_url, country_capital) VALUES ('$timestamp', '$latitude', '$longitude', '$randnumfact', '$weatherdescription', '$temp', '$countrycode', '$countryname', '$countryflag', '$countrycapital')"
+	PGPASSWORD=08d9dca91c773c5f0c129696378d546bcb501c4686ee6696a3106ed685f74b5d psql -h ec2-3-224-23-0.compute-1.amazonaws.com -d drut1ogg4206h -U dcgyftmeejtile -c "INSERT INTO iss_data_table(iss_timestamp, iss_lat, iss_lon, num_description, weather_description, weather_temp, country_alpha_code, country_name, country_borders, country_flag_url, country_capital) VALUES ('$timestamp', '$latitude', '$longitude', '$randnumfact', '$weatherdescription', '$temp', '$countrycode', '$countryname', '$countryborders', '$countryflag', '$countrycapital')"
 fi
