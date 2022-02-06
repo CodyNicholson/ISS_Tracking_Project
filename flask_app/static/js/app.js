@@ -152,7 +152,7 @@ function createMarker(row) {
     const popupWeatherDes = `<br><b>Weather:</b> ${row.weather_description}`;
     const popupCountryName = `<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})`;
     const popupCountryCapital = `<br><b>Capital:</b> ${row.country_capital}`;
-    const popupCountryBorders = `<br><b>Borders:</b> ${row.country_borders}`;
+    const popupCountryBorders = `<br><b>Borders:</b> ${getCountryNamesByAlphaCodes(row.country_borders)}`;
     const popupNumDescription = `<br><b>Random Number Fact:</b> ${row.num_description}`;
     const popupCloseDiv = `</div>`;
 
