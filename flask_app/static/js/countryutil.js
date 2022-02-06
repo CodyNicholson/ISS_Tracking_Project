@@ -255,7 +255,7 @@ function getCountryNamesByAlphaCodes(alphaCodes) {
     let countryNames = [];
     
     for (let i = 0; i < alphaCodesList.length; i++) {
-        countryNames.push(countryCodeMap[alphaCodesList[i]] + " ");
+        countryNames.push(" " + countryCodeMap[alphaCodesList[i]]);
     }
 
     return countryNames;
