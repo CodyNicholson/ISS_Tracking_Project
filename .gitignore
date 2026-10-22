@@ -1,6 +1,10 @@
 __pycache__/
 .vscode/
+.idea/
 logs/
 staticfiles/
+.env
+claude_logs/
+pipeline-run.sh
 
 config.py
