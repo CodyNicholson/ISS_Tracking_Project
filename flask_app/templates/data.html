@@ -16,8 +16,8 @@
             <img class="header-img" src="{{ url_for('static', filename='img/bluestar.svg') }}" />
         </div>
         <div id="controls">
-            <button class="control-button" onclick="location.href='/'">Home</button>
-            <button class="control-button" onclick="location.href='/data?numRows=100'">Json</button>
+            <button class="control-button" data-href="/">Home</button>
+            <button class="control-button" data-href="/data?numRows=100">Json</button>
         </div>
         <div class="border-div">
             {% for record in data %}
@@ -34,10 +34,6 @@
                     <tr>
                         <td>Longitude</td>
                         <td>{{record['iss_lon']}}</td>
-                    </tr>
-                    <tr>
-                        <td>Number Fact</td>
-                        <td>{{record['num_description']}}</td>
                     </tr>
                     <tr>
                         <td>Weather Description</td>
@@ -92,6 +88,7 @@
             {% endfor %}
         </div>
     </div>
+    <script src="{{ url_for('static', filename='js/nav.js') }}"></script>
 </body>
 
 </html>

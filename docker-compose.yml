@@ -1,0 +1,95 @@
+# ISS Tracking stack: Postgres, the ETL scheduler (cron jobs that collect ISS data) and the Flask web app.
+# Usage: docker compose up --build   then open http://localhost:5000
+# API keys come from .env (see .env.example). Without OPENWEATHER_API_KEY only the ISS position is
+# collected; without MAPBOX_API_KEY the map falls back to OpenStreetMap/CARTO tiles.
+# POSTGRES_PASSWORD is required (no fallback). Host ports are bound to 127.0.0.1: Docker's
+# iptables rules bypass ufw, so a bare "5000:80" would be reachable from outside. Postgres is only
+# on backend-net.
+name: iss_tracking
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: iss-postgres
+    environment:
+      POSTGRES_USER: iss
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: iss
+    ports:
+      - "127.0.0.1:${POSTGRES_HOST_PORT:-5435}:5432"
+    volumes:
+      - iss_pg_data:/var/lib/postgresql/data
+      - ./postgres-init/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U iss -d iss"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    pids_limit: 256
+    networks:
+      - backend-net
+
+  # Runs the cron schedules in etl_app/src/scheduler.py (collect every minute, clean up hourly)
+  etl:
+    build: ./etl_app
+    container_name: iss-etl
+    environment:
+      DATABASE_URL: postgresql+psycopg2://iss:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/iss
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY:-}
+      RESTCOUNTRIES_API_KEY: ${RESTCOUNTRIES_API_KEY:-}
+      COLLECT_CRON: ${COLLECT_CRON:-* * * * *}
+      CLEANUP_CRON: ${CLEANUP_CRON:-0 * * * *}
+      COUNTRIES_CRON: ${COUNTRIES_CRON:-0 3 * * *}
+      COUNTRIES_MAX_AGE_DAYS: ${COUNTRIES_MAX_AGE_DAYS:-7}
+      RETENTION_HOURS: ${RETENTION_HOURS:-24}
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    pids_limit: 256
+    cap_drop:
+      - ALL
+    networks:
+      - default
+      - backend-net
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # Flask app served by gunicorn on :80
+  web:
+    build: ./flask_app
+    container_name: rixus-frontend
+    environment:
+      DATABASE_URL: postgresql+psycopg2://iss:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/iss
+      MAPBOX_API_KEY: ${MAPBOX_API_KEY:-}
+    ports:
+      - "127.0.0.1:${WEB_HOST_PORT:-5000}:80"
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    pids_limit: 256
+    cap_drop:
+      - ALL
+    cpus: 1
+    networks:
+      - default
+      - backend-net
+      - tunnel-net
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  iss_pg_data:
+
+networks:
+  # Postgres and the two services that use it. Not internal: db publishes a loopback host port.
+  backend-net:
+  tunnel-net:
+    external: true

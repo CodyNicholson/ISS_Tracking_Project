@@ -1,0 +1,2316 @@
+{
+ "AD": {
+  "cca3": "AND",
+  "name": "Andorra",
+  "capital": "Andorra la Vella",
+  "borders": [
+   "FRA",
+   "ESP"
+  ]
+ },
+ "AE": {
+  "cca3": "ARE",
+  "name": "United Arab Emirates",
+  "capital": "Abu Dhabi",
+  "borders": [
+   "OMN",
+   "SAU"
+  ]
+ },
+ "AF": {
+  "cca3": "AFG",
+  "name": "Afghanistan",
+  "capital": "Kabul",
+  "borders": [
+   "IRN",
+   "PAK",
+   "TKM",
+   "UZB",
+   "TJK",
+   "CHN"
+  ]
+ },
+ "AG": {
+  "cca3": "ATG",
+  "name": "Antigua and Barbuda",
+  "capital": "Saint John's",
+  "borders": []
+ },
+ "AI": {
+  "cca3": "AIA",
+  "name": "Anguilla",
+  "capital": "The Valley",
+  "borders": []
+ },
+ "AL": {
+  "cca3": "ALB",
+  "name": "Albania",
+  "capital": "Tirana",
+  "borders": [
+   "MNE",
+   "GRC",
+   "MKD",
+   "UNK"
+  ]
+ },
+ "AM": {
+  "cca3": "ARM",
+  "name": "Armenia",
+  "capital": "Yerevan",
+  "borders": [
+   "AZE",
+   "GEO",
+   "IRN",
+   "TUR"
+  ]
+ },
+ "AO": {
+  "cca3": "AGO",
+  "name": "Angola",
+  "capital": "Luanda",
+  "borders": [
+   "COG",
+   "COD",
+   "ZMB",
+   "NAM"
+  ]
+ },
+ "AQ": {
+  "cca3": "ATA",
+  "name": "Antarctica",
+  "capital": "",
+  "borders": []
+ },
+ "AR": {
+  "cca3": "ARG",
+  "name": "Argentina",
+  "capital": "Buenos Aires",
+  "borders": [
+   "BOL",
+   "BRA",
+   "CHL",
+   "PRY",
+   "URY"
+  ]
+ },
+ "AS": {
+  "cca3": "ASM",
+  "name": "American Samoa",
+  "capital": "Pago Pago",
+  "borders": []
+ },
+ "AT": {
+  "cca3": "AUT",
+  "name": "Austria",
+  "capital": "Vienna",
+  "borders": [
+   "CZE",
+   "DEU",
+   "HUN",
+   "ITA",
+   "LIE",
+   "SVK",
+   "SVN",
+   "CHE"
+  ]
+ },
+ "AU": {
+  "cca3": "AUS",
+  "name": "Australia",
+  "capital": "Canberra",
+  "borders": []
+ },
+ "AW": {
+  "cca3": "ABW",
+  "name": "Aruba",
+  "capital": "Oranjestad",
+  "borders": []
+ },
+ "AX": {
+  "cca3": "ALA",
+  "name": "Åland Islands",
+  "capital": "Mariehamn",
+  "borders": []
+ },
+ "AZ": {
+  "cca3": "AZE",
+  "name": "Azerbaijan",
+  "capital": "Baku",
+  "borders": [
+   "ARM",
+   "GEO",
+   "IRN",
+   "RUS",
+   "TUR"
+  ]
+ },
+ "BA": {
+  "cca3": "BIH",
+  "name": "Bosnia and Herzegovina",
+  "capital": "Sarajevo",
+  "borders": [
+   "HRV",
+   "MNE",
+   "SRB"
+  ]
+ },
+ "BB": {
+  "cca3": "BRB",
+  "name": "Barbados",
+  "capital": "Bridgetown",
+  "borders": []
+ },
+ "BD": {
+  "cca3": "BGD",
+  "name": "Bangladesh",
+  "capital": "Dhaka",
+  "borders": [
+   "MMR",
+   "IND"
+  ]
+ },
+ "BE": {
+  "cca3": "BEL",
+  "name": "Belgium",
+  "capital": "Brussels",
+  "borders": [
+   "FRA",
+   "DEU",
+   "LUX",
+   "NLD"
+  ]
+ },
+ "BF": {
+  "cca3": "BFA",
+  "name": "Burkina Faso",
+  "capital": "Ouagadougou",
+  "borders": [
+   "BEN",
+   "CIV",
+   "GHA",
+   "MLI",
+   "NER",
+   "TGO"
+  ]
+ },
+ "BG": {
+  "cca3": "BGR",
+  "name": "Bulgaria",
+  "capital": "Sofia",
+  "borders": [
+   "GRC",
+   "MKD",
+   "ROU",
+   "SRB",
+   "TUR"
+  ]
+ },
+ "BH": {
+  "cca3": "BHR",
+  "name": "Bahrain",
+  "capital": "Manama",
+  "borders": []
+ },
+ "BI": {
+  "cca3": "BDI",
+  "name": "Burundi",
+  "capital": "Gitega",
+  "borders": [
+   "COD",
+   "RWA",
+   "TZA"
+  ]
+ },
+ "BJ": {
+  "cca3": "BEN",
+  "name": "Benin",
+  "capital": "Porto-Novo",
+  "borders": [
+   "BFA",
+   "NER",
+   "NGA",
+   "TGO"
+  ]
+ },
+ "BL": {
+  "cca3": "BLM",
+  "name": "Saint Barthélemy",
+  "capital": "Gustavia",
+  "borders": []
+ },
+ "BM": {
+  "cca3": "BMU",
+  "name": "Bermuda",
+  "capital": "Hamilton",
+  "borders": []
+ },
+ "BN": {
+  "cca3": "BRN",
+  "name": "Brunei",
+  "capital": "Bandar Seri Begawan",
+  "borders": [
+   "MYS"
+  ]
+ },
+ "BO": {
+  "cca3": "BOL",
+  "name": "Bolivia",
+  "capital": "Sucre",
+  "borders": [
+   "ARG",
+   "BRA",
+   "CHL",
+   "PRY",
+   "PER"
+  ]
+ },
+ "BQ": {
+  "cca3": "BES",
+  "name": "Caribbean Netherlands",
+  "capital": "Kralendijk",
+  "borders": []
+ },
+ "BR": {
+  "cca3": "BRA",
+  "name": "Brazil",
+  "capital": "Brasília",
+  "borders": [
+   "ARG",
+   "BOL",
+   "COL",
+   "GUF",
+   "GUY",
+   "PRY",
+   "PER",
+   "SUR",
+   "URY",
+   "VEN"
+  ]
+ },
+ "BS": {
+  "cca3": "BHS",
+  "name": "Bahamas",
+  "capital": "Nassau",
+  "borders": []
+ },
+ "BT": {
+  "cca3": "BTN",
+  "name": "Bhutan",
+  "capital": "Thimphu",
+  "borders": [
+   "CHN",
+   "IND"
+  ]
+ },
+ "BV": {
+  "cca3": "BVT",
+  "name": "Bouvet Island",
+  "capital": "",
+  "borders": []
+ },
+ "BW": {
+  "cca3": "BWA",
+  "name": "Botswana",
+  "capital": "Gaborone",
+  "borders": [
+   "NAM",
+   "ZAF",
+   "ZMB",
+   "ZWE"
+  ]
+ },
+ "BY": {
+  "cca3": "BLR",
+  "name": "Belarus",
+  "capital": "Minsk",
+  "borders": [
+   "LVA",
+   "LTU",
+   "POL",
+   "RUS",
+   "UKR"
+  ]
+ },
+ "BZ": {
+  "cca3": "BLZ",
+  "name": "Belize",
+  "capital": "Belmopan",
+  "borders": [
+   "GTM",
+   "MEX"
+  ]
+ },
+ "CA": {
+  "cca3": "CAN",
+  "name": "Canada",
+  "capital": "Ottawa",
+  "borders": [
+   "USA"
+  ]
+ },
+ "CC": {
+  "cca3": "CCK",
+  "name": "Cocos (Keeling) Islands",
+  "capital": "West Island",
+  "borders": []
+ },
+ "CD": {
+  "cca3": "COD",
+  "name": "DR Congo",
+  "capital": "Kinshasa",
+  "borders": [
+   "AGO",
+   "BDI",
+   "CAF",
+   "COG",
+   "RWA",
+   "SSD",
+   "TZA",
+   "UGA",
+   "ZMB"
+  ]
+ },
+ "CF": {
+  "cca3": "CAF",
+  "name": "Central African Republic",
+  "capital": "Bangui",
+  "borders": [
+   "CMR",
+   "TCD",
+   "COD",
+   "COG",
+   "SSD",
+   "SDN"
+  ]
+ },
+ "CG": {
+  "cca3": "COG",
+  "name": "Congo",
+  "capital": "Brazzaville",
+  "borders": [
+   "AGO",
+   "CMR",
+   "CAF",
+   "COD",
+   "GAB"
+  ]
+ },
+ "CH": {
+  "cca3": "CHE",
+  "name": "Switzerland",
+  "capital": "Bern",
+  "borders": [
+   "AUT",
+   "FRA",
+   "ITA",
+   "LIE",
+   "DEU"
+  ]
+ },
+ "CI": {
+  "cca3": "CIV",
+  "name": "Ivory Coast",
+  "capital": "Yamoussoukro",
+  "borders": [
+   "BFA",
+   "GHA",
+   "GIN",
+   "LBR",
+   "MLI"
+  ]
+ },
+ "CK": {
+  "cca3": "COK",
+  "name": "Cook Islands",
+  "capital": "Avarua",
+  "borders": []
+ },
+ "CL": {
+  "cca3": "CHL",
+  "name": "Chile",
+  "capital": "Santiago",
+  "borders": [
+   "ARG",
+   "BOL",
+   "PER"
+  ]
+ },
+ "CM": {
+  "cca3": "CMR",
+  "name": "Cameroon",
+  "capital": "Yaoundé",
+  "borders": [
+   "CAF",
+   "TCD",
+   "COG",
+   "GNQ",
+   "GAB",
+   "NGA"
+  ]
+ },
+ "CN": {
+  "cca3": "CHN",
+  "name": "China",
+  "capital": "Beijing",
+  "borders": [
+   "AFG",
+   "BTN",
+   "MMR",
+   "HKG",
+   "IND",
+   "KAZ",
+   "NPL",
+   "PRK",
+   "KGZ",
+   "LAO",
+   "MAC",
+   "MNG",
+   "PAK",
+   "RUS",
+   "TJK",
+   "VNM"
+  ]
+ },
+ "CO": {
+  "cca3": "COL",
+  "name": "Colombia",
+  "capital": "Bogotá",
+  "borders": [
+   "BRA",
+   "ECU",
+   "PAN",
+   "PER",
+   "VEN"
+  ]
+ },
+ "CR": {
+  "cca3": "CRI",
+  "name": "Costa Rica",
+  "capital": "San José",
+  "borders": [
+   "NIC",
+   "PAN"
+  ]
+ },
+ "CU": {
+  "cca3": "CUB",
+  "name": "Cuba",
+  "capital": "Havana",
+  "borders": []
+ },
+ "CV": {
+  "cca3": "CPV",
+  "name": "Cape Verde",
+  "capital": "Praia",
+  "borders": []
+ },
+ "CW": {
+  "cca3": "CUW",
+  "name": "Curaçao",
+  "capital": "Willemstad",
+  "borders": []
+ },
+ "CX": {
+  "cca3": "CXR",
+  "name": "Christmas Island",
+  "capital": "Flying Fish Cove",
+  "borders": []
+ },
+ "CY": {
+  "cca3": "CYP",
+  "name": "Cyprus",
+  "capital": "Nicosia",
+  "borders": []
+ },
+ "CZ": {
+  "cca3": "CZE",
+  "name": "Czechia",
+  "capital": "Prague",
+  "borders": [
+   "AUT",
+   "DEU",
+   "POL",
+   "SVK"
+  ]
+ },
+ "DE": {
+  "cca3": "DEU",
+  "name": "Germany",
+  "capital": "Berlin",
+  "borders": [
+   "AUT",
+   "BEL",
+   "CZE",
+   "DNK",
+   "FRA",
+   "LUX",
+   "NLD",
+   "POL",
+   "CHE"
+  ]
+ },
+ "DJ": {
+  "cca3": "DJI",
+  "name": "Djibouti",
+  "capital": "Djibouti",
+  "borders": [
+   "ERI",
+   "ETH",
+   "SOM"
+  ]
+ },
+ "DK": {
+  "cca3": "DNK",
+  "name": "Denmark",
+  "capital": "Copenhagen",
+  "borders": [
+   "DEU"
+  ]
+ },
+ "DM": {
+  "cca3": "DMA",
+  "name": "Dominica",
+  "capital": "Roseau",
+  "borders": []
+ },
+ "DO": {
+  "cca3": "DOM",
+  "name": "Dominican Republic",
+  "capital": "Santo Domingo",
+  "borders": [
+   "HTI"
+  ]
+ },
+ "DZ": {
+  "cca3": "DZA",
+  "name": "Algeria",
+  "capital": "Algiers",
+  "borders": [
+   "TUN",
+   "LBY",
+   "NER",
+   "ESH",
+   "MRT",
+   "MLI",
+   "MAR"
+  ]
+ },
+ "EC": {
+  "cca3": "ECU",
+  "name": "Ecuador",
+  "capital": "Quito",
+  "borders": [
+   "COL",
+   "PER"
+  ]
+ },
+ "EE": {
+  "cca3": "EST",
+  "name": "Estonia",
+  "capital": "Tallinn",
+  "borders": [
+   "LVA",
+   "RUS"
+  ]
+ },
+ "EG": {
+  "cca3": "EGY",
+  "name": "Egypt",
+  "capital": "Cairo",
+  "borders": [
+   "ISR",
+   "LBY",
+   "PSE",
+   "SDN"
+  ]
+ },
+ "EH": {
+  "cca3": "ESH",
+  "name": "Western Sahara",
+  "capital": "El Aaiún",
+  "borders": [
+   "DZA",
+   "MRT",
+   "MAR"
+  ]
+ },
+ "ER": {
+  "cca3": "ERI",
+  "name": "Eritrea",
+  "capital": "Asmara",
+  "borders": [
+   "DJI",
+   "ETH",
+   "SDN"
+  ]
+ },
+ "ES": {
+  "cca3": "ESP",
+  "name": "Spain",
+  "capital": "Madrid",
+  "borders": [
+   "AND",
+   "FRA",
+   "GIB",
+   "PRT",
+   "MAR"
+  ]
+ },
+ "ET": {
+  "cca3": "ETH",
+  "name": "Ethiopia",
+  "capital": "Addis Ababa",
+  "borders": [
+   "DJI",
+   "ERI",
+   "KEN",
+   "SOM",
+   "SSD",
+   "SDN"
+  ]
+ },
+ "FI": {
+  "cca3": "FIN",
+  "name": "Finland",
+  "capital": "Helsinki",
+  "borders": [
+   "NOR",
+   "SWE",
+   "RUS"
+  ]
+ },
+ "FJ": {
+  "cca3": "FJI",
+  "name": "Fiji",
+  "capital": "Suva",
+  "borders": []
+ },
+ "FK": {
+  "cca3": "FLK",
+  "name": "Falkland Islands",
+  "capital": "Stanley",
+  "borders": []
+ },
+ "FM": {
+  "cca3": "FSM",
+  "name": "Micronesia",
+  "capital": "Palikir",
+  "borders": []
+ },
+ "FO": {
+  "cca3": "FRO",
+  "name": "Faroe Islands",
+  "capital": "Tórshavn",
+  "borders": []
+ },
+ "FR": {
+  "cca3": "FRA",
+  "name": "France",
+  "capital": "Paris",
+  "borders": [
+   "AND",
+   "BEL",
+   "DEU",
+   "ITA",
+   "LUX",
+   "MCO",
+   "ESP",
+   "CHE"
+  ]
+ },
+ "GA": {
+  "cca3": "GAB",
+  "name": "Gabon",
+  "capital": "Libreville",
+  "borders": [
+   "CMR",
+   "COG",
+   "GNQ"
+  ]
+ },
+ "GB": {
+  "cca3": "GBR",
+  "name": "United Kingdom",
+  "capital": "London",
+  "borders": [
+   "IRL"
+  ]
+ },
+ "GD": {
+  "cca3": "GRD",
+  "name": "Grenada",
+  "capital": "St. George's",
+  "borders": []
+ },
+ "GE": {
+  "cca3": "GEO",
+  "name": "Georgia",
+  "capital": "Tbilisi",
+  "borders": [
+   "ARM",
+   "AZE",
+   "RUS",
+   "TUR"
+  ]
+ },
+ "GF": {
+  "cca3": "GUF",
+  "name": "French Guiana",
+  "capital": "Cayenne",
+  "borders": [
+   "BRA",
+   "SUR"
+  ]
+ },
+ "GG": {
+  "cca3": "GGY",
+  "name": "Guernsey",
+  "capital": "St. Peter Port",
+  "borders": []
+ },
+ "GH": {
+  "cca3": "GHA",
+  "name": "Ghana",
+  "capital": "Accra",
+  "borders": [
+   "BFA",
+   "CIV",
+   "TGO"
+  ]
+ },
+ "GI": {
+  "cca3": "GIB",
+  "name": "Gibraltar",
+  "capital": "Gibraltar",
+  "borders": [
+   "ESP"
+  ]
+ },
+ "GL": {
+  "cca3": "GRL",
+  "name": "Greenland",
+  "capital": "Nuuk",
+  "borders": []
+ },
+ "GM": {
+  "cca3": "GMB",
+  "name": "Gambia",
+  "capital": "Banjul",
+  "borders": [
+   "SEN"
+  ]
+ },
+ "GN": {
+  "cca3": "GIN",
+  "name": "Guinea",
+  "capital": "Conakry",
+  "borders": [
+   "CIV",
+   "GNB",
+   "LBR",
+   "MLI",
+   "SEN",
+   "SLE"
+  ]
+ },
+ "GP": {
+  "cca3": "GLP",
+  "name": "Guadeloupe",
+  "capital": "Basse-Terre",
+  "borders": []
+ },
+ "GQ": {
+  "cca3": "GNQ",
+  "name": "Equatorial Guinea",
+  "capital": "Malabo",
+  "borders": [
+   "CMR",
+   "GAB"
+  ]
+ },
+ "GR": {
+  "cca3": "GRC",
+  "name": "Greece",
+  "capital": "Athens",
+  "borders": [
+   "ALB",
+   "BGR",
+   "TUR",
+   "MKD"
+  ]
+ },
+ "GS": {
+  "cca3": "SGS",
+  "name": "South Georgia",
+  "capital": "King Edward Point",
+  "borders": []
+ },
+ "GT": {
+  "cca3": "GTM",
+  "name": "Guatemala",
+  "capital": "Guatemala City",
+  "borders": [
+   "BLZ",
+   "SLV",
+   "HND",
+   "MEX"
+  ]
+ },
+ "GU": {
+  "cca3": "GUM",
+  "name": "Guam",
+  "capital": "Hagåtña",
+  "borders": []
+ },
+ "GW": {
+  "cca3": "GNB",
+  "name": "Guinea-Bissau",
+  "capital": "Bissau",
+  "borders": [
+   "GIN",
+   "SEN"
+  ]
+ },
+ "GY": {
+  "cca3": "GUY",
+  "name": "Guyana",
+  "capital": "Georgetown",
+  "borders": [
+   "BRA",
+   "SUR",
+   "VEN"
+  ]
+ },
+ "HK": {
+  "cca3": "HKG",
+  "name": "Hong Kong",
+  "capital": "City of Victoria",
+  "borders": [
+   "CHN"
+  ]
+ },
+ "HM": {
+  "cca3": "HMD",
+  "name": "Heard Island and McDonald Islands",
+  "capital": "",
+  "borders": []
+ },
+ "HN": {
+  "cca3": "HND",
+  "name": "Honduras",
+  "capital": "Tegucigalpa",
+  "borders": [
+   "GTM",
+   "SLV",
+   "NIC"
+  ]
+ },
+ "HR": {
+  "cca3": "HRV",
+  "name": "Croatia",
+  "capital": "Zagreb",
+  "borders": [
+   "BIH",
+   "HUN",
+   "MNE",
+   "SRB",
+   "SVN"
+  ]
+ },
+ "HT": {
+  "cca3": "HTI",
+  "name": "Haiti",
+  "capital": "Port-au-Prince",
+  "borders": [
+   "DOM"
+  ]
+ },
+ "HU": {
+  "cca3": "HUN",
+  "name": "Hungary",
+  "capital": "Budapest",
+  "borders": [
+   "AUT",
+   "HRV",
+   "ROU",
+   "SRB",
+   "SVK",
+   "SVN",
+   "UKR"
+  ]
+ },
+ "ID": {
+  "cca3": "IDN",
+  "name": "Indonesia",
+  "capital": "Jakarta",
+  "borders": [
+   "TLS",
+   "MYS",
+   "PNG"
+  ]
+ },
+ "IE": {
+  "cca3": "IRL",
+  "name": "Ireland",
+  "capital": "Dublin",
+  "borders": [
+   "GBR"
+  ]
+ },
+ "IL": {
+  "cca3": "ISR",
+  "name": "Israel",
+  "capital": "Jerusalem",
+  "borders": [
+   "EGY",
+   "JOR",
+   "LBN",
+   "PSE",
+   "SYR"
+  ]
+ },
+ "IM": {
+  "cca3": "IMN",
+  "name": "Isle of Man",
+  "capital": "Douglas",
+  "borders": []
+ },
+ "IN": {
+  "cca3": "IND",
+  "name": "India",
+  "capital": "New Delhi",
+  "borders": [
+   "BGD",
+   "BTN",
+   "MMR",
+   "CHN",
+   "NPL",
+   "PAK"
+  ]
+ },
+ "IO": {
+  "cca3": "IOT",
+  "name": "British Indian Ocean Territory",
+  "capital": "Diego Garcia",
+  "borders": []
+ },
+ "IQ": {
+  "cca3": "IRQ",
+  "name": "Iraq",
+  "capital": "Baghdad",
+  "borders": [
+   "IRN",
+   "JOR",
+   "KWT",
+   "SAU",
+   "SYR",
+   "TUR"
+  ]
+ },
+ "IR": {
+  "cca3": "IRN",
+  "name": "Iran",
+  "capital": "Tehran",
+  "borders": [
+   "AFG",
+   "ARM",
+   "AZE",
+   "IRQ",
+   "PAK",
+   "TUR",
+   "TKM"
+  ]
+ },
+ "IS": {
+  "cca3": "ISL",
+  "name": "Iceland",
+  "capital": "Reykjavik",
+  "borders": []
+ },
+ "IT": {
+  "cca3": "ITA",
+  "name": "Italy",
+  "capital": "Rome",
+  "borders": [
+   "AUT",
+   "FRA",
+   "SMR",
+   "SVN",
+   "CHE",
+   "VAT"
+  ]
+ },
+ "JE": {
+  "cca3": "JEY",
+  "name": "Jersey",
+  "capital": "Saint Helier",
+  "borders": []
+ },
+ "JM": {
+  "cca3": "JAM",
+  "name": "Jamaica",
+  "capital": "Kingston",
+  "borders": []
+ },
+ "JO": {
+  "cca3": "JOR",
+  "name": "Jordan",
+  "capital": "Amman",
+  "borders": [
+   "IRQ",
+   "ISR",
+   "PSE",
+   "SAU",
+   "SYR"
+  ]
+ },
+ "JP": {
+  "cca3": "JPN",
+  "name": "Japan",
+  "capital": "Tokyo",
+  "borders": []
+ },
+ "KE": {
+  "cca3": "KEN",
+  "name": "Kenya",
+  "capital": "Nairobi",
+  "borders": [
+   "ETH",
+   "SOM",
+   "SSD",
+   "TZA",
+   "UGA"
+  ]
+ },
+ "KG": {
+  "cca3": "KGZ",
+  "name": "Kyrgyzstan",
+  "capital": "Bishkek",
+  "borders": [
+   "CHN",
+   "KAZ",
+   "TJK",
+   "UZB"
+  ]
+ },
+ "KH": {
+  "cca3": "KHM",
+  "name": "Cambodia",
+  "capital": "Phnom Penh",
+  "borders": [
+   "LAO",
+   "THA",
+   "VNM"
+  ]
+ },
+ "KI": {
+  "cca3": "KIR",
+  "name": "Kiribati",
+  "capital": "South Tarawa",
+  "borders": []
+ },
+ "KM": {
+  "cca3": "COM",
+  "name": "Comoros",
+  "capital": "Moroni",
+  "borders": []
+ },
+ "KN": {
+  "cca3": "KNA",
+  "name": "Saint Kitts and Nevis",
+  "capital": "Basseterre",
+  "borders": []
+ },
+ "KP": {
+  "cca3": "PRK",
+  "name": "North Korea",
+  "capital": "Pyongyang",
+  "borders": [
+   "CHN",
+   "KOR",
+   "RUS"
+  ]
+ },
+ "KR": {
+  "cca3": "KOR",
+  "name": "South Korea",
+  "capital": "Seoul",
+  "borders": [
+   "PRK"
+  ]
+ },
+ "KW": {
+  "cca3": "KWT",
+  "name": "Kuwait",
+  "capital": "Kuwait City",
+  "borders": [
+   "IRQ",
+   "SAU"
+  ]
+ },
+ "KY": {
+  "cca3": "CYM",
+  "name": "Cayman Islands",
+  "capital": "George Town",
+  "borders": []
+ },
+ "KZ": {
+  "cca3": "KAZ",
+  "name": "Kazakhstan",
+  "capital": "Astana",
+  "borders": [
+   "CHN",
+   "KGZ",
+   "RUS",
+   "TKM",
+   "UZB"
+  ]
+ },
+ "LA": {
+  "cca3": "LAO",
+  "name": "Laos",
+  "capital": "Vientiane",
+  "borders": [
+   "MMR",
+   "KHM",
+   "CHN",
+   "THA",
+   "VNM"
+  ]
+ },
+ "LB": {
+  "cca3": "LBN",
+  "name": "Lebanon",
+  "capital": "Beirut",
+  "borders": [
+   "ISR",
+   "SYR"
+  ]
+ },
+ "LC": {
+  "cca3": "LCA",
+  "name": "Saint Lucia",
+  "capital": "Castries",
+  "borders": []
+ },
+ "LI": {
+  "cca3": "LIE",
+  "name": "Liechtenstein",
+  "capital": "Vaduz",
+  "borders": [
+   "AUT",
+   "CHE"
+  ]
+ },
+ "LK": {
+  "cca3": "LKA",
+  "name": "Sri Lanka",
+  "capital": "Colombo",
+  "borders": [
+   "IND"
+  ]
+ },
+ "LR": {
+  "cca3": "LBR",
+  "name": "Liberia",
+  "capital": "Monrovia",
+  "borders": [
+   "GIN",
+   "CIV",
+   "SLE"
+  ]
+ },
+ "LS": {
+  "cca3": "LSO",
+  "name": "Lesotho",
+  "capital": "Maseru",
+  "borders": [
+   "ZAF"
+  ]
+ },
+ "LT": {
+  "cca3": "LTU",
+  "name": "Lithuania",
+  "capital": "Vilnius",
+  "borders": [
+   "BLR",
+   "LVA",
+   "POL",
+   "RUS"
+  ]
+ },
+ "LU": {
+  "cca3": "LUX",
+  "name": "Luxembourg",
+  "capital": "Luxembourg",
+  "borders": [
+   "BEL",
+   "FRA",
+   "DEU"
+  ]
+ },
+ "LV": {
+  "cca3": "LVA",
+  "name": "Latvia",
+  "capital": "Riga",
+  "borders": [
+   "BLR",
+   "EST",
+   "LTU",
+   "RUS"
+  ]
+ },
+ "LY": {
+  "cca3": "LBY",
+  "name": "Libya",
+  "capital": "Tripoli",
+  "borders": [
+   "DZA",
+   "TCD",
+   "EGY",
+   "NER",
+   "SDN",
+   "TUN"
+  ]
+ },
+ "MA": {
+  "cca3": "MAR",
+  "name": "Morocco",
+  "capital": "Rabat",
+  "borders": [
+   "DZA",
+   "ESH",
+   "ESP"
+  ]
+ },
+ "MC": {
+  "cca3": "MCO",
+  "name": "Monaco",
+  "capital": "Monaco",
+  "borders": [
+   "FRA"
+  ]
+ },
+ "MD": {
+  "cca3": "MDA",
+  "name": "Moldova",
+  "capital": "Chișinău",
+  "borders": [
+   "ROU",
+   "UKR"
+  ]
+ },
+ "ME": {
+  "cca3": "MNE",
+  "name": "Montenegro",
+  "capital": "Podgorica",
+  "borders": [
+   "ALB",
+   "BIH",
+   "HRV",
+   "UNK",
+   "SRB"
+  ]
+ },
+ "MF": {
+  "cca3": "MAF",
+  "name": "Saint Martin",
+  "capital": "Marigot",
+  "borders": [
+   "SXM"
+  ]
+ },
+ "MG": {
+  "cca3": "MDG",
+  "name": "Madagascar",
+  "capital": "Antananarivo",
+  "borders": []
+ },
+ "MH": {
+  "cca3": "MHL",
+  "name": "Marshall Islands",
+  "capital": "Majuro",
+  "borders": []
+ },
+ "MK": {
+  "cca3": "MKD",
+  "name": "North Macedonia",
+  "capital": "Skopje",
+  "borders": [
+   "ALB",
+   "BGR",
+   "GRC",
+   "UNK",
+   "SRB"
+  ]
+ },
+ "ML": {
+  "cca3": "MLI",
+  "name": "Mali",
+  "capital": "Bamako",
+  "borders": [
+   "DZA",
+   "BFA",
+   "GIN",
+   "CIV",
+   "MRT",
+   "NER",
+   "SEN"
+  ]
+ },
+ "MM": {
+  "cca3": "MMR",
+  "name": "Myanmar",
+  "capital": "Naypyidaw",
+  "borders": [
+   "BGD",
+   "CHN",
+   "IND",
+   "LAO",
+   "THA"
+  ]
+ },
+ "MN": {
+  "cca3": "MNG",
+  "name": "Mongolia",
+  "capital": "Ulan Bator",
+  "borders": [
+   "CHN",
+   "RUS"
+  ]
+ },
+ "MO": {
+  "cca3": "MAC",
+  "name": "Macau",
+  "capital": "",
+  "borders": [
+   "CHN"
+  ]
+ },
+ "MP": {
+  "cca3": "MNP",
+  "name": "Northern Mariana Islands",
+  "capital": "Saipan",
+  "borders": []
+ },
+ "MQ": {
+  "cca3": "MTQ",
+  "name": "Martinique",
+  "capital": "Fort-de-France",
+  "borders": []
+ },
+ "MR": {
+  "cca3": "MRT",
+  "name": "Mauritania",
+  "capital": "Nouakchott",
+  "borders": [
+   "DZA",
+   "MLI",
+   "SEN",
+   "ESH"
+  ]
+ },
+ "MS": {
+  "cca3": "MSR",
+  "name": "Montserrat",
+  "capital": "Plymouth",
+  "borders": []
+ },
+ "MT": {
+  "cca3": "MLT",
+  "name": "Malta",
+  "capital": "Valletta",
+  "borders": []
+ },
+ "MU": {
+  "cca3": "MUS",
+  "name": "Mauritius",
+  "capital": "Port Louis",
+  "borders": []
+ },
+ "MV": {
+  "cca3": "MDV",
+  "name": "Maldives",
+  "capital": "Malé",
+  "borders": []
+ },
+ "MW": {
+  "cca3": "MWI",
+  "name": "Malawi",
+  "capital": "Lilongwe",
+  "borders": [
+   "MOZ",
+   "TZA",
+   "ZMB"
+  ]
+ },
+ "MX": {
+  "cca3": "MEX",
+  "name": "Mexico",
+  "capital": "Mexico City",
+  "borders": [
+   "BLZ",
+   "GTM",
+   "USA"
+  ]
+ },
+ "MY": {
+  "cca3": "MYS",
+  "name": "Malaysia",
+  "capital": "Kuala Lumpur",
+  "borders": [
+   "BRN",
+   "IDN",
+   "THA"
+  ]
+ },
+ "MZ": {
+  "cca3": "MOZ",
+  "name": "Mozambique",
+  "capital": "Maputo",
+  "borders": [
+   "MWI",
+   "ZAF",
+   "SWZ",
+   "TZA",
+   "ZMB",
+   "ZWE"
+  ]
+ },
+ "NA": {
+  "cca3": "NAM",
+  "name": "Namibia",
+  "capital": "Windhoek",
+  "borders": [
+   "AGO",
+   "BWA",
+   "ZAF",
+   "ZMB"
+  ]
+ },
+ "NC": {
+  "cca3": "NCL",
+  "name": "New Caledonia",
+  "capital": "Nouméa",
+  "borders": []
+ },
+ "NE": {
+  "cca3": "NER",
+  "name": "Niger",
+  "capital": "Niamey",
+  "borders": [
+   "DZA",
+   "BEN",
+   "BFA",
+   "TCD",
+   "LBY",
+   "MLI",
+   "NGA"
+  ]
+ },
+ "NF": {
+  "cca3": "NFK",
+  "name": "Norfolk Island",
+  "capital": "Kingston",
+  "borders": []
+ },
+ "NG": {
+  "cca3": "NGA",
+  "name": "Nigeria",
+  "capital": "Abuja",
+  "borders": [
+   "BEN",
+   "CMR",
+   "TCD",
+   "NER"
+  ]
+ },
+ "NI": {
+  "cca3": "NIC",
+  "name": "Nicaragua",
+  "capital": "Managua",
+  "borders": [
+   "CRI",
+   "HND"
+  ]
+ },
+ "NL": {
+  "cca3": "NLD",
+  "name": "Netherlands",
+  "capital": "Amsterdam",
+  "borders": [
+   "BEL",
+   "DEU"
+  ]
+ },
+ "NO": {
+  "cca3": "NOR",
+  "name": "Norway",
+  "capital": "Oslo",
+  "borders": [
+   "FIN",
+   "SWE",
+   "RUS"
+  ]
+ },
+ "NP": {
+  "cca3": "NPL",
+  "name": "Nepal",
+  "capital": "Kathmandu",
+  "borders": [
+   "CHN",
+   "IND"
+  ]
+ },
+ "NR": {
+  "cca3": "NRU",
+  "name": "Nauru",
+  "capital": "Yaren",
+  "borders": []
+ },
+ "NU": {
+  "cca3": "NIU",
+  "name": "Niue",
+  "capital": "Alofi",
+  "borders": []
+ },
+ "NZ": {
+  "cca3": "NZL",
+  "name": "New Zealand",
+  "capital": "Wellington",
+  "borders": []
+ },
+ "OM": {
+  "cca3": "OMN",
+  "name": "Oman",
+  "capital": "Muscat",
+  "borders": [
+   "SAU",
+   "ARE",
+   "YEM"
+  ]
+ },
+ "PA": {
+  "cca3": "PAN",
+  "name": "Panama",
+  "capital": "Panama City",
+  "borders": [
+   "COL",
+   "CRI"
+  ]
+ },
+ "PE": {
+  "cca3": "PER",
+  "name": "Peru",
+  "capital": "Lima",
+  "borders": [
+   "BOL",
+   "BRA",
+   "CHL",
+   "COL",
+   "ECU"
+  ]
+ },
+ "PF": {
+  "cca3": "PYF",
+  "name": "French Polynesia",
+  "capital": "Papeetē",
+  "borders": []
+ },
+ "PG": {
+  "cca3": "PNG",
+  "name": "Papua New Guinea",
+  "capital": "Port Moresby",
+  "borders": [
+   "IDN"
+  ]
+ },
+ "PH": {
+  "cca3": "PHL",
+  "name": "Philippines",
+  "capital": "Manila",
+  "borders": []
+ },
+ "PK": {
+  "cca3": "PAK",
+  "name": "Pakistan",
+  "capital": "Islamabad",
+  "borders": [
+   "AFG",
+   "CHN",
+   "IND",
+   "IRN"
+  ]
+ },
+ "PL": {
+  "cca3": "POL",
+  "name": "Poland",
+  "capital": "Warsaw",
+  "borders": [
+   "BLR",
+   "CZE",
+   "DEU",
+   "LTU",
+   "RUS",
+   "SVK",
+   "UKR"
+  ]
+ },
+ "PM": {
+  "cca3": "SPM",
+  "name": "Saint Pierre and Miquelon",
+  "capital": "Saint-Pierre",
+  "borders": []
+ },
+ "PN": {
+  "cca3": "PCN",
+  "name": "Pitcairn Islands",
+  "capital": "Adamstown",
+  "borders": []
+ },
+ "PR": {
+  "cca3": "PRI",
+  "name": "Puerto Rico",
+  "capital": "San Juan",
+  "borders": []
+ },
+ "PS": {
+  "cca3": "PSE",
+  "name": "Palestine",
+  "capital": "Ramallah",
+  "borders": [
+   "ISR",
+   "EGY",
+   "JOR"
+  ]
+ },
+ "PT": {
+  "cca3": "PRT",
+  "name": "Portugal",
+  "capital": "Lisbon",
+  "borders": [
+   "ESP"
+  ]
+ },
+ "PW": {
+  "cca3": "PLW",
+  "name": "Palau",
+  "capital": "Ngerulmud",
+  "borders": []
+ },
+ "PY": {
+  "cca3": "PRY",
+  "name": "Paraguay",
+  "capital": "Asunción",
+  "borders": [
+   "ARG",
+   "BOL",
+   "BRA"
+  ]
+ },
+ "QA": {
+  "cca3": "QAT",
+  "name": "Qatar",
+  "capital": "Doha",
+  "borders": [
+   "SAU"
+  ]
+ },
+ "RE": {
+  "cca3": "REU",
+  "name": "Réunion",
+  "capital": "Saint-Denis",
+  "borders": []
+ },
+ "RO": {
+  "cca3": "ROU",
+  "name": "Romania",
+  "capital": "Bucharest",
+  "borders": [
+   "BGR",
+   "HUN",
+   "MDA",
+   "SRB",
+   "UKR"
+  ]
+ },
+ "RS": {
+  "cca3": "SRB",
+  "name": "Serbia",
+  "capital": "Belgrade",
+  "borders": [
+   "BIH",
+   "BGR",
+   "HRV",
+   "HUN",
+   "UNK",
+   "MKD",
+   "MNE",
+   "ROU"
+  ]
+ },
+ "RU": {
+  "cca3": "RUS",
+  "name": "Russia",
+  "capital": "Moscow",
+  "borders": [
+   "AZE",
+   "BLR",
+   "CHN",
+   "EST",
+   "FIN",
+   "GEO",
+   "KAZ",
+   "PRK",
+   "LVA",
+   "LTU",
+   "MNG",
+   "NOR",
+   "POL",
+   "UKR"
+  ]
+ },
+ "RW": {
+  "cca3": "RWA",
+  "name": "Rwanda",
+  "capital": "Kigali",
+  "borders": [
+   "BDI",
+   "COD",
+   "TZA",
+   "UGA"
+  ]
+ },
+ "SA": {
+  "cca3": "SAU",
+  "name": "Saudi Arabia",
+  "capital": "Riyadh",
+  "borders": [
+   "IRQ",
+   "JOR",
+   "KWT",
+   "OMN",
+   "QAT",
+   "ARE",
+   "YEM"
+  ]
+ },
+ "SB": {
+  "cca3": "SLB",
+  "name": "Solomon Islands",
+  "capital": "Honiara",
+  "borders": []
+ },
+ "SC": {
+  "cca3": "SYC",
+  "name": "Seychelles",
+  "capital": "Victoria",
+  "borders": []
+ },
+ "SD": {
+  "cca3": "SDN",
+  "name": "Sudan",
+  "capital": "Khartoum",
+  "borders": [
+   "CAF",
+   "TCD",
+   "EGY",
+   "ERI",
+   "ETH",
+   "LBY",
+   "SSD"
+  ]
+ },
+ "SE": {
+  "cca3": "SWE",
+  "name": "Sweden",
+  "capital": "Stockholm",
+  "borders": [
+   "FIN",
+   "NOR"
+  ]
+ },
+ "SG": {
+  "cca3": "SGP",
+  "name": "Singapore",
+  "capital": "Singapore",
+  "borders": []
+ },
+ "SH": {
+  "cca3": "SHN",
+  "name": "Saint Helena, Ascension and Tristan da Cunha",
+  "capital": "Jamestown",
+  "borders": []
+ },
+ "SI": {
+  "cca3": "SVN",
+  "name": "Slovenia",
+  "capital": "Ljubljana",
+  "borders": [
+   "AUT",
+   "HRV",
+   "ITA",
+   "HUN"
+  ]
+ },
+ "SJ": {
+  "cca3": "SJM",
+  "name": "Svalbard and Jan Mayen",
+  "capital": "Longyearbyen",
+  "borders": []
+ },
+ "SK": {
+  "cca3": "SVK",
+  "name": "Slovakia",
+  "capital": "Bratislava",
+  "borders": [
+   "AUT",
+   "CZE",
+   "HUN",
+   "POL",
+   "UKR"
+  ]
+ },
+ "SL": {
+  "cca3": "SLE",
+  "name": "Sierra Leone",
+  "capital": "Freetown",
+  "borders": [
+   "GIN",
+   "LBR"
+  ]
+ },
+ "SM": {
+  "cca3": "SMR",
+  "name": "San Marino",
+  "capital": "City of San Marino",
+  "borders": [
+   "ITA"
+  ]
+ },
+ "SN": {
+  "cca3": "SEN",
+  "name": "Senegal",
+  "capital": "Dakar",
+  "borders": [
+   "GMB",
+   "GIN",
+   "GNB",
+   "MLI",
+   "MRT"
+  ]
+ },
+ "SO": {
+  "cca3": "SOM",
+  "name": "Somalia",
+  "capital": "Mogadishu",
+  "borders": [
+   "DJI",
+   "ETH",
+   "KEN"
+  ]
+ },
+ "SR": {
+  "cca3": "SUR",
+  "name": "Suriname",
+  "capital": "Paramaribo",
+  "borders": [
+   "BRA",
+   "GUF",
+   "GUY"
+  ]
+ },
+ "SS": {
+  "cca3": "SSD",
+  "name": "South Sudan",
+  "capital": "Juba",
+  "borders": [
+   "CAF",
+   "COD",
+   "ETH",
+   "KEN",
+   "SDN",
+   "UGA"
+  ]
+ },
+ "ST": {
+  "cca3": "STP",
+  "name": "São Tomé and Príncipe",
+  "capital": "São Tomé",
+  "borders": []
+ },
+ "SV": {
+  "cca3": "SLV",
+  "name": "El Salvador",
+  "capital": "San Salvador",
+  "borders": [
+   "GTM",
+   "HND"
+  ]
+ },
+ "SX": {
+  "cca3": "SXM",
+  "name": "Sint Maarten",
+  "capital": "Philipsburg",
+  "borders": [
+   "MAF"
+  ]
+ },
+ "SY": {
+  "cca3": "SYR",
+  "name": "Syria",
+  "capital": "Damascus",
+  "borders": [
+   "IRQ",
+   "ISR",
+   "JOR",
+   "LBN",
+   "TUR"
+  ]
+ },
+ "SZ": {
+  "cca3": "SWZ",
+  "name": "Eswatini",
+  "capital": "Lobamba",
+  "borders": [
+   "MOZ",
+   "ZAF"
+  ]
+ },
+ "TC": {
+  "cca3": "TCA",
+  "name": "Turks and Caicos Islands",
+  "capital": "Cockburn Town",
+  "borders": []
+ },
+ "TD": {
+  "cca3": "TCD",
+  "name": "Chad",
+  "capital": "N'Djamena",
+  "borders": [
+   "CMR",
+   "CAF",
+   "LBY",
+   "NER",
+   "NGA",
+   "SDN"
+  ]
+ },
+ "TF": {
+  "cca3": "ATF",
+  "name": "French Southern and Antarctic Lands",
+  "capital": "Port-aux-Français",
+  "borders": []
+ },
+ "TG": {
+  "cca3": "TGO",
+  "name": "Togo",
+  "capital": "Lomé",
+  "borders": [
+   "BEN",
+   "BFA",
+   "GHA"
+  ]
+ },
+ "TH": {
+  "cca3": "THA",
+  "name": "Thailand",
+  "capital": "Bangkok",
+  "borders": [
+   "MMR",
+   "KHM",
+   "LAO",
+   "MYS"
+  ]
+ },
+ "TJ": {
+  "cca3": "TJK",
+  "name": "Tajikistan",
+  "capital": "Dushanbe",
+  "borders": [
+   "AFG",
+   "CHN",
+   "KGZ",
+   "UZB"
+  ]
+ },
+ "TK": {
+  "cca3": "TKL",
+  "name": "Tokelau",
+  "capital": "Fakaofo",
+  "borders": []
+ },
+ "TL": {
+  "cca3": "TLS",
+  "name": "Timor-Leste",
+  "capital": "Dili",
+  "borders": [
+   "IDN"
+  ]
+ },
+ "TM": {
+  "cca3": "TKM",
+  "name": "Turkmenistan",
+  "capital": "Ashgabat",
+  "borders": [
+   "AFG",
+   "IRN",
+   "KAZ",
+   "UZB"
+  ]
+ },
+ "TN": {
+  "cca3": "TUN",
+  "name": "Tunisia",
+  "capital": "Tunis",
+  "borders": [
+   "DZA",
+   "LBY"
+  ]
+ },
+ "TO": {
+  "cca3": "TON",
+  "name": "Tonga",
+  "capital": "Nuku'alofa",
+  "borders": []
+ },
+ "TR": {
+  "cca3": "TUR",
+  "name": "Türkiye",
+  "capital": "Ankara",
+  "borders": [
+   "ARM",
+   "AZE",
+   "BGR",
+   "GEO",
+   "GRC",
+   "IRN",
+   "IRQ",
+   "SYR"
+  ]
+ },
+ "TT": {
+  "cca3": "TTO",
+  "name": "Trinidad and Tobago",
+  "capital": "Port of Spain",
+  "borders": []
+ },
+ "TV": {
+  "cca3": "TUV",
+  "name": "Tuvalu",
+  "capital": "Funafuti",
+  "borders": []
+ },
+ "TW": {
+  "cca3": "TWN",
+  "name": "Taiwan",
+  "capital": "Taipei",
+  "borders": []
+ },
+ "TZ": {
+  "cca3": "TZA",
+  "name": "Tanzania",
+  "capital": "Dodoma",
+  "borders": [
+   "BDI",
+   "COD",
+   "KEN",
+   "MWI",
+   "MOZ",
+   "RWA",
+   "UGA",
+   "ZMB"
+  ]
+ },
+ "UA": {
+  "cca3": "UKR",
+  "name": "Ukraine",
+  "capital": "Kyiv",
+  "borders": [
+   "BLR",
+   "HUN",
+   "MDA",
+   "POL",
+   "ROU",
+   "RUS",
+   "SVK"
+  ]
+ },
+ "UG": {
+  "cca3": "UGA",
+  "name": "Uganda",
+  "capital": "Kampala",
+  "borders": [
+   "COD",
+   "KEN",
+   "RWA",
+   "SSD",
+   "TZA"
+  ]
+ },
+ "UM": {
+  "cca3": "UMI",
+  "name": "United States Minor Outlying Islands",
+  "capital": "",
+  "borders": []
+ },
+ "US": {
+  "cca3": "USA",
+  "name": "United States",
+  "capital": "Washington D.C.",
+  "borders": [
+   "CAN",
+   "MEX"
+  ]
+ },
+ "UY": {
+  "cca3": "URY",
+  "name": "Uruguay",
+  "capital": "Montevideo",
+  "borders": [
+   "ARG",
+   "BRA"
+  ]
+ },
+ "UZ": {
+  "cca3": "UZB",
+  "name": "Uzbekistan",
+  "capital": "Tashkent",
+  "borders": [
+   "AFG",
+   "KAZ",
+   "KGZ",
+   "TJK",
+   "TKM"
+  ]
+ },
+ "VA": {
+  "cca3": "VAT",
+  "name": "Vatican City",
+  "capital": "Vatican City",
+  "borders": [
+   "ITA"
+  ]
+ },
+ "VC": {
+  "cca3": "VCT",
+  "name": "Saint Vincent and the Grenadines",
+  "capital": "Kingstown",
+  "borders": []
+ },
+ "VE": {
+  "cca3": "VEN",
+  "name": "Venezuela",
+  "capital": "Caracas",
+  "borders": [
+   "BRA",
+   "COL",
+   "GUY"
+  ]
+ },
+ "VG": {
+  "cca3": "VGB",
+  "name": "British Virgin Islands",
+  "capital": "Road Town",
+  "borders": []
+ },
+ "VI": {
+  "cca3": "VIR",
+  "name": "United States Virgin Islands",
+  "capital": "Charlotte Amalie",
+  "borders": []
+ },
+ "VN": {
+  "cca3": "VNM",
+  "name": "Vietnam",
+  "capital": "Hanoi",
+  "borders": [
+   "KHM",
+   "CHN",
+   "LAO"
+  ]
+ },
+ "VU": {
+  "cca3": "VUT",
+  "name": "Vanuatu",
+  "capital": "Port Vila",
+  "borders": []
+ },
+ "WF": {
+  "cca3": "WLF",
+  "name": "Wallis and Futuna",
+  "capital": "Mata-Utu",
+  "borders": []
+ },
+ "WS": {
+  "cca3": "WSM",
+  "name": "Samoa",
+  "capital": "Apia",
+  "borders": []
+ },
+ "XK": {
+  "cca3": "UNK",
+  "name": "Kosovo",
+  "capital": "Pristina",
+  "borders": [
+   "ALB",
+   "MKD",
+   "MNE",
+   "SRB"
+  ]
+ },
+ "YE": {
+  "cca3": "YEM",
+  "name": "Yemen",
+  "capital": "Sana'a",
+  "borders": [
+   "OMN",
+   "SAU"
+  ]
+ },
+ "YT": {
+  "cca3": "MYT",
+  "name": "Mayotte",
+  "capital": "Mamoudzou",
+  "borders": []
+ },
+ "ZA": {
+  "cca3": "ZAF",
+  "name": "South Africa",
+  "capital": "Pretoria",
+  "borders": [
+   "BWA",
+   "LSO",
+   "MOZ",
+   "NAM",
+   "SWZ",
+   "ZWE"
+  ]
+ },
+ "ZM": {
+  "cca3": "ZMB",
+  "name": "Zambia",
+  "capital": "Lusaka",
+  "borders": [
+   "AGO",
+   "BWA",
+   "COD",
+   "MWI",
+   "MOZ",
+   "NAM",
+   "TZA",
+   "ZWE"
+  ]
+ },
+ "ZW": {
+  "cca3": "ZWE",
+  "name": "Zimbabwe",
+  "capital": "Harare",
+  "borders": [
+   "BWA",
+   "MOZ",
+   "ZAF",
+   "ZMB"
+  ]
+ }
+}

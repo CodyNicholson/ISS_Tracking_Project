@@ -1,3 +1,14 @@
+// The Mapbox token comes from a <meta> tag (no inline script, so the Content-Security-Policy can forbid them)
+const mapboxKey = document.querySelector('meta[name="mapbox-key"]')?.content || '';
+
+function getJSON(url, callback) {
+    fetch(url).then((r) => r.json()).then(callback).catch((err) => console.warn(`GET ${url} failed`, err));
+}
+
+function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+}
+
 // ***** GLOBAL VARIABLES *****
 var viewMarkers = true;
 var viewLines = true;
@@ -36,17 +47,32 @@ var markerOptions = {
 
 // ************ MAP STYLING *****************
 var style_choice_int = 0;
-var previousStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token=${mbk.substring(0, mbk.length - 2)}`, {
-    tileSize: 512,
-    zoomOffset: -1,
-}).addTo(mymap);
+const osmAttribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+// Mapbox styles when a token is configured, otherwise free OpenStreetMap/CARTO tiles
+function createTileLayer(styleIndex) {
+    if (mapboxKey) {
+        const styles = ["satellite-streets-v11", "light-v10", "dark-v10"];
+        return L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[styleIndex]}/tiles/{z}/{x}/{y}?access_token=${mapboxKey}`, {
+            tileSize: 512,
+            zoomOffset: -1,
+            attribution: '&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> ' + osmAttribution
+        });
+    }
+    const styles = [
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png"
+    ];
+    return L.tileLayer(styles[styleIndex], {
+        attribution: styleIndex == 0 ? osmAttribution : osmAttribution + ' &copy; <a href="https://carto.com/attributions">CARTO</a>'
+    });
+}
+
+var previousStyle = createTileLayer(style_choice_int).addTo(mymap);
 
 function setStyle() {
-    const styles = ["satellite-streets-v11", "light-v10", "dark-v10"];
-    var newStyle = L.tileLayer(`https://api.mapbox.com/styles/v1/mapbox/${styles[style_choice_int]}/tiles/{z}/{x}/{y}?access_token=${mbk.substring(0, mbk.length - 2)}`, {
-        tileSize: 512,
-        zoomOffset: -1,
-    }).addTo(mymap);
+    var newStyle = createTileLayer(style_choice_int).addTo(mymap);
 
     // Wait for animation of layer change to complete before removing previous layer
     setTimeout(() => {
@@ -68,7 +94,7 @@ function toggleStyle() {
 var popup = L.popup();
 function onMapClick(e) {
     popup.setLatLng(e.latlng)
-        .setContent(`<div class="popup" onclick="closeAllPopups()">You clicked the map at:<br>${e.latlng.toString()}</div>`)
+        .setContent(`<div class="popup">You clicked the map at:<br>${escapeHtml(e.latlng.toString())}</div>`)
         .openOn(mymap);
 }
 mymap.on('click', onMapClick);
@@ -76,6 +102,11 @@ mymap.on('click', onMapClick);
 function closeAllPopups() {
     mymap.closePopup();
 }
+// A click anywhere on a popup closes it (no inline onclick: the Content-Security-Policy blocks those)
+mymap.on('popupopen', function (e) {
+    const el = e.popup.getElement().querySelector('.popup');
+    if (el) el.addEventListener('click', closeAllPopups);
+});
 // ************ END CREATE POPUP & POPUP UTILS *********
 
 // ***** MAP FUNCTIONS *****
@@ -94,8 +125,12 @@ function getMarkersDrawLines() {
     viewMarkers = true;
     viewLines = true;
 
-    $.getJSON(`/data?numRows=${numDataPoints}`, function(data) {
-        const startingIndex = data.length - numDataPoints;
+    getJSON(`/data?numRows=${numDataPoints}`, function(data) {
+        // A fresh database needs a couple of minutes of ETL runs before there's a path to draw
+        if (data.length < 2) {
+            return;
+        }
+        const startingIndex = Math.max(data.length - numDataPoints, 0);
 
         var startingPointCircle = L.circleMarker([data[startingIndex].iss_lat, data[startingIndex].iss_lon], {
             color: "red",
@@ -144,26 +179,25 @@ function getMarkersDrawLines() {
 }
 
 function createMarker(row) {
-    var popupMsg = `<div class="popup" onclick="closeAllPopups()">`;
-    const popupCountryFlag = `<img src="${row.country_flag_url}" alt="Country Flag" width="100%"/><br>`;
-    const popupLatLon = `<b>Lat, Lon:</b> (${row.iss_lat}, ${row.iss_lon})`;
+    // Every value comes from third-party APIs (weather, countries) via the database, so it is escaped
+    // before going into the popup HTML, and the flag must be an https URL
+    const flagUrl = /^https:\/\//.test(row.country_flag_url || '') ? row.country_flag_url : '';
+    var popupMsg = `<div class="popup">`;
+    const popupCountryFlag = flagUrl ? `<img src="${escapeHtml(flagUrl)}" alt="Country Flag" width="100%"/><br>` : '';
+    const popupLatLon = `<b>Lat, Lon:</b> (${escapeHtml(row.iss_lat)}, ${escapeHtml(row.iss_lon)})`;
+    // timeConverter returns its own markup built only from Date numbers
     const popupTimestamp = `<br>${timeConverter(row.iss_timestamp)}`;
-    const popupTemp = `<br><b>Temp:</b> ${row.weather_temp} °F`;
-    const popupWeatherDes = `<br><b>Weather:</b> ${row.weather_description}`;
-    const popupCountryName = `<br><b>Country:</b> ${row.country_name} (${row.country_alpha_code})`;
-    const popupCountryCapital = `<br><b>Capital:</b> ${row.country_capital}`;
-    const popupCountryBorders = `<br><b>Borders:</b> ${getCountryNamesByAlphaCodes(row.country_borders)}`;
-    const popupNumDescription = `<br><b>Random Number Fact:</b> ${row.num_description}`;
+    const popupTemp = `<br><b>Temp:</b> ${escapeHtml(row.weather_temp)} °F`;
+    const popupWeatherDes = `<br><b>Weather:</b> ${escapeHtml(row.weather_description)}`;
+    const popupCountryName = `<br><b>Country:</b> ${escapeHtml(row.country_name)} (${escapeHtml(row.country_alpha_code)})`;
+    const popupCountryCapital = `<br><b>Capital:</b> ${escapeHtml(row.country_capital)}`;
+    const popupCountryBorders = `<br><b>Borders:</b> ${escapeHtml(getCountryNamesByAlphaCodes(row.country_borders))}`;
     const popupCloseDiv = `</div>`;
 
     if (row.country_name != "") {
         popupMsg += popupCountryFlag + popupLatLon + popupTimestamp + popupTemp + popupWeatherDes + popupCountryName + popupCountryCapital + popupCountryBorders;
     } else {
         popupMsg += popupLatLon + popupTimestamp + popupTemp + popupWeatherDes;
-    }
-
-    if (row.num_description != "") {
-        popupMsg += popupNumDescription;
     }
 
     popupMsg += popupCloseDiv;
@@ -221,9 +255,9 @@ function removeLines() {
 }
 
 function getLatestMarker() {
-    $.getJSON("/data?numRows=1", function(latestMarkerData) {
+    getJSON("/data?numRows=1", function(latestMarkerData) {
         latestMarkerData = latestMarkerData[0];
-        if (latestMarkerData.num_description != lastDataPoint.num_description) {
+        if (lastDataPoint && latestMarkerData && latestMarkerData.iss_timestamp != lastDataPoint.iss_timestamp) {
             createMarker(latestMarkerData);
 
             const previousLastPoint = [lastDataPoint.iss_lat, lastDataPoint.iss_lon];
@@ -335,21 +369,21 @@ function drawArrowHead(lastPoint, penultimatePoint) {
 
 // ***** GET DATA FUNCTIONS *****
 function getAverageTemperature() {
-    $.getJSON("/avg-temp", function(avgTemp) {
+    getJSON("/avg-temp", function(avgTemp) {
         avgTemperatureToday = avgTemp.average_temp;
         document.getElementById("avgTemp").innerHTML = `${avgTemperatureToday} °F`
     });
 }
 
 function getAverageIssMph() {
-    $.getJSON("/avg-speed", function(avgSpeed) {
+    getJSON("/avg-speed", function(avgSpeed) {
         avgIssSpeed = avgSpeed.average_speed;
         document.getElementById("avgSpeed").innerHTML = `${avgIssSpeed.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} MPH`
     });
 }
 
 function getUniqueCountryNameCounts() {
-    $.getJSON("/country-count", function(uniqueCountryNameCounts) {
+    getJSON("/country-count", function(uniqueCountryNameCounts) {
         var margin = {
             top: 0,
             right: 50,
@@ -440,7 +474,7 @@ function getUniqueCountryNameCounts() {
 }
 
 function getUniqueWeatherCounts() {
-    $.getJSON("/weather-count", function(uniqueWeatherCounts) {
+    getJSON("/weather-count", function(uniqueWeatherCounts) {
         let table = document.querySelector("table#weather-counts-table");
         let svgDiv = document.querySelector("#weather-counts-div");
         let data = ["Weather Type", "Count"];
@@ -531,25 +565,25 @@ function getUniqueWeatherCounts() {
 }
 
 function getNumAverageTemperature(numRows) {
-    $.getJSON(`/num-avg-temp?numRows=${numRows}`, function(avgTemp) {
+    getJSON(`/num-avg-temp?numRows=${numRows}`, function(avgTemp) {
         console.log(avgTemp);
     });
 }
 
 function getNumAverageIssMph(numRows) {
-    $.getJSON(`/num-avg-speed?numRows=${numRows}`, function(avgSpeed) {
+    getJSON(`/num-avg-speed?numRows=${numRows}`, function(avgSpeed) {
         console.log(avgSpeed);
     });
 }
 
 function getNumUniqueCountryNameCounts(numRows) {
-    $.getJSON(`/num-country-count?numRows=${numRows}`, function(uniqueCountryNameCounts) {
+    getJSON(`/num-country-count?numRows=${numRows}`, function(uniqueCountryNameCounts) {
         console.log(uniqueCountryNameCounts);
     });
 }
 
 function getNumUniqueWeatherCounts(numRows) {
-    $.getJSON(`/num-weather-count?numRows=${numRows}`, function(uniqueWeatherCounts) {
+    getJSON(`/num-weather-count?numRows=${numRows}`, function(uniqueWeatherCounts) {
         console.log(uniqueWeatherCounts);
     });
 }
@@ -591,3 +625,12 @@ setInterval(function() {
 // replace jQuery with native JS fetch
 // download all dependencies so I don't have to rely on other sites
 // Android polylines bug
+
+// ************ CONTROLS (wired here: the Content-Security-Policy blocks inline event handlers) *********
+document.getElementById('data-point-quantity').addEventListener('keyup', function () {
+    this.value = minmaxinput(this.value, 2, 500);
+});
+document.getElementById('data-point-submit').addEventListener('click', getMarkersDrawLines);
+document.getElementById('toggle-style').addEventListener('click', toggleStyle);
+document.getElementById('toggle-markers').addEventListener('click', toggleMarkers);
+document.getElementById('toggle-lines').addEventListener('click', toggleLines);

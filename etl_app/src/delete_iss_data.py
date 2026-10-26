@@ -1,68 +1,22 @@
-import glob
-import datetime
-from sqlalchemy.orm import Session
-from sqlalchemy import Column, String, MetaData, create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from config import uri, getDbUriFromHeroku
+import os
+import time
+import logging
+from sqlalchemy import BigInteger, cast, delete
 
-try:
-    heroku_uri = getDbUriFromHeroku()
-    engine = create_engine(heroku_uri)
-    connection = engine.connect()
-    print("***Connected To Heroku Using getDbUriFromHeroku***")
-except Exception as e:
-    print(e)
-    engine = create_engine(uri)
-    connection = engine.connect()
-    print("***Connected To Heroku Using Stored URI***")
+from db import engine, iss_data_table
 
-Base = declarative_base()
-class ISS_Data_Point(Base):
-    __tablename__ = 'iss_data_table'
-    iss_timestamp = Column(String(50), primary_key=True)
-    iss_lat = Column(String(20))
-    iss_lon = Column(String(20))
-    num_description = Column(String(255))
-    weather_description = Column(String(255))
-    weather_temp = Column(String(10))
-    country_alpha_code = Column(String(10))
-    country_name = Column(String(50))
-    country_borders = Column(String(255))
-    country_flag_url = Column(String(255))
-    country_capital = Column(String(50))
-    iss_mph = Column(String(50))
+log = logging.getLogger(__name__)
 
-# Delete From Postgres
-metadata = MetaData()
-Base.metadata.create_all(connection)
-session = Session(bind=engine)
+def cleanup():
+    """Deletes data points older than RETENTION_HOURS, so the home page's records cover about a day."""
+    retention_hours = int(os.environ.get("RETENTION_HOURS", "24"))
+    cutoff = int(time.time()) - retention_hours * 3600
+    with engine.begin() as connection:
+        result = connection.execute(
+            delete(iss_data_table).where(cast(iss_data_table.c.iss_timestamp, BigInteger) < cutoff)
+        )
+    log.info("Deleted %d rows older than %d hours", result.rowcount, retention_hours)
 
-one_day_of_data = connection.execute('SELECT * FROM public.iss_data_table ORDER BY iss_timestamp ASC FETCH FIRST 1400 ROWS ONLY;')
-rows_to_delete = []
-for iss_data_point in one_day_of_data:
-    rows_to_delete.append(iss_data_point.iss_timestamp)
-print("Deleting: " + str(len(rows_to_delete)) + " rows")
-
-for row in rows_to_delete:
-    delete_q = ISS_Data_Point.__table__.delete().where(ISS_Data_Point.iss_timestamp == row)
-    session.execute(delete_q)
-    print(row + " deleted")
-session.commit()
-
-# Logging
-'''
-files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
-log_count = str(len(files)+1)
-print(f"Log: {log_count}")
-now = datetime.datetime.now()
-timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
-print(f"timestamp is: {timestamp}")
-
-with open(f"/home/pi/ISS_Tracking_Project/etl_app/logs/delete-log{log_count}-{timestamp}.txt","w+") as file:
-    file.write("ISS Tracking Project Delete Log\n")
-    file.write(f"Deleting: {str(len(rows_to_delete))} rows\n")
-    file.write(f"timestamp: {timestamp}\n")
-    file.write(f"Delete log number: {log_count}\n")
-    file.write("End Log.\n\n")
-    file.close()
-'''
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    cleanup()

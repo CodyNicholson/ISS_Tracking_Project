@@ -1,101 +1,114 @@
 import os
-from flask import Flask, jsonify, render_template, json, request
-from flask_api import status
+from flask import Flask, jsonify, render_template, request
+
+from data import getData, getWeatherDescriptionCounts, getNumWeatherDescriptionCounts, getAvgTemperature, getNumAvgTemperature, getCountryNameCounts, getNumCountryNameCounts, getAvgSpeed, getNumAvgSpeed
 
 ##### SETUP #####
-try:
-    # Works on Heroku
-    from .data import getData, getWeatherDescriptionCounts, getNumWeatherDescriptionCounts, getAvgTemperature, getNumAvgTemperature, getCountryNameCounts, getNumCountryNameCounts, getAvgSpeed, getNumAvgSpeed
-    mbk = os.environ['MBK']
-    mbk += "x4"
-except Exception as e:
-    # Works locally
-    print(type(e))
-    print(e.args)
-    print(e)
-    from data import getData, getWeatherDescriptionCounts, getNumWeatherDescriptionCounts, getAvgTemperature, getNumAvgTemperature, getCountryNameCounts, getNumCountryNameCounts, getAvgSpeed, getNumAvgSpeed
-    from config import mbk
-    mbk += "x4"
+# Mapbox public token for the map tiles; the map falls back to OpenStreetMap/CARTO tiles when it's empty
+mapboxKey = os.environ.get('MAPBOX_API_KEY', '')
+MAX_ROWS = 10000
 
 app = Flask(__name__)
-app.config['DEBUG'] = True
-dataList = getData(100)
+
+# Scripts come only from this origin, unpkg (Leaflet) and jsDelivr (d3), all pinned with Subresource Integrity;
+# map tiles and country flags are images from several https hosts. No inline scripts and no framing.
+CONTENT_SECURITY_POLICY = "; ".join([
+    "default-src 'self'",
+    "script-src 'self' https://unpkg.com https://cdn.jsdelivr.net",
+    "style-src 'self' https://unpkg.com",
+    "img-src 'self' data: https:",
+    "connect-src 'self'",
+    "object-src 'none'",
+    "base-uri 'none'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+])
+
+@app.after_request
+def securityHeaders(response):
+    response.headers['Content-Security-Policy'] = CONTENT_SECURITY_POLICY
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Permissions-Policy'] = 'camera=(), microphone=(), geolocation=()'
+    return response
+
+def getNumRows():
+    """Returns the numRows query parameter as an int, or None if it's missing or out of range."""
+    try:
+        numRows = int(request.args.get('numRows'))
+    except (TypeError, ValueError):
+        return None
+    return numRows if 0 <= numRows <= MAX_ROWS else None
+
+def numRowsError(routeName):
+    return jsonify(f"{routeName} Error: numRows query parameter must be an integer from 0 to {MAX_ROWS}"), 400
 
 ##### PAGES #####
 @app.route('/')
 def homePageRoute():
-    return render_template('index.html', data = json.dumps(dataList), mbkpy = mbk)
+    return render_template('index.html', mapboxKey = mapboxKey)
 
 @app.route('/data-table')
 def dataTablePageRoute():
-    return render_template('data.html', data = dataList)
+    return render_template('data.html', data = getData(100))
 
 ##### ENDPOINTS #####
+@app.route('/health')
+def healthRoute():
+    return jsonify("ok"), 200
+
 @app.route('/data')
 def getNumDataRoute():
-    try:
-        numRows = int(request.args.get('numRows'))
-    except:
-        return jsonify("getDataRoute Error: numRows query parameter must be a valid integer")
-    dataList = getData(numRows)
-    return jsonify(dataList), status.HTTP_200_OK
+    numRows = getNumRows()
+    if numRows is None:
+        return numRowsError("getDataRoute")
+    return jsonify(getData(numRows)), 200
 
 @app.route('/weather-count')
 def getWeatherDescriptionCountsRoute():
-    countsOfWeatherDescriptions = getWeatherDescriptionCounts()
-    return jsonify(countsOfWeatherDescriptions), status.HTTP_200_OK
+    return jsonify(getWeatherDescriptionCounts()), 200
 
 @app.route('/num-weather-count')
 def getNumWeatherDescriptionCountsRoute():
-    try:
-        numRows = int(request.args.get('numRows'))
-    except:
-        return jsonify("getNumWeatherDescriptionCountsRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
-    countsOfWeatherDescriptions = getNumWeatherDescriptionCounts(numRows)
-    return jsonify(countsOfWeatherDescriptions), status.HTTP_200_OK
+    numRows = getNumRows()
+    if numRows is None:
+        return numRowsError("getNumWeatherDescriptionCountsRoute")
+    return jsonify(getNumWeatherDescriptionCounts(numRows)), 200
 
 @app.route('/avg-temp')
 def getAvgTemperatureRoute():
-    getAvgTempDictionary = getAvgTemperature()
-    return jsonify(getAvgTempDictionary), status.HTTP_200_OK
+    return jsonify(getAvgTemperature()), 200
 
 @app.route('/num-avg-temp')
 def getNumAvgTemperatureRoute():
-    try:
-        numRows = int(request.args.get('numRows'))
-    except:
-        return jsonify("getAvgTemperatureRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
-    getAvgTempDictionary = getNumAvgTemperature(numRows)
-    return jsonify(getAvgTempDictionary), status.HTTP_200_OK
+    numRows = getNumRows()
+    if numRows is None:
+        return numRowsError("getNumAvgTemperatureRoute")
+    return jsonify(getNumAvgTemperature(numRows)), 200
 
 @app.route('/country-count')
 def getCountryNameCountsRoute():
-    countsOfCountryNames = getCountryNameCounts()
-    return jsonify(countsOfCountryNames), status.HTTP_200_OK
+    return jsonify(getCountryNameCounts()), 200
 
 @app.route('/num-country-count')
 def getNumCountOfCountryNamesRoute():
-    try:
-        numRows = int(request.args.get('numRows'))
-    except:
-        return jsonify("getNumCountOfCountryNamesRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
-    countsOfCountryNames = getNumCountryNameCounts(numRows)
-    return jsonify(countsOfCountryNames), status.HTTP_200_OK
+    numRows = getNumRows()
+    if numRows is None:
+        return numRowsError("getNumCountOfCountryNamesRoute")
+    return jsonify(getNumCountryNameCounts(numRows)), 200
 
 @app.route('/avg-speed')
 def getAverageSpeedRoute():
-    avgSpeed = getAvgSpeed()
-    return jsonify(avgSpeed), status.HTTP_200_OK
+    return jsonify(getAvgSpeed()), 200
 
 @app.route('/num-avg-speed')
 def getNumAverageSpeedRoute():
-    try:
-        numRows = int(request.args.get('numRows'))
-    except:
-        return jsonify("getNumAverageSpeedRoute Error: numRows query parameter must be a valid integer"), status.HTTP_500_INTERNAL_SERVER_ERROR
-    avgSpeed = getNumAvgSpeed(numRows)
-    return jsonify(avgSpeed), status.HTTP_200_OK
+    numRows = getNumRows()
+    if numRows is None:
+        return numRowsError("getNumAverageSpeedRoute")
+    return jsonify(getNumAvgSpeed(numRows)), 200
 
 ##### MAIN #####
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Local runs only; the container serves the app with gunicorn. Never enable the debugger publicly.
+    app.run(debug=os.environ.get('FLASK_DEBUG') == '1')

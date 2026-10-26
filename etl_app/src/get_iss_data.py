@@ -1,116 +1,88 @@
-import requests
+import os
 import json
-import random
-import datetime
-import glob
-from sqlalchemy import Column, String, MetaData, create_engine, Table, insert
+import logging
+import requests
 import geopy.distance
+from sqlalchemy import select
+from sqlalchemy.dialects.postgresql import insert
 
-from config import uri, weather_api_key, getDbUriFromHeroku
-from util import processBorderingCountries, processCountryName
+from db import engine, iss_data_table
+from util import getCountryData
 
-try:
-    heroku_uri = getDbUriFromHeroku()
-    engine = create_engine(heroku_uri)
-    connection = engine.connect()
-    print("***Connected To Heroku Using getDbUriFromHeroku***")
-except Exception as e:
-    print(e)
-    engine = create_engine(uri)
-    connection = engine.connect()
-    print("***Connected To Heroku Using Stored URI***")
+log = logging.getLogger(__name__)
 
-# Logging
-'''
-files = [f for f in glob.glob("/home/pi/ISS_Tracking_Project/etl_app/logs/*.txt", recursive=True)]
-log_count = str(len(files)+1)
-print(f"Log: {log_count}")
-now = datetime.datetime.now()
-timestamp = str(now.strftime("%Y-%m-%d-%H-%M-%S"))
-print(f"timestamp is: {timestamp}")
-'''
+ISS_URL = "http://api.open-notify.org/iss-now.json"
+WEATHER_URL = "https://api.openweathermap.org/data/2.5/weather"
+REQUEST_TIMEOUT_SECONDS = 10
 
-# Get ISS Position Data & Timestamp
-iss_url = "http://api.open-notify.org/iss-now.json"
-iss_data = requests.get(iss_url).json()
-print(json.dumps(iss_data, indent=4, sort_keys=True))
-iss_lat = iss_data["iss_position"]["latitude"]
-iss_lon = iss_data["iss_position"]["longitude"]
-iss_timestamp = iss_data["timestamp"]
+def getIssPosition():
+    iss_data = requests.get(ISS_URL, timeout=REQUEST_TIMEOUT_SECONDS).json()
+    log.debug(json.dumps(iss_data, indent=4, sort_keys=True))
+    return iss_data["iss_position"]["latitude"], iss_data["iss_position"]["longitude"], iss_data["timestamp"]
 
-# Get Random Number From Timestamp
-rand_num = round(random.random(), 1)
-splice_num = -1
-if(rand_num < 0.4):
-    splice_num = -2
-elif(0.4 >= rand_num < 0.8):
-    splice_num = -3
-lookup_num = str(iss_timestamp)[-4:splice_num]
-num_url = "http://numbersapi.com/" + lookup_num + "/math?json"
-try:
-    num_data = requests.get(num_url).json()
-    print(json.dumps(num_data, indent=4, sort_keys=True))
-    num_description = num_data["text"]
-except:
-    num_description = ""
+def getWeather(iss_lat, iss_lon):
+    """Returns (description, temperature in F, ISO alpha-2 country code); empty strings when unavailable."""
+    weather_api_key = os.environ.get("OPENWEATHER_API_KEY", "")
+    if not weather_api_key:
+        log.warning("OPENWEATHER_API_KEY is not set, skipping weather and country data")
+        return "", "", ""
+    params = {"lat": iss_lat, "lon": iss_lon, "appid": weather_api_key, "units": "imperial"}
+    try:
+        response = requests.get(WEATHER_URL, params=params, timeout=REQUEST_TIMEOUT_SECONDS)
+        response.raise_for_status()
+        weather_data = response.json()
+    except Exception as e:
+        # The exception text can include the request URL, which contains the API key
+        log.warning("Weather request failed: %s", type(e).__name__)
+        return "", "", ""
+    log.debug(json.dumps(weather_data, indent=4, sort_keys=True))
+    weather_description = weather_data["weather"][0]["description"]
+    weather_temp = str(weather_data["main"]["temp"])
+    country_alpha_code = weather_data.get("sys", {}).get("country", "") or ""
+    return weather_description, weather_temp, country_alpha_code
 
-# Weather Data
-weather_url = "http://api.openweathermap.org/data/2.5/weather?lat=" + iss_lat + "&lon=" + iss_lon + "&appid=" + weather_api_key + "&units=imperial"
-weather_data = requests.get(weather_url).json()
-print(json.dumps(weather_data, indent=4, sort_keys=True))
-weather_description = weather_data["weather"][0]["description"]
-weather_temp = weather_data["main"]["temp"]
-try:
-    country_alpha_code = weather_data["sys"]["country"]
-except:
-    country_alpha_code = ""
+def getIssMph(connection, iss_lat, iss_lon, iss_timestamp):
+    """Speed between the latest stored point and this one, or '' when there's no earlier point."""
+    latestDatapoint = connection.execute(
+        select(iss_data_table).order_by(iss_data_table.c.iss_timestamp.desc()).limit(1)
+    ).first()
+    if latestDatapoint is None:
+        return ""
+    minutesBetween = (iss_timestamp - int(latestDatapoint.iss_timestamp)) / 60
+    if minutesBetween <= 0:
+        return ""
+    coords_1 = (latestDatapoint.iss_lat, latestDatapoint.iss_lon)
+    coords_2 = (iss_lat, iss_lon)
+    distanceBetween = geopy.distance.geodesic(coords_1, coords_2).miles
+    return str((distanceBetween / minutesBetween) * 60)
 
-# Country Data
-if (country_alpha_code != ""):
-    country_url = "https://restcountries.com/v2/alpha/" + country_alpha_code
-    country_data = requests.get(country_url).json()
-    country_name = processCountryName(country_data["name"])
-    country_borders = processBorderingCountries(country_data["borders"])
-    country_flag_url = country_data["flags"]["svg"]
-    country_capital = country_data["capital"]
-    print(json.dumps(country_data, indent=4, sort_keys=True))
-    print(country_flag_url)
-else:
-    country_name = ""
-    country_borders = ""
-    country_flag_url = ""
-    country_capital = ""
+def collect():
+    try:
+        iss_lat, iss_lon, iss_timestamp = getIssPosition()
+    except requests.RequestException as e:
+        # open-notify.org often times out; the next scheduled run tries again
+        log.warning("ISS position unavailable, skipping this run: %s", type(e).__name__)
+        return
+    weather_description, weather_temp, country_alpha_code = getWeather(iss_lat, iss_lon)
+    country_name, country_borders, country_flag_url, country_capital = getCountryData(country_alpha_code) if country_alpha_code else ("", "", "", "")
 
-# Write To Postgres
-metadata = MetaData()
-iss_data_table = Table('iss_data_table', metadata,
-              Column('iss_timestamp', String(50), primary_key=True),
-              Column('iss_lat', String(20), nullable=False),
-              Column('iss_lon', String(20), nullable=False),
-              Column('num_description', String(255), nullable=True),
-              Column('weather_description', String(255), nullable=True),
-              Column('weather_temp', String(10), nullable=True),
-              Column('country_alpha_code', String(10), nullable=True),
-              Column('country_name', String(50), nullable=True),
-              Column('country_borders', String(255), nullable=True),
-              Column('country_flag_url', String(255), nullable=True),
-              Column('country_capital', String(50), nullable=True),
-              Column('iss_mph', String(50), nullable=True)
-           )
+    with engine.begin() as connection:
+        iss_mph = getIssMph(connection, iss_lat, iss_lon, iss_timestamp)
+        # Trim to the column sizes so an unusually long value can't fail the insert
+        # The ISS API can return the same timestamp twice (e.g. a manual run during a scheduled one)
+        result = connection.execute(insert(iss_data_table).on_conflict_do_nothing().values(
+            iss_timestamp=str(iss_timestamp), iss_lat=iss_lat, iss_lon=iss_lon,
+            weather_description=weather_description[:255], weather_temp=weather_temp[:10],
+            country_alpha_code=country_alpha_code[:10],
+            country_name=country_name[:50], country_borders=country_borders[:255],
+            country_flag_url=country_flag_url[:255], country_capital=country_capital[:50],
+            iss_mph=iss_mph[:50]))
+    if result.rowcount == 0:
+        log.info("Skipped ISS position at %s, already saved", iss_timestamp)
+        return
+    log.info("Saved ISS position %s, %s at %s (%s, %s)", iss_lat, iss_lon, iss_timestamp,
+             country_name or "no country", weather_description or "no weather")
 
-# Calculate ISS Speed
-get_query_str = "SELECT * FROM public.iss_data_table ORDER BY iss_timestamp DESC LIMIT 1;"
-latestDatapoint = connection.execute(get_query_str).first()
-minutesBetween = (iss_timestamp - int(latestDatapoint[0])) / 60
-#print(minutesBetween)
-
-coords_1 = (latestDatapoint[1], latestDatapoint[2])
-coords_2 = (iss_lat, iss_lon)
-distanceBetween = geopy.distance.geodesic(coords_1, coords_2).miles
-print(distanceBetween)
-iss_mph = (distanceBetween/minutesBetween) * 60
-print(iss_mph)
-
-metadata.create_all(engine)
-insert_query = insert(iss_data_table).values(iss_timestamp=iss_timestamp, iss_lat=iss_lat, iss_lon=iss_lon, num_description=num_description, weather_description=weather_description, weather_temp=weather_temp, country_alpha_code=country_alpha_code, country_name=country_name, country_borders=country_borders, country_flag_url=country_flag_url, country_capital=country_capital, iss_mph=iss_mph)
-ResultProxy = connection.execute(insert_query)
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    collect()
